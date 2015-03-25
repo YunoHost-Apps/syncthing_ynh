@@ -1,0 +1,16 @@
+- finir les scripts: install, remove, upgrade
+    - on crée un utilisateur spécifique pour lancer l'exécutable: syncthingd
+    - le dossier sera /home/yunohost.syncthing/ est le $HOME du user syncthingd
+    - le dossier sera /home/yunohost.syncthing/bin pour le binaire
+    - le dossier sera /home/yunohost.syncthing/sync pour créer des dossiers de synchro (à revoir à l'usage)
+ces dossiers appartiennent à syncthingd
+
+- écrire le script pour le service syncthing
+
+
+wget https://github.com/syncthing/syncthing/releases/download/v$version/syncthing-linux-amd64-v$version.tar.gz
+
+tar xvf syncthing-linux-amd64-v$version.tar.gz
+
+
+cd syncthing-linux-amd64-v$version

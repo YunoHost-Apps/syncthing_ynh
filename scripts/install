@@ -1,0 +1,51 @@
+#!/bin/bash
+
+# Retrieve arguments
+domain=$1
+path=$2
+
+version="0.10.29"
+
+sudo yunohost app checkurl $domain$path -a syncthing
+if [[ ! $? -eq 0 ]]; then
+  exit 1
+fi
+
+# Remove trailing "/" for next commands
+path=${path%/}
+
+# Check port availability
+sudo yunohost app checkport 8080
+if [[ ! $? -eq 0 ]]; then
+  exit 1
+fi
+sudo yunohost app checkport 22000
+if [[ ! $? -eq 0 ]]; then
+  exit 1
+fi
+
+# Open port in firewall
+sudo yunohost firewall allow TCP 22000 > /dev/null 2>&1
+
+# Make directories and set rights
+#~ sudo mkdir -p /home/yunohost.syncthing/{bin,sync}
+#~ sudo chown -R debian-syncthing:www-data /home/yunohost.syncthing/
+#~ sudo chown -R debian-syncthing:debian-syncthing /home/yunohost.syncthing/progress
+#~ sudo find /home/yunohost.syncthing/ -type f | while read LINE; do sudo chmod 640 "$LINE" ; done
+#~ sudo find /home/yunohost.syncthing/ -type d | while read LINE; do sudo chmod 750 "$LINE" ; done
+
+
+# Install official debian package
+## Ici il faut ajouter le code pour télécharger l'archive depuis le github de syncthing
+## créer un utilisateur pour lancer syncthing
+#~ sudo apt-get install syncthing-daemon -y -qq
+
+
+# Monitor service
+#~ sudo yunohost service add syncthing-daemon
+
+# Configure Nginx and reload
+sed -i "s@PATHTOCHANGE@$path@g" ../conf/nginx.conf
+sudo cp ../conf/nginx.conf /etc/nginx/conf.d/$domain.d/syncthing.conf
+sudo service nginx reload
+echo $?

@@ -1,0 +1,35 @@
+{
+  "name": "Syncthing",
+  "id": "syncthing",
+  "description": {
+    "en": "Syncthing replaces proprietary sync and cloud services with something open, trustworthy and decentralized.",
+    "fr": "Syncthing remplace les services propriétaires de synchro et de cloud avec quelque chose d'ouvert, digne de confiance et décentralisée."
+  },
+  "url": "https://syncthing.net/",
+  "maintainer": {
+    "name": "txmrl",
+    "email": "txmrl@txmrl.net"
+  },
+  "multi_instance": "false",
+  "arguments": {
+    "install": [
+      {
+        "name": "domain",
+        "type": "domain",
+        "ask": {
+          "en": "Choose a domain for Syncthing"
+        },
+        "example": "domain.org"
+      },
+      {
+        "name": "path",
+        "type": "path",
+        "ask": {
+          "en": "Choose a path for Syncthing"
+        },
+        "example": "/syncthing",
+        "default": "/syncthing"
+      }
+    ]
+  }
+}

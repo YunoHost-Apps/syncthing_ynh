@@ -1,0 +1,9 @@
+
+    /* Inserted by Yunohost install script */
+    div#toolbar > * {
+    	background-position: center center;
+    	background-repeat: no-repeat;
+    }
+    div#toolbar > #toolbar-downloads {
+        background-image: url("images/toolbar-downloads.png");
+    }
