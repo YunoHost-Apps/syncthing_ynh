@@ -1,7 +1,7 @@
 #!/bin/sh
 
-export USERNAME=jb
-export HOME="/home/$USERNAME"
+export USERNAME=debian-syncthing
+export HOME="/home/yunohost.syncthing"
 export SYNCTHING="$HOME/bin/syncthing"
 
 exec 2>&1
