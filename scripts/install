@@ -6,6 +6,12 @@ path=$2
 
 # Configurable variables
 syncVersion="0.10.29"
+arch=`uname -m`
+if [ "$arch" = "x86_64"] ; then
+    syncArch="amd64" 
+elif [ "$arch" = "i686"] ; then
+    syncArch="386" 
+fi
 syncHome="/home/yunohost.syncthing"
 syncUser=debian-syncthing
 syncSyncport=22000
@@ -43,9 +49,9 @@ sudo find $syncHome/ -type f | while read LINE; do sudo chmod 640 "$LINE" ; done
 sudo find $syncHome/ -type d | while read LINE; do sudo chmod 750 "$LINE" ; done
 
 # Download and install syncthing binary
-sudo wget https://github.com/syncthing/syncthing/releases/download/v$syncVersion/syncthing-linux-amd64-v$syncVersion.tar.gz -O /tmp/syncthing.tar.gz
-sudo tar -C /tmp -xvf /tmp/syncthing.tar.gz syncthing-linux-amd64-v$syncVersion/syncthing
-sudo mv /tmp/syncthing-linux-amd64-v$syncVersion/syncthing $syncHome/bin/syncthing
+sudo wget https://github.com/syncthing/syncthing/releases/download/v$syncVersion/syncthing-linux-$syncArch-v$syncVersion.tar.gz -O /tmp/syncthing.tar.gz
+sudo tar -C /tmp -xvf /tmp/syncthing.tar.gz syncthing-linux-$syncArch-v$syncVersion/syncthing
+sudo mv /tmp/syncthing-linux-$syncArch-v$syncVersion/syncthing $syncHome/bin/syncthing
 sudo chown $syncUser: $syncHome/bin/syncthing
 sudo chmod 640 $syncHome/bin/syncthing
 
