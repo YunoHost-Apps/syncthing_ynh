@@ -4,7 +4,13 @@
 domain=$1
 path=$2
 
-version="0.10.29"
+# Configurable variables
+syncVersion="0.10.29"
+syncHome="/home/yunohost.syncthing"
+syncUser=debian-syncthing
+syncSyncport=22000
+syncUIport=8080
+
 
 sudo yunohost app checkurl $domain$path -a syncthing
 if [[ ! $? -eq 0 ]]; then
@@ -15,34 +21,42 @@ fi
 path=${path%/}
 
 # Check port availability
-sudo yunohost app checkport 8080
+sudo yunohost app checkport $syncUIport
 if [[ ! $? -eq 0 ]]; then
   exit 1
 fi
-sudo yunohost app checkport 22000
+sudo yunohost app checkport $syncSyncport
 if [[ ! $? -eq 0 ]]; then
   exit 1
 fi
 
 # Open port in firewall
-sudo yunohost firewall allow TCP 22000 > /dev/null 2>&1
+sudo yunohost firewall allow TCP $syncSyncport > /dev/null 2>&1
+
+# Create $syncUser user to syncthing service
+sudo useradd -m  -d $syncHome/ -s /bin/false $syncUser
 
 # Make directories and set rights
-#~ sudo mkdir -p /home/yunohost.syncthing/{bin,sync}
-#~ sudo chown -R debian-syncthing:www-data /home/yunohost.syncthing/
-#~ sudo chown -R debian-syncthing:debian-syncthing /home/yunohost.syncthing/progress
-#~ sudo find /home/yunohost.syncthing/ -type f | while read LINE; do sudo chmod 640 "$LINE" ; done
-#~ sudo find /home/yunohost.syncthing/ -type d | while read LINE; do sudo chmod 750 "$LINE" ; done
+sudo mkdir -p $syncHome/{bin,sync}
+sudo chown -R $syncUser:$syncUser $syncHome/
+sudo find $syncHome/ -type f | while read LINE; do sudo chmod 640 "$LINE" ; done
+sudo find $syncHome/ -type d | while read LINE; do sudo chmod 750 "$LINE" ; done
 
+# Download and install syncthing binary
+sudo wget https://github.com/syncthing/syncthing/releases/download/v$syncVersion/syncthing-linux-amd64-v$syncVersion.tar.gz -O /tmp/syncthing.tar.gz
+sudo tar -C /tmp -xvf /tmp/syncthing.tar.gz syncthing-linux-amd64-v$syncVersion/syncthing
+sudo mv /tmp/syncthing-linux-amd64-v$syncVersion/syncthing $syncHome/bin/syncthing
+sudo chown $syncUser: $syncHome/bin/syncthing
+sudo chmod 640 $syncHome/bin/syncthing
 
-# Install official debian package
-## Ici il faut ajouter le code pour télécharger l'archive depuis le github de syncthing
-## créer un utilisateur pour lancer syncthing
-#~ sudo apt-get install syncthing-daemon -y -qq
-
-
-# Monitor service
-#~ sudo yunohost service add syncthing-daemon
+# Install and monitor service
+# les deux lignes ci dessous si il s'avère nécessaire de créer un script sysinit
+# sudo cp ../conf/syncthingd /etc/init.d/syncthingd
+# sudo update-rc.d syncthingd defaults
+sudo apt-get install runit -y -qq
+sudo mkdir -p /etc/service/syncthing
+sudo cp -R ../conf/run ../conf/log /etc/service/syncthing
+sudo yunohost service add runit
 
 # Configure Nginx and reload
 sed -i "s@PATHTOCHANGE@$path@g" ../conf/nginx.conf

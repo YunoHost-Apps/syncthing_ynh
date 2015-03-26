@@ -1,14 +1,16 @@
 #!/bin/bash
 
-sudo service syncthing-daemon stop
-sudo yunohost firewall disallow TCP 22000
-sudo yunohost service remove syncthing-daemon
+syncSyncport=22000
+
+sudo service runit stop
+sudo yunohost firewall disallow TCP $syncSyncport
+sudo yunohost service remove runit
 domain=$(sudo yunohost app setting syncthing domain)
 
 sudo rm /etc/nginx/conf.d/$domain.d/syncthing.conf
-sudo rm -rf /home/yunohost.syncthing
+# sudo rm -rf /home/yunohost.syncthing
 
-sudo apt-get remove -y -qq syncthing-daemon
+sudo apt-get remove -y -qq runit
 
 sudo service nginx reload
 sudo yunohost app ssowatconf

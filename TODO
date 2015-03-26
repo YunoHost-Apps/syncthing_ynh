@@ -1,3 +1,7 @@
+- finir le script upgrade
+
+======================================================================
+======================================================================
 - finir les scripts: install, remove, upgrade
     - on crée un utilisateur spécifique pour lancer l'exécutable: syncthingd
     - le dossier sera /home/yunohost.syncthing/ est le $HOME du user syncthingd
