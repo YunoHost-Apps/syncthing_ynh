@@ -1,4 +1,4 @@
-﻿#!/bin/sh
+#!/bin/sh
 
 export USERNAME=debian-syncthing
 export HOME="/home/yunohost.syncthing"
