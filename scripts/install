@@ -7,10 +7,12 @@ path=$2
 # Configurable variables
 syncVersion="0.10.29"
 arch=`uname -m`
-if [ "$arch" = "x86_64"] ; then
+if [ "$arch" = "x86_64" ] ; then
     syncArch="amd64" 
-elif [ "$arch" = "i686"] ; then
+elif [ "$arch" = "i386" ] || [ "$arch" == "i686" ] ; then
     syncArch="386" 
+elif [ "$arch" = "arm" ] ; then
+    syncArch="arm" 
 fi
 syncHome="/home/yunohost.syncthing"
 syncUser=debian-syncthing
@@ -53,7 +55,7 @@ sudo wget https://github.com/syncthing/syncthing/releases/download/v$syncVersion
 sudo tar -C /tmp -xvf /tmp/syncthing.tar.gz syncthing-linux-$syncArch-v$syncVersion/syncthing
 sudo mv /tmp/syncthing-linux-$syncArch-v$syncVersion/syncthing $syncHome/bin/syncthing
 sudo chown $syncUser: $syncHome/bin/syncthing
-sudo chmod 640 $syncHome/bin/syncthing
+sudo chmod 750 $syncHome/bin/syncthing
 
 # Install and monitor service
 # les deux lignes ci dessous si il s'avère nécessaire de créer un script sysinit
