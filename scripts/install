@@ -9,9 +9,11 @@ syncVersion="0.10.29"
 arch=`uname -m`
 if [ "$arch" = "x86_64" ] ; then
     syncArch="amd64" 
-elif [ "$arch" = "i386" ] || [ "$arch" == "i686" ] ; then
+fi
+if [ "$arch" = "i386" ] || [ "$arch" == "i686" ] ; then
     syncArch="386" 
-elif [ "$arch" = "arm" ] ; then
+fi
+if [ "$arch" = "arm" ] ; then
     syncArch="arm" 
 fi
 syncHome="/home/yunohost.syncthing"
