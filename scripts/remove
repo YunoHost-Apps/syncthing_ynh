@@ -1,16 +1,33 @@
 #!/bin/bash
 
+syncVersion="0.10.29"
+syncHome="/home/yunohost.syncthing"
+syncUser=debian-syncthing
 syncSyncport=22000
 
-sudo service runit stop
+# Stop and remove syncthing service
+sudo service syncthing stop
+sudo yunohost service remove syncthing
+sudo update-rc.d -f syncthing remove
+sudo rm -f /etc/init.d/syncthing
+
+# Remove syncthing binairy
+sudo rm -rf $syncHome/bin/
+
+# Backup syncthign HOME directory
+sudo mv $syncHome $syncHome.lod
+# sudo rm -rf $syncHome
+
+# Remove syncthing user
+sudo userdel $syncUser
+
+# Close port in firewall
 sudo yunohost firewall disallow TCP $syncSyncport
-sudo yunohost service remove runit
+
+# Remove syncthing nginx configuration
 domain=$(sudo yunohost app setting syncthing domain)
-
 sudo rm /etc/nginx/conf.d/$domain.d/syncthing.conf
-# sudo rm -rf /home/yunohost.syncthing
 
-sudo apt-get remove -y -qq runit
-
+# Reload nginx and update ssowatch
 sudo service nginx reload
 sudo yunohost app ssowatconf

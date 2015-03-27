@@ -9,6 +9,7 @@
   "maintainer": {
     "name": "txmrl",
     "email": "txmrl@txmrl.net"
+    "url": "https://github.com/tuxmouraille/syncthing_ynh"
   },
   "multi_instance": "false",
   "arguments": {
