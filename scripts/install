@@ -72,6 +72,7 @@ sudo service syncthing start
 
 # Configure Nginx and reload
 sed -i "s@PATHTOCHANGE@$path@g" ../conf/nginx.conf
+sed -i "s@PORTTOCHANGE@$syncUIport@g" ../conf/nginx.conf
 sudo cp ../conf/nginx.conf /etc/nginx/conf.d/$domain.d/syncthing.conf
 sudo service nginx reload
 echo $?
