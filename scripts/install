@@ -5,11 +5,11 @@ domain=$1
 path=$2
 
 # Configurable variables
-syncVersion="0.10.29"
+syncVersion="0.11.2"
 syncHome="/home/yunohost.syncthing"
 syncUser=debian-syncthing
 syncSyncport=22000
-syncUIport=8080
+syncUIport=8384
 
 arch=`uname -m`
 if [ "$arch" = "x86_64" ] ; then
@@ -25,6 +25,7 @@ fi
 
 sudo yunohost app checkurl $domain$path -a syncthing
 if [[ ! $? -eq 0 ]]; then
+  echo $domain$path is not available. Please choose another url for Syncthing.
   exit 1
 fi
 
@@ -34,21 +35,23 @@ path=${path%/}
 # Check port availability
 sudo yunohost app checkport $syncUIport
 if [[ ! $? -eq 0 ]]; then
+  echo Port $syncUIport for Syncthing UI is not available.
   exit 1
 fi
 sudo yunohost app checkport $syncSyncport
 if [[ ! $? -eq 0 ]]; then
+  echo Port $syncSyncport is for Syncthing protocol is not available.
   exit 1
 fi
 
 # Open port in firewall
 sudo yunohost firewall allow TCP $syncSyncport > /dev/null 2>&1
 
-# Create $syncUser user to syncthing service
+# Create $syncUser user to run syncthing service
 sudo useradd -m  -d $syncHome/ -s /bin/bash $syncUser
 
 # Make directories and set rights
-sudo mkdir -p $syncHome/{bin,sync}
+sudo mkdir -p $syncHome/{bin,storage}
 sudo chown -R $syncUser:$syncUser $syncHome/
 sudo find $syncHome/ -type f | while read LINE; do sudo chmod 640 "$LINE" ; done
 sudo find $syncHome/ -type d | while read LINE; do sudo chmod 750 "$LINE" ; done
@@ -69,6 +72,7 @@ sudo service syncthing start
 
 # Configure Nginx and reload
 sed -i "s@PATHTOCHANGE@$path@g" ../conf/nginx.conf
+sed -i "s@PORTTOCHANGE@$syncUIport@g" ../conf/nginx.conf
 sudo cp ../conf/nginx.conf /etc/nginx/conf.d/$domain.d/syncthing.conf
 sudo service nginx reload
 echo $?
