@@ -26,6 +26,7 @@ DAEMON_ARGS=" & "
 PIDFILE=/var/run/$NAME.pid
 SCRIPTNAME=/etc/init.d/$NAME
 DAEMONUSER=debian-syncthing
+LOGFILE=/var/log/$NAME.log
 
 # Exit if the package is not installed
 [ -x "$DAEMON" ] || exit 0
@@ -52,9 +53,9 @@ do_start()
         #   2 if daemon could not be started
         start-stop-daemon --start --quiet  --chuid $DAEMONUSER --pidfile $PIDFILE --exec $DAEMON --test > /dev/null \
                 || return 1
-        start-stop-daemon --start --quiet  --chuid $DAEMONUSER --pidfile $PIDFILE --exec $DAEMON -- \
-                $DAEMON_ARGS \
-                || return 2 & > /dev/null
+        start-stop-daemon --start --quiet  --chuid $DAEMONUSER --pidfile $PIDFILE --make-pidfile --exec $DAEMON -- \
+                $DAEMON_ARGS >> $LOGFILE 2>&1 \
+                || return 2 &
         # Add code here, if necessary, that waits for the process to be ready
         # to handle requests from services started subsequently which depend
         # on this one.  As a last resort, sleep for some time.
@@ -157,4 +158,4 @@ case "$1" in
         ;;
 esac
 
-:
+

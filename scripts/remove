@@ -24,6 +24,12 @@ sudo userdel $syncUser
 # Close port in firewall
 sudo yunohost firewall disallow TCP $syncSyncport
 
+# Remove syncthing logrotate configuration
+if [ -f /etc/logrotate.d/syncthing ]
+then
+	sudo rm /etc/logrotate.d/syncthing
+fi
+
 # Remove syncthing nginx configuration
 domain=$(sudo yunohost app setting syncthing domain)
 sudo rm /etc/nginx/conf.d/$domain.d/syncthing.conf
