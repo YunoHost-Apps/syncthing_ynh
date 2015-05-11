@@ -67,7 +67,7 @@ sudo chmod 750 $syncHome/bin/syncthing
 sudo cp ../conf/syncthing /etc/init.d/syncthing
 sudo chmod 0755 /etc/init.d/syncthing
 sudo update-rc.d syncthing defaults
-sudo yunohost service add synchting
+sudo yunohost service add syncthing
 sudo service syncthing start
 
 # Configure logrotate if present
