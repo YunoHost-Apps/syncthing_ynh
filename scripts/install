@@ -5,7 +5,7 @@ domain=$1
 path=$2
 
 # Configurable variables
-syncVersion="0.11.2"
+syncVersion="0.11.5"
 syncHome="/home/yunohost.syncthing"
 syncUser=debian-syncthing
 syncSyncport=22000
