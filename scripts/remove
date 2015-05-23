@@ -1,6 +1,5 @@
 #!/bin/bash
 
-syncVersion="0.10.29"
 syncHome="/home/yunohost.syncthing"
 syncUser=debian-syncthing
 syncSyncport=22000
