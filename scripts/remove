@@ -11,7 +11,9 @@ sudo update-rc.d -f syncthing remove
 sudo rm -f /etc/init.d/syncthing
 
 # Remove syncthing binairy
-sudo apt-get remove syncthing
+sudo apt-get autoremove syncthing -y
+sudo rm /etc/apt/sources.list.d/syncthing-release.list
+sudo apt-get update
 
 # Backup syncthign SYNCHOME directory
 sudo mv $SYNCHOME $SYNCHOME.old

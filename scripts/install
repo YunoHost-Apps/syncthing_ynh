@@ -60,7 +60,8 @@ sed -i "s@GUIADDRESSTOCHANGE@$GUIADDRESS@g" ../conf/sysinit
 sudo cp ../conf/sysinit /etc/init.d/syncthing
 sudo chmod 0755 /etc/init.d/syncthing
 sudo update-rc.d syncthing defaults
-sudo yunohost service add -l /var/log/syncthing.log syncthing
+#~ sudo yunohost service add -l /var/log/syncthing.log syncthing
+sudo yunohost service add syncthing
 sudo service syncthing start
 
 # Configure logrotate if present
