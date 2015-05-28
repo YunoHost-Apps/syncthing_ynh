@@ -3,6 +3,9 @@
 # Retrieve arguments
 domain=$1
 path=$2
+# channel: release or devel. will add choise on install
+syncChannel=release
+
 
 # Configurable variables
 syncVersion="0.11.5"
@@ -10,18 +13,6 @@ syncHome="/home/yunohost.syncthing"
 syncUser=debian-syncthing
 syncSyncport=22000
 syncUIport=8384
-
-arch=`uname -m`
-if [ "$arch" = "x86_64" ] ; then
-    syncArch="amd64" 
-fi
-if [ "$arch" = "i386" ] || [ "$arch" == "i686" ] ; then
-    syncArch="386" 
-fi
-if [ "$arch" = "arm" ] ; then
-    syncArch="arm" 
-fi
-
 
 sudo yunohost app checkurl $domain$path -a syncthing
 if [[ ! $? -eq 0 ]]; then
@@ -57,11 +48,11 @@ sudo find $syncHome/ -type f | while read LINE; do sudo chmod 640 "$LINE" ; done
 sudo find $syncHome/ -type d | while read LINE; do sudo chmod 750 "$LINE" ; done
 
 # Download and install syncthing binary
-sudo wget https://github.com/syncthing/syncthing/releases/download/v$syncVersion/syncthing-linux-$syncArch-v$syncVersion.tar.gz -O /tmp/syncthing.tar.gz
-sudo tar -C /tmp -xvf /tmp/syncthing.tar.gz syncthing-linux-$syncArch-v$syncVersion/syncthing
-sudo mv /tmp/syncthing-linux-$syncArch-v$syncVersion/syncthing $syncHome/bin/syncthing
-sudo chown $syncUser: $syncHome/bin/syncthing
-sudo chmod 750 $syncHome/bin/syncthing
+sudo apt-get install curl
+curl -s https://syncthing.net/release-key.txt | sudo apt-key add -
+echo "deb http://apt.syncthing.net/ syncthing $syncChannel" | sudo tee /etc/apt/sources.list.d/syncthing-$syncChannel.list
+sudo apt-get update
+sudo apt-get install syncthing
 
 # Install and monitor service
 sudo cp ../conf/syncthing /etc/init.d/syncthing
