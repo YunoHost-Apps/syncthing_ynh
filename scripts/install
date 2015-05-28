@@ -52,7 +52,7 @@ sudo apt-get install curl
 curl -s https://syncthing.net/release-key.txt | sudo apt-key add -
 echo "deb http://apt.syncthing.net/ syncthing $CHANNEL" | sudo tee /etc/apt/sources.list.d/syncthing-$CHANNEL.list
 sudo apt-get update
-sudo apt-get install syncthing -y
+sudo apt-get install syncthing -y --force-yes
 
 # Install and monitor service
 GUIADDRESS="127.0.0.1:$GUIPORT"
