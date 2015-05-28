@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Configurable variables
-syncUser=debian-syncthing
-syncHome="/home/yunohost.syncthing"
+USER=debian-syncthing
+SYNCHOME="/home/yunohost.syncthing"
 
 # Retrieve arguments
 domain=$(sudo yunohost app setting syncthing domain)
@@ -12,14 +12,14 @@ path=$(sudo yunohost app setting syncthing path)
 path=${path%/}
 
 # Update syncthing sysvinit script
-sudo cp -f ../conf/syncthing /etc/init.d/syncthing
+sudo cp -f ../conf/sysinit /etc/init.d/syncthing
 sudo chmod 0755 /etc/init.d/syncthing
 sudo update-rc.d syncthing defaults
 sudo yunohost service add syncthing
 sudo service syncthing restart
 
 # Upgrade official debian package
-sudo -i -u $syncUser $syncHome/bin/syncthing -upgrade
+sudo apt-get upgrade syncthing -y
 
 # Update and reload Nginx
 sed -i "s@PATHTOCHANGE@$path@g" ../conf/nginx.conf

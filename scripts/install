@@ -4,15 +4,15 @@
 domain=$1
 path=$2
 # channel: release or devel. will add choise on install
-syncChannel=release
+CHANNEL=release
 
 
 # Configurable variables
-syncVersion="0.11.5"
-syncHome="/home/yunohost.syncthing"
-syncUser=debian-syncthing
-syncSyncport=22000
-syncUIport=8384
+VERSION="0.11.5"
+SYNCHOME="/home/yunohost.syncthing"
+USER=debian-syncthing
+SYNCPORT=22000
+GUIPORT=8080
 
 sudo yunohost app checkurl $domain$path -a syncthing
 if [[ ! $? -eq 0 ]]; then
@@ -24,38 +24,40 @@ fi
 path=${path%/}
 
 # Check port availability
-sudo yunohost app checkport $syncUIport
+sudo yunohost app checkport $GUIPORT
 if [[ ! $? -eq 0 ]]; then
-  echo Port $syncUIport for Syncthing UI is not available.
+  echo Port $GUIPORT for Syncthing UI is not available.
   exit 1
 fi
-sudo yunohost app checkport $syncSyncport
+sudo yunohost app checkport $SYNCPORT
 if [[ ! $? -eq 0 ]]; then
-  echo Port $syncSyncport is for Syncthing protocol is not available.
+  echo Port $SYNCPORT is for Syncthing protocol is not available.
   exit 1
 fi
 
 # Open port in firewall
-sudo yunohost firewall allow TCP $syncSyncport > /dev/null 2>&1
+sudo yunohost firewall allow TCP $SYNCPORT > /dev/null 2>&1
 
-# Create $syncUser user to run syncthing service
-sudo useradd -m  -d $syncHome/ -s /bin/bash $syncUser
+# Create $USER user to run syncthing service
+sudo useradd -m  -d $SYNCHOME/ -s /bin/bash $USER
 
 # Make directories and set rights
-sudo mkdir -p $syncHome/{bin,storage}
-sudo chown -R $syncUser:$syncUser $syncHome/
-sudo find $syncHome/ -type f | while read LINE; do sudo chmod 640 "$LINE" ; done
-sudo find $syncHome/ -type d | while read LINE; do sudo chmod 750 "$LINE" ; done
+sudo mkdir -p $SYNCHOME/{bin,storage}
+sudo chown -R $USER:$USER $SYNCHOME/
+sudo find $SYNCHOME/ -type f | while read LINE; do sudo chmod 640 "$LINE" ; done
+sudo find $SYNCHOME/ -type d | while read LINE; do sudo chmod 750 "$LINE" ; done
 
 # Download and install syncthing binary
 sudo apt-get install curl
 curl -s https://syncthing.net/release-key.txt | sudo apt-key add -
-echo "deb http://apt.syncthing.net/ syncthing $syncChannel" | sudo tee /etc/apt/sources.list.d/syncthing-$syncChannel.list
+echo "deb http://apt.syncthing.net/ syncthing $CHANNEL" | sudo tee /etc/apt/sources.list.d/syncthing-$CHANNEL.list
 sudo apt-get update
-sudo apt-get install syncthing
+sudo apt-get install syncthing -y
 
 # Install and monitor service
-sudo cp ../conf/syncthing /etc/init.d/syncthing
+GUIADDRESS="127.0.0.1:$GUIPORT"
+sed -i "s@GUIADDRESSTOCHANGE@$GUIADDRESS@g" ../conf/sysinit
+sudo cp ../conf/sysinit /etc/init.d/syncthing
 sudo chmod 0755 /etc/init.d/syncthing
 sudo update-rc.d syncthing defaults
 sudo yunohost service add -l /var/log/syncthing.log syncthing
@@ -69,7 +71,7 @@ fi
 
 # Configure Nginx and reload
 sed -i "s@PATHTOCHANGE@$path@g" ../conf/nginx.conf
-sed -i "s@PORTTOCHANGE@$syncUIport@g" ../conf/nginx.conf
+sed -i "s@PORTTOCHANGE@$GUIPORT@g" ../conf/nginx.conf
 sudo cp ../conf/nginx.conf /etc/nginx/conf.d/$domain.d/syncthing.conf
 sudo service nginx reload
 echo $?

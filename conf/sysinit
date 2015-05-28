@@ -21,8 +21,9 @@
 PATH=/sbin:/usr/sbin:/bin:/usr/bin
 DESC="Syncthing daemonisation service"
 NAME=syncthing
-DAEMON=/home/yunohost.syncthing/bin/$NAME
-DAEMON_ARGS=" & "
+DAEMON=/usr/bin/$NAME
+GUIADDRESS="GUIADDRESSTOCHANGE"
+DAEMON_ARGS=" -gui-address="$GUIADDRESS" & "
 PIDFILE=/var/run/$NAME.pid
 SCRIPTNAME=/etc/init.d/$NAME
 DAEMONUSER=debian-syncthing

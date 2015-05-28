@@ -16,6 +16,7 @@ Usage:
   syncthing [options]
 
 Options:
+  -audit                  Write events to audit file
   -generate=""            Generate key and config in specified dir, then exit
   -gui-address=""         Override GUI address
   -gui-apikey=""          Override GUI API key
@@ -24,16 +25,17 @@ Options:
   -logflags="2"           Select information in log line prefix
   -no-browser             Do not start browser
   -no-restart             Do not restart; just exit
-  -reset                  Prepare to resync from cluster
+  -reset                  Reset the database
   -upgrade                Perform upgrade
   -upgrade-check          Check for available upgrade
   -upgrade-to=""          Force upgrade directly from specified URL
+  -verbose                Print verbose log output
   -version                Show version
 
 
 The default configuration directory is:
 
-  ~/.config/syncthing
+  /home/lahire/.config/syncthing
 
 
 The -logflags value is a sum of the following:
@@ -64,6 +66,8 @@ are mostly useful for developers. Use with care.
                  - "discover" (the discover package)
                  - "events"   (the events package)
                  - "files"    (the files package)
+                 - "http"     (the main package; HTTP requests)
+                 - "locks"    (the sync package; trace long held locks)
                  - "net"      (the main package; connections & network messages)
                  - "model"    (the model package)
                  - "scanner"  (the scanner package)
@@ -90,3 +94,7 @@ are mostly useful for developers. Use with care.
 
  GOMAXPROCS      Set the maximum number of CPU cores to use. Defaults to all
                  available CPU cores.
+
+ GOGC            Percentage of heap growth at which to trigger GC. Default is
+                 100. Lower numbers keep peak memory usage down, at the price
+                 of CPU usage (ie. performance).

@@ -1,8 +1,8 @@
 #!/bin/bash
 
-syncHome="/home/yunohost.syncthing"
-syncUser=debian-syncthing
-syncSyncport=22000
+SYNCHOME="/home/yunohost.syncthing"
+SYNCUSER=debian-syncthing
+SYNCPORT=22000
 
 # Stop and remove syncthing service
 sudo service syncthing stop
@@ -11,22 +11,22 @@ sudo update-rc.d -f syncthing remove
 sudo rm -f /etc/init.d/syncthing
 
 # Remove syncthing binairy
-sudo rm -rf $syncHome/bin/
+sudo apt-get remove syncthing
 
-# Backup syncthign HOME directory
-sudo mv $syncHome $syncHome.lod
-# sudo rm -rf $syncHome
+# Backup syncthign SYNCHOME directory
+sudo mv $SYNCHOME $SYNCHOME.old
+# sudo rm -rf $SYNCHOME
 
 # Remove syncthing user
-sudo userdel $syncUser
+sudo userdel $SYNCUSER
 
 # Close port in firewall
-sudo yunohost firewall disallow TCP $syncSyncport
+sudo yunohost firewall disallow TCP $SYNCPORT
 
 # Remove syncthing logrotate configuration
 if [ -f /etc/logrotate.d/syncthing ]
 then
-	sudo rm /etc/logrotate.d/syncthing
+    sudo rm /etc/logrotate.d/syncthing
 fi
 
 # Remove syncthing nginx configuration
