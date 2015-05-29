@@ -51,7 +51,7 @@ sudo find $SYNCHOME/ -type d | while read LINE; do sudo chmod 750 "$LINE" ; done
 sudo apt-get install curl
 curl -s https://syncthing.net/release-key.txt | sudo apt-key add -
 echo "deb http://apt.syncthing.net/ syncthing $CHANNEL" | sudo tee /etc/apt/sources.list.d/syncthing-$CHANNEL.list
-sudo apt-get update
+sudo apt-get update -qq
 sudo apt-get install syncthing -y --force-yes
 
 # Install and monitor service
