@@ -12,7 +12,7 @@ path=$(sudo yunohost app setting syncthing path)
 path=${path%/}
 
 # Update syncthing sysvinit script
-sudo cp -f ../conf/sysinit /etc/init.d/syncthing
+sudo cp -f ../cong/init.syncthing /etc/init.d/syncthing
 sudo chmod 0755 /etc/init.d/syncthing
 sudo update-rc.d syncthing defaults
 sudo yunohost service add syncthing
