@@ -1,13 +1,8 @@
 # syncthing_ynh
 
 
-=================
-TODO
-
-- finaliser le script sysvinit pour se passer de runit
-- mettre à jour et finaliser script upgrade
-- mettre à jour et finaliser script remove
-
+TODO:
+- ajouter le multi-instance
 
 =================
 Syncthing man
