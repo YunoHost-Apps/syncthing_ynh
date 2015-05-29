@@ -56,8 +56,8 @@ sudo apt-get install syncthing -y --force-yes
 
 # Install and monitor service
 GUIADDRESS="127.0.0.1:$GUIPORT"
-sed -i "s@GUIADDRESSTOCHANGE@$GUIADDRESS@g" ../cong/init.syncthing
-sudo cp ../cong/init.syncthing /etc/init.d/syncthing
+sed -i "s@GUIADDRESSTOCHANGE@$GUIADDRESS@g" ../conf/init.syncthing
+sudo cp ../conf/init.syncthing /etc/init.d/syncthing
 sudo chmod 0755 /etc/init.d/syncthing
 sudo update-rc.d syncthing defaults
 #~ sudo yunohost service add -l /var/log/syncthing.log syncthing
