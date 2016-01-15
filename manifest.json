@@ -44,7 +44,7 @@
             "en": "Choose Syncthing channel ?",
             "fr": "Choissez la version de Syncthing ?"
         },
-        "choices": ["release", "devel""],
+        "choices": ["release", "devel"],
         "default": "release"
       }
     ]
