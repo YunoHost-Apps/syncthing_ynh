@@ -9,9 +9,21 @@ GUIPORT=8384
 # Retrieve arguments
 domain=$1
 path=$2
-# channel: release or devel. will add choise on install
-CHANNEL=release
+user=$3
+channel=$4
 
+# Check Debian version
+if [[ $(cat /etc/debian_version) = "7."* ]]
+then
+    echo "You need debian Jessie (8.x) to install gogs."
+    exit 1
+fi
+
+# Check that admin user is an existing account
+sudo yunohost user list --json | grep -q "\"username\": \"$admin\"" \
+    || (echo "Error: the chosen admin user does not exist" && exit 1)
+
+# Check domain/path availability
 sudo yunohost app checkurl $domain$path -a syncthing
 if [[ ! $? -eq 0 ]]; then
   echo $domain$path is not available. Please choose another url for Syncthing.
@@ -49,7 +61,7 @@ sudo apt-get install curl
 ## Add the release PGP keys:
 curl -s https://syncthing.net/release-key.txt | sudo apt-key add -
 ## Add the "release" channel to your APT sources:
-echo "deb http://apt.syncthing.net/ syncthing $CHANNEL" | sudo tee /etc/apt/sources.list.d/syncthing.list
+echo "deb http://apt.syncthing.net/ syncthing $channel" | sudo tee /etc/apt/sources.list.d/syncthing.list
 ## Update and install syncthing:
 sudo apt-get update -qq
 sudo apt-get install syncthing -y --force-yes
@@ -74,7 +86,7 @@ sed -i "s@PORTTOCHANGE@$GUIPORT@g" ../conf/nginx.conf
 sudo cp ../conf/nginx.conf /etc/nginx/conf.d/$domain.d/syncthing.conf
 
 # Remove acces to all users
-sudo yunohost app removeaccess well-known
+sudo yunohost app removeaccess syncthing
 
 # Reload nginx and update ssowatch
 sudo systemctl reload nginx.service

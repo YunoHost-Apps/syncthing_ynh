@@ -29,6 +29,23 @@
         },
         "example": "/syncthing",
         "default": "/syncthing"
+      },
+      {
+        "name": "user",
+        "ask": {
+            "en": "Choose the user for Syncthing (must be an existing yunohost user)",
+            "fr": "Choisissez l'utilisateur de Syncthing (doit être un utilisateur yunohost existant)"
+        },
+        "example": "johndoe"
+      },
+      {
+        "name": "channel",
+        "ask": {
+            "en": "Choose Syncthing channel ?",
+            "fr": "Choissez la version de Syncthing ?"
+        },
+        "choices": ["release", "devel""],
+        "default": "release"
       }
     ]
   }
