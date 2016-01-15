@@ -55,6 +55,8 @@ sudo apt-get update -qq
 sudo apt-get install syncthing -y --force-yes
 
 # Install and monitor service
+sed -i '/^\[Service\]$/,/^\[/ s/^Restart=on-failure/Restart=always/' ~/syncthing.service
+sudo systemctl daemon-reload
 sudo systemctl enable syncthing@$SYNCUSER.service
 #~ sudo yunohost service add -l /var/log/syncthing.log syncthing
 sudo yunohost service add syncthing
