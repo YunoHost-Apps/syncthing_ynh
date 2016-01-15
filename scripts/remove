@@ -1,21 +1,22 @@
 #!/bin/bash
 
-SYNCHOME="/home/yunohost.syncthing"
+# Configurable variables
+SYNCHOME="/home/yunohost.app/syncthing"
 SYNCUSER=debian-syncthing
 SYNCPORT=22000
+GUIPORT=8384
 
 # Stop and remove syncthing service
-sudo service syncthing stop
+sudo systemctl stop syncthing@$SYNCUSER.service
 sudo yunohost service remove syncthing
-sudo update-rc.d -f syncthing remove
-sudo rm -f /etc/init.d/syncthing
+sudo systemctl disable syncthing@$SYNCUSER.service
 
 # Remove syncthing binairy
-sudo apt-get autoremove syncthing -y
-sudo rm /etc/apt/sources.list.d/syncthing-release.list
-sudo apt-get update
+sudo apt-get autoremove syncthing -y --purge
+sudo rm /etc/apt/sources.list.d/syncthing.list
+sudo apt-get update -qq
 
-# Backup syncthign SYNCHOME directory
+# Backup syncthing SYNCHOME directory
 sudo mv $SYNCHOME $SYNCHOME.old
 # sudo rm -rf $SYNCHOME
 
@@ -36,5 +37,7 @@ domain=$(sudo yunohost app setting syncthing domain)
 sudo rm /etc/nginx/conf.d/$domain.d/syncthing.conf
 
 # Reload nginx and update ssowatch
-sudo service nginx reload
+sudo systemctl reload nginx.service
 sudo yunohost app ssowatconf
+
+echo $?

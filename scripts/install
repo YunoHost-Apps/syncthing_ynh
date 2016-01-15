@@ -1,18 +1,16 @@
 #!/bin/bash
 
+# Configurable variables
+SYNCHOME="/home/yunohost.app/syncthing"
+SYNCUSER=debian-syncthing
+SYNCPORT=22000
+GUIPORT=8384
+
 # Retrieve arguments
 domain=$1
 path=$2
 # channel: release or devel. will add choise on install
 CHANNEL=release
-
-
-# Configurable variables
-VERSION="0.11.5"
-SYNCHOME="/home/yunohost.syncthing"
-USER=debian-syncthing
-SYNCPORT=22000
-GUIPORT=8384
 
 sudo yunohost app checkurl $domain$path -a syncthing
 if [[ ! $? -eq 0 ]]; then
@@ -38,31 +36,29 @@ fi
 # Open port in firewall
 sudo yunohost firewall allow TCP $SYNCPORT > /dev/null 2>&1
 
-# Create $USER user to run syncthing service
-sudo useradd -m  -d $SYNCHOME/ -s /bin/bash $USER
+# Create $SYNCUSER user to run syncthing service
+sudo useradd -m  -d $SYNCHOME/ -s /bin/bash $SYNCUSER
 
 # Make directories and set rights
-sudo mkdir -p $SYNCHOME/{bin,storage}
-sudo chown -R $USER:$USER $SYNCHOME/
+sudo chown -R $SYNCUSER:$SYNCUSER $SYNCHOME/
 sudo find $SYNCHOME/ -type f | while read LINE; do sudo chmod 640 "$LINE" ; done
 sudo find $SYNCHOME/ -type d | while read LINE; do sudo chmod 750 "$LINE" ; done
 
 # Download and install syncthing binary
 sudo apt-get install curl
+## Add the release PGP keys:
 curl -s https://syncthing.net/release-key.txt | sudo apt-key add -
-echo "deb http://apt.syncthing.net/ syncthing $CHANNEL" | sudo tee /etc/apt/sources.list.d/syncthing-$CHANNEL.list
+## Add the "release" channel to your APT sources:
+echo "deb http://apt.syncthing.net/ syncthing $CHANNEL" | sudo tee /etc/apt/sources.list.d/syncthing.list
+## Update and install syncthing:
 sudo apt-get update -qq
 sudo apt-get install syncthing -y --force-yes
 
 # Install and monitor service
-GUIADDRESS="127.0.0.1:$GUIPORT"
-sed -i "s@GUIADDRESSTOCHANGE@$GUIADDRESS@g" ../conf/init.syncthing
-sudo cp ../conf/init.syncthing /etc/init.d/syncthing
-sudo chmod 0755 /etc/init.d/syncthing
-sudo update-rc.d syncthing defaults
+sudo systemctl enable syncthing@$SYNCUSER.service
 #~ sudo yunohost service add -l /var/log/syncthing.log syncthing
 sudo yunohost service add syncthing
-sudo service syncthing start
+sudo systemctl start syncthing@$SYNCUSER.service
 
 # Configure logrotate if present
 if [ -d "/etc/logrotate.d" ]; then
@@ -70,9 +66,16 @@ if [ -d "/etc/logrotate.d" ]; then
   sudo chmod 0755 /etc/logrotate.d/syncthing
 fi
 
-# Configure Nginx and reload
+# Configure Nginx
 sed -i "s@PATHTOCHANGE@$path@g" ../conf/nginx.conf
 sed -i "s@PORTTOCHANGE@$GUIPORT@g" ../conf/nginx.conf
 sudo cp ../conf/nginx.conf /etc/nginx/conf.d/$domain.d/syncthing.conf
-sudo service nginx reload
+
+# Remove acces to all users
+sudo yunohost app removeaccess well-known
+
+# Reload nginx and update ssowatch
+sudo systemctl reload nginx.service
+sudo yunohost app ssowatconf
+
 echo $?
