@@ -1,6 +1,6 @@
 {
   "name": "Syncthing",
-  "id": "syncthing",,
+  "id": "syncthing",
   "packaging_format": 1,
   "description": {
     "en": "Syncthing replaces proprietary sync and cloud services with something open, trustworthy and decentralized.",
