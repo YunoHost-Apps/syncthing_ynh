@@ -1,16 +1,24 @@
 {
   "name": "Syncthing",
-  "id": "syncthing",
+  "id": "syncthing",,
+  "packaging_format": 1,
   "description": {
     "en": "Syncthing replaces proprietary sync and cloud services with something open, trustworthy and decentralized.",
     "fr": "Syncthing remplace les services propriétaires de synchro et de cloud avec quelque chose d'ouvert, digne de confiance et décentralisée."
   },
   "url": "https://syncthing.net/",
+  "license": "free",
   "maintainer": {
     "name": "txmrl",
     "email": "txmrl@txmrl.net"
   },
-  "multi_instance": "false",
+  "requirements": {
+      "yunohost": ">= 2.4.0"
+  },
+  "multi_instance": false,
+  "services": [
+      "nginx"
+  ],
   "arguments": {
     "install": [
       {
