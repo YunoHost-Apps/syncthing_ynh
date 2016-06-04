@@ -32,6 +32,7 @@
       },
       {
         "name": "user",
+        "type": "user",
         "ask": {
             "en": "Choose the user for Syncthing (must be an existing yunohost user)",
             "fr": "Choisissez l'utilisateur de Syncthing (doit être un utilisateur yunohost existant)"

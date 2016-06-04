@@ -67,7 +67,7 @@ sudo apt-get update -qq
 sudo apt-get install syncthing -y --force-yes
 
 # Install and monitor service
-sed -i '/^\[Service\]$/,/^\[/ s/^Restart=on-failure/Restart=always/' ~/syncthing.service
+sed -i '/^\[Service\]$/,/^\[/ s/^Restart=on-failure/Restart=always/' /lib/systemd/system/syncthing@.service
 sudo systemctl daemon-reload
 sudo systemctl enable syncthing@$SYNCUSER.service
 #~ sudo yunohost service add -l /var/log/syncthing.log syncthing
@@ -87,6 +87,7 @@ sudo cp ../conf/nginx.conf /etc/nginx/conf.d/$domain.d/syncthing.conf
 
 # Remove acces to all users
 sudo yunohost app removeaccess syncthing
+sudo yunohost app addaccess syncthing -u $user
 
 # Reload nginx and update ssowatch
 sudo systemctl reload nginx.service
