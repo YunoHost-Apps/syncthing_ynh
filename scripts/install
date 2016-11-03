@@ -13,9 +13,9 @@ user=$3
 channel=$4
 
 # Check Debian version
-if [[ $(cat /etc/debian_version) = "7."* ]]
+if [[ $(cat /etc/debian_version) < 8 ]]
 then
-    echo "You need debian Jessie (8.x) to install gogs."
+    echo "You need debian Jessie (8.x) or more to install syncthing_ynh."
     exit 1
 fi
 
