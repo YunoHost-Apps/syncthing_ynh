@@ -1,10 +1,4 @@
 # syncthing_ynh
 
-COMPATIBLE UNIQUEMENT AVEC DEBIEN JESSIE
-
-
-=> Mise à jour vers systemd
-
-TODO:
-- ajouter le multi-instance
+Only for Debian Jessie and after 
 
