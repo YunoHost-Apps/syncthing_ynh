@@ -53,8 +53,8 @@
             "en": "Choose Syncthing channel ?",
             "fr": "Choissez la version de Syncthing ?"
         },
-        "choices": ["release", "devel"],
-        "default": "release"
+        "choices": ["stable", "candidate"],
+        "default": "stable"
       }
     ]
   }
