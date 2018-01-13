@@ -60,7 +60,7 @@ sudo find $SYNCHOME/ -type d | while read LINE; do sudo chmod 750 "$LINE" ; done
 sudo apt-get install curl
 ## Add the release PGP keys:
 curl -s https://syncthing.net/release-key.txt | sudo apt-key add -
-## Add the "release" channel to your APT sources:
+## Add the choosed channel to your APT sources:
 echo "deb http://apt.syncthing.net/ syncthing $channel" | sudo tee /etc/apt/sources.list.d/syncthing.list
 ## Update and install syncthing:
 sudo apt-get update -qq
