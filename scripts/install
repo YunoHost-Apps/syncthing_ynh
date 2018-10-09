@@ -77,7 +77,7 @@ sudo systemctl start syncthing@$SYNCUSER.service
 if [ -d "/etc/logrotate.d" ]; then
   sed -i "s@SYNCUSER@$SYNCUSER@g" ../conf/logrotate.conf
   sudo cp ../conf/logrotate.conf /etc/logrotate.d/syncthing
-  sudo chmod 0755 /etc/logrotate.d/syncthing
+  sudo chmod 0644 /etc/logrotate.d/syncthing
 fi
 
 # Configure Nginx
