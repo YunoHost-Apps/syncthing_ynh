@@ -39,15 +39,15 @@ SYNCUSER=debian-syncthing
 SYNCPORT=22000
 GUIPORT=8384
 
-# Check domain/path availability
-sudo yunohost app checkurl $domain$path -a syncthing
-if [[ ! $? -eq 0 ]]; then
-  echo $domain$path is not available. Please choose another url for Syncthing.
-  exit 1
-fi
+#=================================================
+# CHECK IF THE APP CAN BE INSTALLED WITH THESE ARGS
+#=================================================
+ynh_print_info "Validating installation parameters..."
 
-# Remove trailing "/" for next commands
-path=${path%/}
+
+
+# Register (book) web path
+ynh_webpath_register $app $domain $path
 
 # Check port availability
 sudo yunohost app checkport $GUIPORT
