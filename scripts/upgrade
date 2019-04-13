@@ -28,9 +28,6 @@ GUIPORT=$(ynh_app_setting_get $app guiport)
 
 
 
-# Remove trailing "/" for next commands
-path=${path%/}
-
 # Upgrade official debian package
 sudo apt-get update -qq
 sudo apt-get upgrade syncthing -y
