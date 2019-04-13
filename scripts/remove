@@ -52,7 +52,15 @@ sudo apt-get update -qq
 sudo mv $SYNCHOME $SYNCHOME.old
 # sudo rm -rf $SYNCHOME
 
-# Remove syncthing user
+
+#=================================================
+# GENERIC FINALIZATION
+#=================================================
+# REMOVE DEDICATED USER
+#=================================================
+ynh_print_info "Removing the dedicated system user"
+
+# Delete a system user
 sudo userdel $SYNCUSER
 
 # Close port in firewall
