@@ -152,12 +152,8 @@ sudo yunohost app addaccess syncthing -u $admin
 #=================================================
 ynh_print_info "Configuring log rotation..."
 
-# Configure logrotate if present
-if [ -d "/etc/logrotate.d" ]; then
-  sed -i "s@sync_user@$sync_user@g" ../conf/logrotate.conf
-  sudo cp ../conf/logrotate.conf /etc/logrotate.d/syncthing
-  sudo chmod 0644 /etc/logrotate.d/syncthing
-fi
+# Use logrotate to manage application logfile(s)
+ynh_use_logrotate
 
 #=================================================
 # SETUP SSOWAT
