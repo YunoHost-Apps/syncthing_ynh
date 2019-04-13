@@ -1,61 +1,61 @@
 {
-  "name": "Syncthing",
-  "id": "syncthing",
-  "packaging_format": 1,
-  "description": {
-    "en": "Syncthing replaces proprietary sync and cloud services with something open, trustworthy and decentralized.",
-    "fr": "Syncthing remplace les services propriétaires de synchro et de cloud avec quelque chose d'ouvert, digne de confiance et décentralisée."
-  },
-  "url": "https://syncthing.net/",
-  "license": "MPL-2.0",
-  "maintainer": {
-    "name": "txmrl",
-    "email": "txmrl@txmrl.net"
-  },
-  "requirements": {
+    "name": "Syncthing",
+    "id": "syncthing",
+    "packaging_format": 1,
+    "description": {
+        "en": "Syncthing replaces proprietary sync and cloud services with something open, trustworthy and decentralized.",
+        "fr": "Syncthing remplace les services propriétaires de synchro et de cloud avec quelque chose d'ouvert, digne de confiance et décentralisée."
+    },
+    "url": "https://syncthing.net/",
+    "license": "MPL-2.0",
+    "maintainer": {
+        "name": "txmrl",
+        "email": "txmrl@txmrl.net"
+    },
+    "requirements": {
         "yunohost": ">= 3.4"
-  },
-  "multi_instance": false,
-  "services": [
-      "nginx"
-  ],
-  "arguments": {
-    "install": [
-      {
-        "name": "domain",
-        "type": "domain",
-        "ask": {
-          "en": "Choose a domain for Syncthing"
-        },
-        "example": "domain.org"
-      },
-      {
-        "name": "path",
-        "type": "path",
-        "ask": {
-          "en": "Choose a path for Syncthing"
-        },
-        "example": "/syncthing",
-        "default": "/syncthing"
-      },
-      {
-        "name": "user",
-        "type": "user",
-        "ask": {
-            "en": "Choose the user for Syncthing (must be an existing yunohost user)",
-            "fr": "Choisissez l'utilisateur de Syncthing (doit être un utilisateur yunohost existant)"
-        },
-        "example": "johndoe"
-      },
-      {
-        "name": "channel",
-        "ask": {
-            "en": "Choose Syncthing channel ?",
-            "fr": "Choissez la version de Syncthing ?"
-        },
-        "choices": ["stable", "candidate"],
-        "default": "stable"
-      }
-    ]
-  }
+    },
+    "multi_instance": true,
+    "services": [
+    "nginx"
+    ],
+    "arguments": {
+        "install": [
+            {
+                "name": "domain",
+                "type": "domain",
+                "ask": {
+                    "en": "Choose a domain for Syncthing"
+                },
+                "example": "domain.org"
+            },
+            {
+                "name": "path",
+                "type": "path",
+                "ask": {
+                    "en": "Choose a path for Syncthing"
+                },
+                "example": "/syncthing",
+                "default": "/syncthing"
+                },
+                {
+                    "name": "admin",
+                    "type": "user",
+                    "ask": {
+                        "en": "Choose the user for Syncthing (must be an existing yunohost user)",
+                        "fr": "Choisissez l'utilisateur de Syncthing (doit être un utilisateur yunohost existant)"
+                    },
+                    "example": "johndoe"
+                },
+                {
+                    "name": "channel",
+                    "ask": {
+                        "en": "Choose Syncthing channel ?",
+                        "fr": "Choissez la version de Syncthing ?"
+                    },
+                    "choices": ["stable", "candidate"],
+                    "default": "stable"
+            }
+        ]
+    }
 }
