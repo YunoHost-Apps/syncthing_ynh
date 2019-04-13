@@ -102,6 +102,11 @@ sudo chown -R $SYNCUSER:$SYNCUSER $SYNCHOME/
 sudo find $SYNCHOME/ -type f | while read LINE; do sudo chmod 640 "$LINE" ; done
 sudo find $SYNCHOME/ -type d | while read LINE; do sudo chmod 750 "$LINE" ; done
 
+#=================================================
+# INSTALL DEPENDENCIES
+#=================================================
+ynh_print_info "Installing dependencies..."
+
 # Download and install syncthing binary
 sudo apt-get install curl
 ## Add the release PGP keys:
