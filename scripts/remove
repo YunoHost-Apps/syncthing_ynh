@@ -56,17 +56,6 @@ sudo mv $SYNCHOME $SYNCHOME.old
 
 
 
-#=================================================
-# REMOVE LOGROTATE CONFIGURATION
-#=================================================
-ynh_print_info "Removing logrotate configuration"
-
-# Remove the app-specific logrotate config
-if [ -f /etc/logrotate.d/syncthing ]
-then
-    sudo rm /etc/logrotate.d/syncthing
-fi
-
 
 #=================================================
 # REMOVE NGINX CONFIGURATION
@@ -79,6 +68,17 @@ sudo rm /etc/nginx/conf.d/$domain.d/syncthing.conf
 # Reload nginx and update ssowatch
 sudo systemctl reload nginx.service
 sudo yunohost app ssowatconf
+
+#=================================================
+# REMOVE LOGROTATE CONFIGURATION
+#=================================================
+ynh_print_info "Removing logrotate configuration"
+
+# Remove the app-specific logrotate config
+if [ -f /etc/logrotate.d/syncthing ]
+then
+    sudo rm /etc/logrotate.d/syncthing
+fi
 
 #=================================================
 # CLOSE A PORT
