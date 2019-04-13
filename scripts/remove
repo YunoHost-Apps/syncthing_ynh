@@ -11,6 +11,14 @@ sudo systemctl stop syncthing@$SYNCUSER.service
 sudo yunohost service remove syncthing
 sudo systemctl disable syncthing@$SYNCUSER.service
 
+#=================================================
+# REMOVE DEPENDENCIES
+#=================================================
+ynh_print_info "Removing dependencies"
+
+# Remove metapackage and its dependencies
+ynh_remove_app_dependencies
+
 # Remove syncthing binairy
 sudo apt-get autoremove syncthing -y --purge
 sudo rm /etc/apt/sources.list.d/syncthing.list
