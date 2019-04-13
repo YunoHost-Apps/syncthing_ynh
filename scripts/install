@@ -49,6 +49,16 @@ ynh_print_info "Validating installation parameters..."
 # Register (book) web path
 ynh_webpath_register $app $domain $path
 
+#=================================================
+# STORE SETTINGS FROM MANIFEST
+#=================================================
+ynh_print_info "Storing installation settings..."
+
+ynh_app_setting_set $app domain $domain
+ynh_app_setting_set $app path $path
+ynh_app_setting_set $app user $user
+ynh_app_setting_set $app channel $channel
+
 # Check port availability
 sudo yunohost app checkport $GUIPORT
 if [[ ! $? -eq 0 ]]; then
