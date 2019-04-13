@@ -151,6 +151,12 @@ sed -i "s@PATHTOCHANGE@$path@g" ../conf/nginx.conf
 sed -i "s@PORTTOCHANGE@$GUIPORT@g" ../conf/nginx.conf
 sudo cp ../conf/nginx.conf /etc/nginx/conf.d/$domain.d/syncthing.conf
 
+#=================================================
+# GENERIC FINALIZATION
+#=================================================
+# SECURE FILES AND DIRECTORIES
+#=================================================
+
 # Remove acces to all users
 sudo yunohost app removeaccess syncthing
 sudo yunohost app addaccess syncthing -u $user
