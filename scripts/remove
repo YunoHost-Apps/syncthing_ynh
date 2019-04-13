@@ -63,6 +63,10 @@ ynh_print_info "Removing the dedicated system user"
 # Delete a system user
 sudo userdel $SYNCUSER
 
+#=================================================
+# CLOSE A PORT
+#=================================================
+
 # Close port in firewall
 sudo yunohost firewall disallow TCP $SYNCPORT
 
