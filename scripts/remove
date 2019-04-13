@@ -70,7 +70,13 @@ sudo userdel $SYNCUSER
 # Close port in firewall
 sudo yunohost firewall disallow TCP $SYNCPORT
 
-# Remove syncthing logrotate configuration
+
+#=================================================
+# REMOVE LOGROTATE CONFIGURATION
+#=================================================
+ynh_print_info "Removing logrotate configuration"
+
+# Remove the app-specific logrotate config
 if [ -f /etc/logrotate.d/syncthing ]
 then
     sudo rm /etc/logrotate.d/syncthing
