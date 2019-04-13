@@ -118,6 +118,8 @@ ynh_print_info "Configuring system user..."
 ynh_system_user_create --username=$SYNCUSER --home_dir=$SYNCHOME/ --use_shell
 
 #=================================================
+# SPECIFIC SETUP
+#=================================================
 # CREATE SYNC DIRECTORY
 #=================================================
 ynh_print_info "Creating sync directory..."
