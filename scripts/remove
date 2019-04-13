@@ -101,4 +101,3 @@ sudo yunohost app ssowatconf
 #=================================================
 
 ynh_print_info "Removal of $app completed"
-
