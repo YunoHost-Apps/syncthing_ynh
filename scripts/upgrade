@@ -26,9 +26,16 @@ SYNCUSER=$(ynh_app_setting_get $app syncuser)
 SYNCPORT=$(ynh_app_setting_get $app syncport)
 GUIPORT=$(ynh_app_setting_get $app guiport)
 
+#=================================================
+# STANDARD UPGRADE STEPS
+#=================================================
 
 
-# Upgrade official debian package
+#=================================================
+# UPGRADE DEPENDENCIES
+#=================================================
+ynh_print_info "Upgrading dependencies..."
+
 sudo apt-get update -qq
 sudo apt-get upgrade syncthing -y
 
