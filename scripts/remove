@@ -53,15 +53,6 @@ sudo mv $SYNCHOME $SYNCHOME.old
 # sudo rm -rf $SYNCHOME
 
 
-#=================================================
-# GENERIC FINALIZATION
-#=================================================
-# REMOVE DEDICATED USER
-#=================================================
-ynh_print_info "Removing the dedicated system user"
-
-# Delete a system user
-sudo userdel $SYNCUSER
 
 #=================================================
 # CLOSE A PORT
@@ -95,6 +86,15 @@ sudo rm /etc/nginx/conf.d/$domain.d/syncthing.conf
 sudo systemctl reload nginx.service
 sudo yunohost app ssowatconf
 
+#=================================================
+# GENERIC FINALIZATION
+#=================================================
+# REMOVE DEDICATED USER
+#=================================================
+ynh_print_info "Removing the dedicated system user"
+
+# Delete a system user
+sudo userdel $SYNCUSER
 
 #=================================================
 # END OF SCRIPT
