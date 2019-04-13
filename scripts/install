@@ -141,6 +141,11 @@ if [ -d "/etc/logrotate.d" ]; then
   sudo chmod 0644 /etc/logrotate.d/syncthing
 fi
 
+#=================================================
+# NGINX CONFIGURATION
+#=================================================
+ynh_print_info "Configuring nginx web server..."
+
 # Configure Nginx
 sed -i "s@PATHTOCHANGE@$path@g" ../conf/nginx.conf
 sed -i "s@PORTTOCHANGE@$GUIPORT@g" ../conf/nginx.conf
