@@ -17,19 +17,16 @@ ynh_print_info "Loading installation settings..."
 app=$YNH_APP_INSTANCE_NAME
 
 domain=$(ynh_app_setting_get $app domain)
+path=$(ynh_app_setting_get $app path)
+
+final_path=$(ynh_app_setting_get $app final_path)
 
 SYNCHOME=$(ynh_app_setting_get $app synchome)
 SYNCUSER=$(ynh_app_setting_get $app syncuser)
 SYNCPORT=$(ynh_app_setting_get $app syncport)
 GUIPORT=$(ynh_app_setting_get $app guiport)
 
-final_path=$(ynh_app_setting_get $app final_path)
 
-
-
-# Retrieve arguments
-domain=$(sudo yunohost app setting syncthing domain)
-path=$(sudo yunohost app setting syncthing path)
 
 # Remove trailing "/" for next commands
 path=${path%/}
