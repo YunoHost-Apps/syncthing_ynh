@@ -34,7 +34,7 @@ app=$YNH_APP_INSTANCE_NAME
 
 
 # Configurable variables
-SYNCHOME="/home/yunohost.app/syncthing"
+SYNCHOME="/home/yunohost.app/$app"
 SYNCUSER=debian-syncthing
 SYNCPORT=22000
 GUIPORT=8384
