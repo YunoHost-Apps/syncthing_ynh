@@ -102,11 +102,7 @@ sudo apt-get install syncthing -y --force-yes
 #=================================================
 ynh_print_info "Configuring nginx web server..."
 
-# Configure Nginx
-sed -i "s@PATHTOCHANGE@$path_url@g" ../conf/nginx.conf
-sed -i "s@PORTTOCHANGE@$gui_port@g" ../conf/nginx.conf
-sudo cp ../conf/nginx.conf /etc/nginx/conf.d/$domain.d/syncthing.conf
-
+# Create a dedicated nginx config
 ynh_add_nginx_config "gui_port"
 
 #=================================================
