@@ -161,6 +161,11 @@ sudo cp ../conf/nginx.conf /etc/nginx/conf.d/$domain.d/syncthing.conf
 sudo yunohost app removeaccess syncthing
 sudo yunohost app addaccess syncthing -u $user
 
+#=================================================
+# RELOAD NGINX
+#=================================================
+ynh_print_info "Reloading nginx web server..."
+
 # Reload nginx and update ssowatch
 sudo systemctl reload nginx.service
 sudo yunohost app ssowatconf
