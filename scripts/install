@@ -20,6 +20,17 @@ ynh_clean_setup () {
 # Exit if an error occurs during the execution of the script
 ynh_abort_if_errors
 
+#=================================================
+# RETRIEVE ARGUMENTS FROM THE MANIFEST
+#=================================================
+
+domain=$YNH_APP_ARG_DOMAIN
+path=$YNH_APP_ARG_PATH
+user=$YNH_APP_ARG_ADMIN
+channel=$YNH_APP_ARG_CHANNEL
+
+app=$YNH_APP_INSTANCE_NAME
+
 
 
 # Configurable variables
@@ -28,11 +39,7 @@ SYNCUSER=debian-syncthing
 SYNCPORT=22000
 GUIPORT=8384
 
-# Retrieve arguments
-domain=$1
-path=$2
-user=$3
-channel=$4
+
 
 # Check Debian version
 if [[ $(cat /etc/debian_version) < 8 ]]
