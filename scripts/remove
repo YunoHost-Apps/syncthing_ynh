@@ -79,8 +79,8 @@ ynh_remove_logrotate
 # CLOSE A PORT
 #=================================================
 
-# Close port in firewall
-sudo yunohost firewall disallow TCP $sync_port
+ynh_print_info "Closing port $sync_port"
+ynh_exec_warn_less yunohost firewall disallow TCP $sync_port
 
 #=================================================
 # GENERIC FINALIZATION
@@ -90,7 +90,7 @@ sudo yunohost firewall disallow TCP $sync_port
 ynh_print_info "Removing the dedicated system user"
 
 # Delete a system user
-sudo userdel $sync_user
+ynh_system_user_delete $sync_user
 
 #=================================================
 # END OF SCRIPT
