@@ -39,10 +39,6 @@ SYNCUSER=debian-syncthing
 SYNCPORT=22000
 GUIPORT=8384
 
-# Check that admin user is an existing account
-sudo yunohost user list --json | grep -q "\"username\": \"$admin\"" \
-    || (echo "Error: the chosen admin user does not exist" && exit 1)
-
 # Check domain/path availability
 sudo yunohost app checkurl $domain$path -a syncthing
 if [[ ! $? -eq 0 ]]; then
