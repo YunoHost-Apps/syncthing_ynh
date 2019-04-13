@@ -117,6 +117,11 @@ echo "deb http://apt.syncthing.net/ syncthing $channel" | sudo tee /etc/apt/sour
 sudo apt-get update -qq
 sudo apt-get install syncthing -y --force-yes
 
+#=================================================
+# SETUP SYSTEMD
+#=================================================
+ynh_print_info "Configuring a systemd service..."
+
 # Install and monitor service
 sudo sed -i '/^\[Service\]$/,/^\[/ s/^Restart=on-failure/Restart=always/' /lib/systemd/system/syncthing@.service
 sudo systemctl daemon-reload
