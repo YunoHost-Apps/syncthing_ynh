@@ -85,6 +85,21 @@ ynh_exec_warn_less yunohost firewall allow --no-upnp TCP $SYNCPORT
 ynh_app_setting_set $app syncport $SYNCPORT
 
 #=================================================
+# INSTALL DEPENDENCIES
+#=================================================
+ynh_print_info "Installing dependencies..."
+
+# Download and install syncthing binary
+sudo apt-get install curl
+## Add the release PGP keys:
+curl -s https://syncthing.net/release-key.txt | sudo apt-key add -
+## Add the choosed channel to your APT sources:
+echo "deb http://apt.syncthing.net/ syncthing $channel" | sudo tee /etc/apt/sources.list.d/syncthing.list
+## Update and install syncthing:
+sudo apt-get update -qq
+sudo apt-get install syncthing -y --force-yes
+
+#=================================================
 # CREATE DEDICATED USER
 #=================================================
 ynh_print_info "Configuring system user..."
@@ -101,21 +116,6 @@ ynh_print_info "Creating sync directory..."
 sudo chown -R $SYNCUSER:$SYNCUSER $SYNCHOME/
 sudo find $SYNCHOME/ -type f | while read LINE; do sudo chmod 640 "$LINE" ; done
 sudo find $SYNCHOME/ -type d | while read LINE; do sudo chmod 750 "$LINE" ; done
-
-#=================================================
-# INSTALL DEPENDENCIES
-#=================================================
-ynh_print_info "Installing dependencies..."
-
-# Download and install syncthing binary
-sudo apt-get install curl
-## Add the release PGP keys:
-curl -s https://syncthing.net/release-key.txt | sudo apt-key add -
-## Add the choosed channel to your APT sources:
-echo "deb http://apt.syncthing.net/ syncthing $channel" | sudo tee /etc/apt/sources.list.d/syncthing.list
-## Update and install syncthing:
-sudo apt-get update -qq
-sudo apt-get install syncthing -y --force-yes
 
 #=================================================
 # SETUP SYSTEMD
