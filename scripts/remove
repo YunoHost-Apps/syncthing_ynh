@@ -62,8 +62,8 @@ sudo mv $sync_home $sync_home.old
 #=================================================
 ynh_print_info "Removing nginx web server configuration"
 
-domain=$(sudo yunohost app setting syncthing domain)
-sudo rm /etc/nginx/conf.d/$domain.d/syncthing.conf
+# Remove the dedicated nginx config
+ynh_remove_nginx_config
 
 # Reload nginx and update ssowatch
 sudo systemctl reload nginx.service

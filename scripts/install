@@ -107,6 +107,8 @@ sed -i "s@PATHTOCHANGE@$path_url@g" ../conf/nginx.conf
 sed -i "s@PORTTOCHANGE@$gui_port@g" ../conf/nginx.conf
 sudo cp ../conf/nginx.conf /etc/nginx/conf.d/$domain.d/syncthing.conf
 
+ynh_add_nginx_config "gui_port"
+
 #=================================================
 # CREATE DEDICATED USER
 #=================================================
