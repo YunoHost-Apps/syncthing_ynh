@@ -100,6 +100,16 @@ sudo apt-get update -qq
 sudo apt-get install syncthing -y --force-yes
 
 #=================================================
+# NGINX CONFIGURATION
+#=================================================
+ynh_print_info "Configuring nginx web server..."
+
+# Configure Nginx
+sed -i "s@PATHTOCHANGE@$path@g" ../conf/nginx.conf
+sed -i "s@PORTTOCHANGE@$GUIPORT@g" ../conf/nginx.conf
+sudo cp ../conf/nginx.conf /etc/nginx/conf.d/$domain.d/syncthing.conf
+
+#=================================================
 # CREATE DEDICATED USER
 #=================================================
 ynh_print_info "Configuring system user..."
@@ -140,16 +150,6 @@ if [ -d "/etc/logrotate.d" ]; then
   sudo cp ../conf/logrotate.conf /etc/logrotate.d/syncthing
   sudo chmod 0644 /etc/logrotate.d/syncthing
 fi
-
-#=================================================
-# NGINX CONFIGURATION
-#=================================================
-ynh_print_info "Configuring nginx web server..."
-
-# Configure Nginx
-sed -i "s@PATHTOCHANGE@$path@g" ../conf/nginx.conf
-sed -i "s@PORTTOCHANGE@$GUIPORT@g" ../conf/nginx.conf
-sudo cp ../conf/nginx.conf /etc/nginx/conf.d/$domain.d/syncthing.conf
 
 #=================================================
 # GENERIC FINALIZATION
