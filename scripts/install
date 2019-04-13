@@ -84,8 +84,13 @@ fi
 ynh_exec_warn_less yunohost firewall allow --no-upnp TCP $SYNCPORT
 ynh_app_setting_set $app syncport $SYNCPORT
 
-# Create $SYNCUSER user to run syncthing service
-sudo useradd -m  -d $SYNCHOME/ -s /bin/bash $SYNCUSER
+#=================================================
+# CREATE DEDICATED USER
+#=================================================
+ynh_print_info "Configuring system user..."
+
+# Create a system user
+ynh_system_user_create --username=$SYNCUSER --home_dir=$SYNCHOME/ --use_shell
 
 # Make directories and set rights
 sudo chown -R $SYNCUSER:$SYNCUSER $SYNCHOME/
