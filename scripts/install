@@ -39,15 +39,6 @@ SYNCUSER=debian-syncthing
 SYNCPORT=22000
 GUIPORT=8384
 
-
-
-# Check Debian version
-if [[ $(cat /etc/debian_version) < 8 ]]
-then
-    echo "You need debian Jessie (8.x) or more to install syncthing_ynh."
-    exit 1
-fi
-
 # Check that admin user is an existing account
 sudo yunohost user list --json | grep -q "\"username\": \"$admin\"" \
     || (echo "Error: the chosen admin user does not exist" && exit 1)
