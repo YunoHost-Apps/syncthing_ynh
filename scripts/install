@@ -142,6 +142,16 @@ sudo yunohost service add syncthing@$SYNCUSER -l /var/log/syncthing.log
 sudo systemctl start syncthing@$SYNCUSER.service
 
 #=================================================
+# GENERIC FINALIZATION
+#=================================================
+# SECURE FILES AND DIRECTORIES
+#=================================================
+
+# Remove acces to all users
+sudo yunohost app removeaccess syncthing
+sudo yunohost app addaccess syncthing -u $user
+
+#=================================================
 # SETUP LOGROTATE
 #=================================================
 ynh_print_info "Configuring log rotation..."
@@ -152,16 +162,6 @@ if [ -d "/etc/logrotate.d" ]; then
   sudo cp ../conf/logrotate.conf /etc/logrotate.d/syncthing
   sudo chmod 0644 /etc/logrotate.d/syncthing
 fi
-
-#=================================================
-# GENERIC FINALIZATION
-#=================================================
-# SECURE FILES AND DIRECTORIES
-#=================================================
-
-# Remove acces to all users
-sudo yunohost app removeaccess syncthing
-sudo yunohost app addaccess syncthing -u $user
 
 #=================================================
 # SETUP SSOWAT
