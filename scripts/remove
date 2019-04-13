@@ -54,12 +54,6 @@ sudo mv $SYNCHOME $SYNCHOME.old
 
 
 
-#=================================================
-# CLOSE A PORT
-#=================================================
-
-# Close port in firewall
-sudo yunohost firewall disallow TCP $SYNCPORT
 
 
 #=================================================
@@ -85,6 +79,13 @@ sudo rm /etc/nginx/conf.d/$domain.d/syncthing.conf
 # Reload nginx and update ssowatch
 sudo systemctl reload nginx.service
 sudo yunohost app ssowatconf
+
+#=================================================
+# CLOSE A PORT
+#=================================================
+
+# Close port in firewall
+sudo yunohost firewall disallow TCP $SYNCPORT
 
 #=================================================
 # GENERIC FINALIZATION
