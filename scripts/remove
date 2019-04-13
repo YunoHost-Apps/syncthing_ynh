@@ -95,4 +95,10 @@ sudo rm /etc/nginx/conf.d/$domain.d/syncthing.conf
 sudo systemctl reload nginx.service
 sudo yunohost app ssowatconf
 
-echo $?
+
+#=================================================
+# END OF SCRIPT
+#=================================================
+
+ynh_print_info "Removal of $app completed"
+
