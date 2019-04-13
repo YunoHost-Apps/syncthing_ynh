@@ -39,7 +39,12 @@ ynh_print_info "Upgrading dependencies..."
 sudo apt-get update -qq
 sudo apt-get upgrade syncthing -y
 
-# Update Nginx configuration
+
+#=================================================
+# NGINX CONFIGURATION
+#=================================================
+ynh_print_info "Upgrading nginx web server configuration..."
+
 sed -i "s@PATHTOCHANGE@$path@g" ../conf/nginx.conf
 sed -i "s@PORTTOCHANGE@$GUIPORT@g" ../conf/nginx.conf
 sudo cp ../conf/nginx.conf /etc/nginx/conf.d/$domain.d/syncthing.conf
