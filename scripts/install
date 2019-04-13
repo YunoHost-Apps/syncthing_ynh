@@ -89,8 +89,8 @@ ynh_app_setting_set $app syncport $SYNCPORT
 #=================================================
 ynh_print_info "Installing dependencies..."
 
-# Download and install syncthing binary
-sudo apt-get install curl
+ynh_install_app_dependencies $pkg_dependencies
+
 ## Add the release PGP keys:
 curl -s https://syncthing.net/release-key.txt | sudo apt-key add -
 ## Add the choosed channel to your APT sources:
