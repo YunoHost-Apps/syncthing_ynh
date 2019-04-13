@@ -58,6 +58,8 @@ ynh_app_setting_set $app domain $domain
 ynh_app_setting_set $app path $path
 ynh_app_setting_set $app user $user
 ynh_app_setting_set $app channel $channel
+ynh_app_setting_set $app synchome $SYNCHOME
+ynh_app_setting_set $app syncuser $SYNCUSER
 
 #=================================================
 # STANDARD MODIFICATIONS

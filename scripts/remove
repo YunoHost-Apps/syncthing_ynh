@@ -9,12 +9,22 @@
 source _common.sh
 source /usr/share/yunohost/helpers
 
+#=================================================
+# LOAD SETTINGS
+#=================================================
+ynh_print_info "Loading installation settings..."
 
-# Configurable variables
-SYNCHOME="/home/yunohost.app/syncthing"
-SYNCUSER=debian-syncthing
-SYNCPORT=22000
-GUIPORT=8384
+app=$YNH_APP_INSTANCE_NAME
+
+domain=$(ynh_app_setting_get $app domain)
+
+SYNCHOME=$(ynh_app_setting_get $app synchome)
+SYNCUSER=$(ynh_app_setting_get $app syncuser)
+SYNCPORT=$(ynh_app_setting_get $app syncport)
+GUIPORT=$(ynh_app_setting_get $app guiport)
+
+final_path=$(ynh_app_setting_get $app final_path)
+
 
 # Stop and remove syncthing service
 sudo systemctl stop syncthing@$SYNCUSER.service
