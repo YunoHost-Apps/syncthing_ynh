@@ -73,10 +73,7 @@ ynh_remove_nginx_config
 ynh_print_info "Removing logrotate configuration"
 
 # Remove the app-specific logrotate config
-if [ -f /etc/logrotate.d/syncthing ]
-then
-    sudo rm /etc/logrotate.d/syncthing
-fi
+ynh_remove_logrotate
 
 #=================================================
 # CLOSE A PORT
