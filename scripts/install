@@ -31,8 +31,6 @@ channel=$YNH_APP_ARG_CHANNEL
 
 app=$YNH_APP_INSTANCE_NAME
 
-
-
 # Configurable variables
 SYNCHOME="/home/yunohost.app/$app"
 SYNCUSER=debian-syncthing
