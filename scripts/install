@@ -59,20 +59,30 @@ ynh_app_setting_set $app path $path
 ynh_app_setting_set $app user $user
 ynh_app_setting_set $app channel $channel
 
+#=================================================
+# STANDARD MODIFICATIONS
+#=================================================
+# FIND AND OPEN A PORT
+#=================================================
+ynh_print_info "Configuring firewall..."
+
 # Check port availability
 sudo yunohost app checkport $GUIPORT
 if [[ ! $? -eq 0 ]]; then
   echo Port $GUIPORT for Syncthing UI is not available.
   exit 1
 fi
+ynh_app_setting_set $app guiport $GUIPORT
+
 sudo yunohost app checkport $SYNCPORT
 if [[ ! $? -eq 0 ]]; then
   echo Port $SYNCPORT is for Syncthing protocol is not available.
   exit 1
 fi
 
-# Open port in firewall
-sudo yunohost firewall allow TCP $SYNCPORT > /dev/null 2>&1
+# Open this port
+ynh_exec_warn_less yunohost firewall allow --no-upnp TCP $SYNCPORT
+ynh_app_setting_set $app syncport $SYNCPORT
 
 # Create $SYNCUSER user to run syncthing service
 sudo useradd -m  -d $SYNCHOME/ -s /bin/bash $SYNCUSER
