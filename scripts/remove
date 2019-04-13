@@ -67,10 +67,6 @@ ynh_print_info "Removing nginx web server configuration"
 # Remove the dedicated nginx config
 ynh_remove_nginx_config
 
-# Reload nginx and update ssowatch
-sudo systemctl reload nginx.service
-sudo yunohost app ssowatconf
-
 #=================================================
 # REMOVE LOGROTATE CONFIGURATION
 #=================================================
