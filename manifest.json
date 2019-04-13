@@ -7,7 +7,7 @@
     "fr": "Syncthing remplace les services propriétaires de synchro et de cloud avec quelque chose d'ouvert, digne de confiance et décentralisée."
   },
   "url": "https://syncthing.net/",
-  "license": "free",
+  "license": "MPL-2.0",
   "maintainer": {
     "name": "txmrl",
     "email": "txmrl@txmrl.net"
