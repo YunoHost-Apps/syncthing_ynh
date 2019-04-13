@@ -82,7 +82,12 @@ then
     sudo rm /etc/logrotate.d/syncthing
 fi
 
-# Remove syncthing nginx configuration
+
+#=================================================
+# REMOVE NGINX CONFIGURATION
+#=================================================
+ynh_print_info "Removing nginx web server configuration"
+
 domain=$(sudo yunohost app setting syncthing domain)
 sudo rm /etc/nginx/conf.d/$domain.d/syncthing.conf
 
