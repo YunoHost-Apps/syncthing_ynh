@@ -29,7 +29,12 @@ gui_port=$(ynh_app_setting_get $app gui_port)
 #=================================================
 # STANDARD UPGRADE STEPS
 #=================================================
+# NGINX CONFIGURATION
+#=================================================
+ynh_print_info "Upgrading nginx web server configuration..."
 
+# Create a dedicated nginx config
+ynh_add_nginx_config "gui_port"
 
 #=================================================
 # UPGRADE DEPENDENCIES
@@ -40,24 +45,37 @@ sudo apt-get update -qq
 sudo apt-get upgrade syncthing -y
 
 
-#=================================================
-# NGINX CONFIGURATION
-#=================================================
-ynh_print_info "Upgrading nginx web server configuration..."
 
-sed -i "s@PATHTOCHANGE@$path_url@g" ../conf/nginx.conf
-sed -i "s@PORTTOCHANGE@$gui_port@g" ../conf/nginx.conf
-sudo cp ../conf/nginx.conf /etc/nginx/conf.d/$domain.d/syncthing.conf
 
+#=================================================
+# CREATE DEDICATED USER
+#=================================================
+ynh_print_info "Making sure dedicated system user exists..."
+
+# Create a dedicated user (if not existing)
+ynh_system_user_create --username=$sync_user --home_dir=$sync_home/ --use_shell
+
+#=================================================
+# SETUP LOGROTATE
+#=================================================
+ynh_print_info "Upgrading logrotate configuration..."
+
+# Use logrotate to manage app-specific logfile(s)
+ynh_use_logrotate --non-append
+
+#=================================================
+# SETUP SSOWAT
+#=================================================
+ynh_print_info "Upgrading SSOwat configuration..."
+
+ynh_app_setting_set $app unprotected_uris "/"
 
 #=================================================
 # RELOAD NGINX
 #=================================================
 ynh_print_info "Reloading nginx web server..."
 
-sudo service nginx reload
-sudo yunohost app ssowatconf
-
+systemctl reload nginx
 
 #=================================================
 # END OF SCRIPT
