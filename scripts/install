@@ -92,6 +92,11 @@ ynh_print_info "Configuring system user..."
 # Create a system user
 ynh_system_user_create --username=$SYNCUSER --home_dir=$SYNCHOME/ --use_shell
 
+#=================================================
+# CREATE SYNC DIRECTORY
+#=================================================
+ynh_print_info "Creating sync directory..."
+
 # Make directories and set rights
 sudo chown -R $SYNCUSER:$SYNCUSER $SYNCHOME/
 sudo find $SYNCHOME/ -type f | while read LINE; do sudo chmod 640 "$LINE" ; done
