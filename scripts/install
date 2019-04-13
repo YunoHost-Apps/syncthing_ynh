@@ -162,14 +162,20 @@ sudo yunohost app removeaccess syncthing
 sudo yunohost app addaccess syncthing -u $user
 
 #=================================================
+# SETUP SSOWAT
+#=================================================
+ynh_print_info "Configuring SSOwat..."
+
+# Make app public
+ynh_app_setting_set $app unprotected_uris "/"
+
+#=================================================
 # RELOAD NGINX
 #=================================================
 ynh_print_info "Reloading nginx web server..."
 
 # Reload nginx and update ssowatch
 sudo systemctl reload nginx.service
-sudo yunohost app ssowatconf
-
 
 #=================================================
 # END OF SCRIPT
