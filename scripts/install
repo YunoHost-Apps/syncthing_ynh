@@ -129,6 +129,11 @@ sudo systemctl enable syncthing@$SYNCUSER.service
 sudo yunohost service add syncthing@$SYNCUSER -l /var/log/syncthing.log
 sudo systemctl start syncthing@$SYNCUSER.service
 
+#=================================================
+# SETUP LOGROTATE
+#=================================================
+ynh_print_info "Configuring log rotation..."
+
 # Configure logrotate if present
 if [ -d "/etc/logrotate.d" ]; then
   sed -i "s@SYNCUSER@$SYNCUSER@g" ../conf/logrotate.conf
