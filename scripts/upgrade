@@ -58,4 +58,9 @@ ynh_print_info "Reloading nginx web server..."
 sudo service nginx reload
 sudo yunohost app ssowatconf
 
-echo $?
+
+#=================================================
+# END OF SCRIPT
+#=================================================
+
+ynh_print_info "Upgrade of $app completed"
