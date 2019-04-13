@@ -18,10 +18,10 @@ app=$YNH_APP_INSTANCE_NAME
 
 domain=$(ynh_app_setting_get $app domain)
 
-SYNCHOME=$(ynh_app_setting_get $app synchome)
-SYNCUSER=$(ynh_app_setting_get $app syncuser)
-SYNCPORT=$(ynh_app_setting_get $app syncport)
-GUIPORT=$(ynh_app_setting_get $app guiport)
+sync_home=$(ynh_app_setting_get $app sync_home)
+sync_user=$(ynh_app_setting_get $app sync_user)
+sync_port=$(ynh_app_setting_get $app sync_port)
+gui_port=$(ynh_app_setting_get $app gui_port)
 
 final_path=$(ynh_app_setting_get $app final_path)
 
@@ -31,9 +31,9 @@ final_path=$(ynh_app_setting_get $app final_path)
 ynh_print_info "Stopping and removing the systemd service"
 
 # Remove the dedicated systemd config
-sudo systemctl stop syncthing@$SYNCUSER.service
+sudo systemctl stop syncthing@$sync_user.service
 sudo yunohost service remove syncthing
-sudo systemctl disable syncthing@$SYNCUSER.service
+sudo systemctl disable syncthing@$sync_user.service
 
 #=================================================
 # REMOVE DEPENDENCIES
@@ -48,9 +48,9 @@ sudo apt-get autoremove syncthing -y --purge
 sudo rm /etc/apt/sources.list.d/syncthing.list
 sudo apt-get update -qq
 
-# Backup syncthing SYNCHOME directory
-sudo mv $SYNCHOME $SYNCHOME.old
-# sudo rm -rf $SYNCHOME
+# Backup syncthing sync_home directory
+sudo mv $sync_home $sync_home.old
+# sudo rm -rf $sync_home
 
 
 
@@ -85,7 +85,7 @@ fi
 #=================================================
 
 # Close port in firewall
-sudo yunohost firewall disallow TCP $SYNCPORT
+sudo yunohost firewall disallow TCP $sync_port
 
 #=================================================
 # GENERIC FINALIZATION
@@ -95,7 +95,7 @@ sudo yunohost firewall disallow TCP $SYNCPORT
 ynh_print_info "Removing the dedicated system user"
 
 # Delete a system user
-sudo userdel $SYNCUSER
+sudo userdel $sync_user
 
 #=================================================
 # END OF SCRIPT

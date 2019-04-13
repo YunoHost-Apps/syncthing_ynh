@@ -25,27 +25,25 @@ ynh_abort_if_errors
 #=================================================
 
 domain=$YNH_APP_ARG_DOMAIN
-path=$YNH_APP_ARG_PATH
-user=$YNH_APP_ARG_ADMIN
+path_url=$YNH_APP_ARG_PATH
+admin=$YNH_APP_ARG_ADMIN
 channel=$YNH_APP_ARG_CHANNEL
 
 app=$YNH_APP_INSTANCE_NAME
 
 # Configurable variables
-SYNCHOME="/home/yunohost.app/$app"
-SYNCUSER=debian-syncthing
-SYNCPORT=22000
-GUIPORT=8384
+sync_home="/home/yunohost.app/$app"
+sync_user=debian-syncthing
+sync_port=22000
+gui_port=8384
 
 #=================================================
 # CHECK IF THE APP CAN BE INSTALLED WITH THESE ARGS
 #=================================================
 ynh_print_info "Validating installation parameters..."
 
-
-
 # Register (book) web path
-ynh_webpath_register $app $domain $path
+ynh_webpath_register $app $domain $path_url
 
 #=================================================
 # STORE SETTINGS FROM MANIFEST
@@ -53,11 +51,11 @@ ynh_webpath_register $app $domain $path
 ynh_print_info "Storing installation settings..."
 
 ynh_app_setting_set $app domain $domain
-ynh_app_setting_set $app path $path
-ynh_app_setting_set $app user $user
+ynh_app_setting_set $app path $path_url
+ynh_app_setting_set $app admin $admin
 ynh_app_setting_set $app channel $channel
-ynh_app_setting_set $app synchome $SYNCHOME
-ynh_app_setting_set $app syncuser $SYNCUSER
+ynh_app_setting_set $app sync_home $sync_home
+ynh_app_setting_set $app sync_user $sync_user
 
 #=================================================
 # STANDARD MODIFICATIONS
@@ -67,22 +65,22 @@ ynh_app_setting_set $app syncuser $SYNCUSER
 ynh_print_info "Configuring firewall..."
 
 # Check port availability
-sudo yunohost app checkport $GUIPORT
+sudo yunohost app checkport $gui_port
 if [[ ! $? -eq 0 ]]; then
-  echo Port $GUIPORT for Syncthing UI is not available.
+  echo Port $gui_port for Syncthing UI is not available.
   exit 1
 fi
-ynh_app_setting_set $app guiport $GUIPORT
+ynh_app_setting_set $app gui_port $gui_port
 
-sudo yunohost app checkport $SYNCPORT
+sudo yunohost app checkport $sync_port
 if [[ ! $? -eq 0 ]]; then
-  echo Port $SYNCPORT is for Syncthing protocol is not available.
+  echo Port $sync_port for Syncthing protocol is not available.
   exit 1
 fi
 
 # Open this port
-ynh_exec_warn_less yunohost firewall allow --no-upnp TCP $SYNCPORT
-ynh_app_setting_set $app syncport $SYNCPORT
+ynh_exec_warn_less yunohost firewall allow --no-upnp TCP $sync_port
+ynh_app_setting_set $app sync_port $sync_port
 
 #=================================================
 # INSTALL DEPENDENCIES
@@ -105,8 +103,8 @@ sudo apt-get install syncthing -y --force-yes
 ynh_print_info "Configuring nginx web server..."
 
 # Configure Nginx
-sed -i "s@PATHTOCHANGE@$path@g" ../conf/nginx.conf
-sed -i "s@PORTTOCHANGE@$GUIPORT@g" ../conf/nginx.conf
+sed -i "s@PATHTOCHANGE@$path_url@g" ../conf/nginx.conf
+sed -i "s@PORTTOCHANGE@$gui_port@g" ../conf/nginx.conf
 sudo cp ../conf/nginx.conf /etc/nginx/conf.d/$domain.d/syncthing.conf
 
 #=================================================
@@ -115,7 +113,7 @@ sudo cp ../conf/nginx.conf /etc/nginx/conf.d/$domain.d/syncthing.conf
 ynh_print_info "Configuring system user..."
 
 # Create a system user
-ynh_system_user_create --username=$SYNCUSER --home_dir=$SYNCHOME/ --use_shell
+ynh_system_user_create --username=$sync_user --home_dir=$sync_home/ --use_shell
 
 #=================================================
 # SPECIFIC SETUP
@@ -125,9 +123,9 @@ ynh_system_user_create --username=$SYNCUSER --home_dir=$SYNCHOME/ --use_shell
 ynh_print_info "Creating sync directory..."
 
 # Make directories and set rights
-sudo chown -R $SYNCUSER:$SYNCUSER $SYNCHOME/
-sudo find $SYNCHOME/ -type f | while read LINE; do sudo chmod 640 "$LINE" ; done
-sudo find $SYNCHOME/ -type d | while read LINE; do sudo chmod 750 "$LINE" ; done
+sudo chown -R $sync_user:$sync_user $sync_home/
+sudo find $sync_home/ -type f | while read LINE; do sudo chmod 640 "$LINE" ; done
+sudo find $sync_home/ -type d | while read LINE; do sudo chmod 750 "$LINE" ; done
 
 #=================================================
 # SETUP SYSTEMD
@@ -137,9 +135,9 @@ ynh_print_info "Configuring a systemd service..."
 # Install and monitor service
 sudo sed -i '/^\[Service\]$/,/^\[/ s/^Restart=on-failure/Restart=always/' /lib/systemd/system/syncthing@.service
 sudo systemctl daemon-reload
-sudo systemctl enable syncthing@$SYNCUSER.service
-sudo yunohost service add syncthing@$SYNCUSER -l /var/log/syncthing.log
-sudo systemctl start syncthing@$SYNCUSER.service
+sudo systemctl enable syncthing@$sync_user.service
+sudo yunohost service add syncthing@$sync_user -l /var/log/syncthing.log
+sudo systemctl start syncthing@$sync_user.service
 
 #=================================================
 # GENERIC FINALIZATION
@@ -149,7 +147,7 @@ sudo systemctl start syncthing@$SYNCUSER.service
 
 # Remove acces to all users
 sudo yunohost app removeaccess syncthing
-sudo yunohost app addaccess syncthing -u $user
+sudo yunohost app addaccess syncthing -u $admin
 
 #=================================================
 # SETUP LOGROTATE
@@ -158,7 +156,7 @@ ynh_print_info "Configuring log rotation..."
 
 # Configure logrotate if present
 if [ -d "/etc/logrotate.d" ]; then
-  sed -i "s@SYNCUSER@$SYNCUSER@g" ../conf/logrotate.conf
+  sed -i "s@sync_user@$sync_user@g" ../conf/logrotate.conf
   sudo cp ../conf/logrotate.conf /etc/logrotate.d/syncthing
   sudo chmod 0644 /etc/logrotate.d/syncthing
 fi
