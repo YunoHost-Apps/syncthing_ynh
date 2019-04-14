@@ -50,13 +50,6 @@ ynh_backup "/etc/nginx/conf.d/$domain.d/$app.conf"
 #=================================================
 # SPECIFIC BACKUP
 #=================================================
-# BACKUP LOGROTATE
-#=================================================
-ynh_print_info "Backing up logrotate configuration..."
-
-ynh_backup "/etc/logrotate.d/$app"
-
-#=================================================
 # BACKUP SYSTEMD
 #=================================================
 ynh_print_info "Backing up systemd configuration..."

@@ -78,14 +78,6 @@ ynh_backup_if_checksum_is_different "$config_file"
 ynh_store_file_checksum "$config_file"
 
 #=================================================
-# SETUP LOGROTATE
-#=================================================
-ynh_print_info "Upgrading logrotate configuration..."
-
-# Use logrotate to manage app-specific logfile(s)
-ynh_use_logrotate --non-append
-
-#=================================================
 # SETUP SYSTEMD
 #=================================================
 ynh_print_info "Upgrading systemd configuration..."

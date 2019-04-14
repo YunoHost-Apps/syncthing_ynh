@@ -89,12 +89,6 @@ systemctl enable $app.service
 yunohost service add $app --description "$app daemon for Syncthing"
 
 #=================================================
-# RESTORE THE LOGROTATE CONFIGURATION
-#=================================================
-
-ynh_restore_file "/etc/logrotate.d/$app"
-
-#=================================================
 # GENERIC FINALIZATION
 #=================================================
 # RELOAD NGINX
