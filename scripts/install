@@ -29,7 +29,7 @@ admin=$YNH_APP_ARG_ADMIN
 
 app=$YNH_APP_INSTANCE_NAME
 
-# Configurable variables
+# Configure sync folder
 sync_home="/home/yunohost.app/$app"
 
 #=================================================
