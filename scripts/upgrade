@@ -22,12 +22,33 @@ path_url=$(ynh_app_setting_get $app path)
 final_path=$(ynh_app_setting_get $app final_path)
 
 sync_home=$(ynh_app_setting_get $app sync_home)
-sync_user=$(ynh_app_setting_get $app sync_user)
 sync_port=$(ynh_app_setting_get $app sync_port)
 gui_port=$(ynh_app_setting_get $app gui_port)
 
 #=================================================
+# BACKUP BEFORE UPGRADE THEN ACTIVE TRAP
+#=================================================
+ynh_print_info "Backing up the app before upgrading (may take a while)..."
+
+# Backup the current version of the app
+ynh_backup_before_upgrade
+ynh_clean_setup () {
+	# restore it if the upgrade fails
+	ynh_restore_upgradebackup
+}
+# Exit if an error occurs during the execution of the script
+ynh_abort_if_errors
+
+#=================================================
 # STANDARD UPGRADE STEPS
+#=================================================
+# DOWNLOAD, CHECK AND UNPACK SOURCE
+#=================================================
+ynh_print_info "Upgrading source files..."
+
+# Download, check integrity, uncompress and patch the source from app.src
+ynh_setup_source "$final_path"
+
 #=================================================
 # NGINX CONFIGURATION
 #=================================================
@@ -41,11 +62,7 @@ ynh_add_nginx_config "gui_port"
 #=================================================
 ynh_print_info "Upgrading dependencies..."
 
-sudo apt-get update -qq
-sudo apt-get upgrade syncthing -y
-
-
-
+ynh_install_app_dependencies $pkg_dependencies
 
 #=================================================
 # CREATE DEDICATED USER
@@ -56,12 +73,41 @@ ynh_print_info "Making sure dedicated system user exists..."
 ynh_system_user_create --username=$sync_user --home_dir=$sync_home/ --use_shell
 
 #=================================================
+# SPECIFIC UPGRADE
+#=================================================
+# ...
+#=================================================
+
+config_file="$final_path/.config/syncthing/config.xml"
+
+ynh_backup_if_checksum_is_different "$config_file"
+# Recalculate and store the checksum of the file for the next upgrade.
+ynh_store_file_checksum "$config_file"
+
+#=================================================
 # SETUP LOGROTATE
 #=================================================
 ynh_print_info "Upgrading logrotate configuration..."
 
 # Use logrotate to manage app-specific logfile(s)
 ynh_use_logrotate --non-append
+
+#=================================================
+# SETUP SYSTEMD
+#=================================================
+ynh_print_info "Upgrading systemd configuration..."
+
+# Create a dedicated systemd config
+ynh_add_systemd_config
+
+#=================================================
+# GENERIC FINALIZATION
+#=================================================
+# SECURE FILES AND DIRECTORIES
+#=================================================
+
+# Set permissions on app files
+chown -R $app: $final_path
 
 #=================================================
 # SETUP SSOWAT
