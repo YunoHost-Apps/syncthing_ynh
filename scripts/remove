@@ -21,7 +21,6 @@ domain=$(ynh_app_setting_get $app domain)
 final_path=$(ynh_app_setting_get $app final_path)
 
 sync_home=$(ynh_app_setting_get $app sync_home)
-sync_user=$(ynh_app_setting_get $app sync_user)
 sync_port=$(ynh_app_setting_get $app sync_port)
 gui_port=$(ynh_app_setting_get $app gui_port)
 
