@@ -27,7 +27,6 @@ ynh_abort_if_errors
 domain=$YNH_APP_ARG_DOMAIN
 path_url=$YNH_APP_ARG_PATH
 admin=$YNH_APP_ARG_ADMIN
-channel=$YNH_APP_ARG_CHANNEL
 
 app=$YNH_APP_INSTANCE_NAME
 
@@ -53,7 +52,6 @@ ynh_print_info "Storing installation settings..."
 ynh_app_setting_set $app domain $domain
 ynh_app_setting_set $app path $path_url
 ynh_app_setting_set $app admin $admin
-ynh_app_setting_set $app channel $channel
 ynh_app_setting_set $app sync_home $sync_home
 
 #=================================================
