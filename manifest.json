@@ -6,6 +6,7 @@
         "en": "Syncthing replaces proprietary sync and cloud services with something open, trustworthy and decentralized.",
         "fr": "Syncthing remplace les services propriétaires de synchro et de cloud avec quelque chose d'ouvert, digne de confiance et décentralisée."
     },
+    "version": "1.1.1~ynh1",
     "url": "https://syncthing.net/",
     "license": "MPL-2.0",
     "maintainer": {
@@ -15,7 +16,7 @@
     "requirements": {
         "yunohost": ">= 3.4"
     },
-    "multi_instance": true,
+    "multi_instance": false,
     "services": [
     "nginx"
     ],

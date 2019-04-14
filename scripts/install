@@ -14,7 +14,7 @@ source /usr/share/yunohost/helpers
 #=================================================
 
 ynh_clean_setup () {
-	### Remove this function if there's nothing to clean before calling the remove script.
+	read -p "key"
 	true
 }
 # Exit if an error occurs during the execution of the script
@@ -33,14 +33,14 @@ app=$YNH_APP_INSTANCE_NAME
 
 # Configurable variables
 sync_home="/home/yunohost.app/$app"
-sync_user=debian-syncthing
-sync_port=22000
-gui_port=8384
 
 #=================================================
 # CHECK IF THE APP CAN BE INSTALLED WITH THESE ARGS
 #=================================================
 ynh_print_info "Validating installation parameters..."
+
+final_path=/var/www/$app
+test ! -e "$final_path" || ynh_die "This path already contains a folder"
 
 # Register (book) web path
 ynh_webpath_register $app $domain $path_url
@@ -55,7 +55,6 @@ ynh_app_setting_set $app path $path_url
 ynh_app_setting_set $app admin $admin
 ynh_app_setting_set $app channel $channel
 ynh_app_setting_set $app sync_home $sync_home
-ynh_app_setting_set $app sync_user $sync_user
 
 #=================================================
 # STANDARD MODIFICATIONS
@@ -64,20 +63,10 @@ ynh_app_setting_set $app sync_user $sync_user
 #=================================================
 ynh_print_info "Configuring firewall..."
 
-# Check port availability
-sudo yunohost app checkport $gui_port
-if [[ ! $? -eq 0 ]]; then
-  echo Port $gui_port for Syncthing UI is not available.
-  exit 1
-fi
+gui_port=$(ynh_find_port 8384)
 ynh_app_setting_set $app gui_port $gui_port
 
-sudo yunohost app checkport $sync_port
-if [[ ! $? -eq 0 ]]; then
-  echo Port $sync_port for Syncthing protocol is not available.
-  exit 1
-fi
-
+sync_port=$(ynh_find_port 22000)
 # Open this port
 ynh_exec_warn_less yunohost firewall allow --no-upnp TCP $sync_port
 ynh_app_setting_set $app sync_port $sync_port
@@ -89,13 +78,18 @@ ynh_print_info "Installing dependencies..."
 
 ynh_install_app_dependencies $pkg_dependencies
 
-## Add the release PGP keys:
-curl -s https://syncthing.net/release-key.txt | sudo apt-key add -
-## Add the choosed channel to your APT sources:
-echo "deb http://apt.syncthing.net/ syncthing $channel" | sudo tee /etc/apt/sources.list.d/syncthing.list
-## Update and install syncthing:
-sudo apt-get update -qq
-sudo apt-get install syncthing -y --force-yes
+#=================================================
+# DOWNLOAD, CHECK AND UNPACK SOURCE
+#=================================================
+ynh_print_info "Setting up source files..."
+
+### `ynh_setup_source` is used to install an app from a zip or tar.gz file,
+### downloaded from an upstream source, like a git repository.
+### `ynh_setup_source` use the file conf/app.src
+
+ynh_app_setting_set $app final_path $final_path
+# Download, check integrity, uncompress and patch the source from app.src
+ynh_setup_source "$final_path"
 
 #=================================================
 # NGINX CONFIGURATION
@@ -111,7 +105,7 @@ ynh_add_nginx_config "gui_port"
 ynh_print_info "Configuring system user..."
 
 # Create a system user
-ynh_system_user_create --username=$sync_user --home_dir=$sync_home/ --use_shell
+ynh_system_user_create --username=$app --home_dir=$final_path
 
 #=================================================
 # SPECIFIC SETUP
@@ -121,21 +115,34 @@ ynh_system_user_create --username=$sync_user --home_dir=$sync_home/ --use_shell
 ynh_print_info "Creating sync directory..."
 
 # Make directories and set rights
-sudo chown -R $sync_user:$sync_user $sync_home/
-sudo find $sync_home/ -type f | while read LINE; do sudo chmod 640 "$LINE" ; done
-sudo find $sync_home/ -type d | while read LINE; do sudo chmod 750 "$LINE" ; done
+mkdir -p "$sync_home"
+chown -R "$app": "$sync_home"
 
 #=================================================
 # SETUP SYSTEMD
 #=================================================
 ynh_print_info "Configuring a systemd service..."
 
-# Install and monitor service
-sudo sed -i '/^\[Service\]$/,/^\[/ s/^Restart=on-failure/Restart=always/' /lib/systemd/system/syncthing@.service
-sudo systemctl daemon-reload
-sudo systemctl enable syncthing@$sync_user.service
-sudo yunohost service add syncthing@$sync_user -l /var/log/syncthing.log
-sudo systemctl start syncthing@$sync_user.service
+# Create a dedicated systemd config
+ynh_add_systemd_config
+
+#=================================================
+# MODIFY A CONFIG FILE
+#=================================================
+
+mkdir -p "$final_path/.config/syncthing"
+config_file="$final_path/.config/syncthing/config.xml"
+cp "../conf/config.xml" "$config_file"
+
+ynh_replace_string "__GUI_PORT__" "$gui_port" "$config_file"
+ynh_replace_string "__SYNC_HOME__" "$sync_home" "$config_file"
+
+#=================================================
+# STORE THE CONFIG FILE CHECKSUM
+#=================================================
+
+# Calculate and store the config file checksum into the app settings
+ynh_store_file_checksum "$config_file"
 
 #=================================================
 # GENERIC FINALIZATION
@@ -143,9 +150,8 @@ sudo systemctl start syncthing@$sync_user.service
 # SECURE FILES AND DIRECTORIES
 #=================================================
 
-# Remove acces to all users
-sudo yunohost app removeaccess syncthing
-sudo yunohost app addaccess syncthing -u $admin
+# Set permissions to app files
+chown -R $app: $final_path
 
 #=================================================
 # SETUP LOGROTATE
@@ -154,6 +160,12 @@ ynh_print_info "Configuring log rotation..."
 
 # Use logrotate to manage application logfile(s)
 ynh_use_logrotate
+
+#=================================================
+# ADVERTISE SERVICE IN ADMIN PANEL
+#=================================================
+
+yunohost service add $app --description "$app daemon for Syncthing"
 
 #=================================================
 # SETUP SSOWAT
@@ -169,6 +181,14 @@ ynh_app_setting_set $app unprotected_uris "/"
 ynh_print_info "Reloading nginx web server..."
 
 systemctl reload nginx
+
+#=================================================
+# START SYNCTHING SERVICES
+#=================================================
+ynh_print_info "Starting Syncthing services..."
+
+ynh_systemd_action --action=start --service_name=$app --log_path=systemd
+#--line_match="Started $app"
 
 #=================================================
 # END OF SCRIPT

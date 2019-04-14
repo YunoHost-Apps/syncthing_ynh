@@ -1,0 +1,9 @@
+<configuration version="28">
+    <folder id="default" label="Default Folder" path="__SYNC_HOME__" type="sendreceive" rescanIntervalS="3600" fsWatcherEnabled="true" fsWatcherDelayS="10" ignorePerms="false" autoNormalize="true">
+    </folder>
+    <gui enabled="true" tls="false" debugging="false">
+        <address>127.0.0.1:__GUI_PORT__</address>
+    </gui>
+    <ldap></ldap>
+    <options></options>
+</configuration>
