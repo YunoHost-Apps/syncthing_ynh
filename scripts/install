@@ -13,9 +13,6 @@ source /usr/share/yunohost/helpers
 # MANAGE SCRIPT FAILURE
 #=================================================
 
-ynh_clean_setup () {
-	true
-}
 # Exit if an error occurs during the execution of the script
 ynh_abort_if_errors
 
@@ -67,13 +64,6 @@ sync_port=$(ynh_find_port 22000)
 # Open this port
 ynh_exec_warn_less yunohost firewall allow --no-upnp TCP $sync_port
 ynh_app_setting_set $app sync_port $sync_port
-
-#=================================================
-# INSTALL DEPENDENCIES
-#=================================================
-ynh_print_info "Installing dependencies..."
-
-ynh_install_app_dependencies $pkg_dependencies
 
 #=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE

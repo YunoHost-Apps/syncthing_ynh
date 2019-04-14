@@ -75,14 +75,6 @@ chown -R "$app": $final_path
 #=================================================
 # SPECIFIC RESTORATION
 #=================================================
-# REINSTALL DEPENDENCIES
-#=================================================
-ynh_print_info "Reinstalling dependencies..."
-
-# Define and install dependencies
-ynh_install_app_dependencies $pkg_dependencies
-
-#=================================================
 # RESTORE SYSTEMD
 #=================================================
 ynh_print_info "Restoring the systemd configuration..."
@@ -110,6 +102,14 @@ ynh_restore_file "/etc/logrotate.d/$app"
 ynh_print_info "Reloading nginx web server..."
 
 systemctl reload nginx
+
+#=================================================
+# START SYNCTHING SERVICES
+#=================================================
+ynh_print_info "Starting Syncthing services..."
+
+ynh_systemd_action --action=start --service_name=$app --log_path=systemd
+#--line_match="Started $app"
 
 #=================================================
 # END OF SCRIPT

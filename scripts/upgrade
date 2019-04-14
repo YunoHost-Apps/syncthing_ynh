@@ -58,19 +58,12 @@ ynh_print_info "Upgrading nginx web server configuration..."
 ynh_add_nginx_config "gui_port"
 
 #=================================================
-# UPGRADE DEPENDENCIES
-#=================================================
-ynh_print_info "Upgrading dependencies..."
-
-ynh_install_app_dependencies $pkg_dependencies
-
-#=================================================
 # CREATE DEDICATED USER
 #=================================================
 ynh_print_info "Making sure dedicated system user exists..."
 
 # Create a dedicated user (if not existing)
-ynh_system_user_create --username=$sync_user --home_dir=$sync_home/ --use_shell
+ynh_system_user_create --username=$app --home_dir=$final_path
 
 #=================================================
 # SPECIFIC UPGRADE

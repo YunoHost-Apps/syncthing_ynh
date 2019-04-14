@@ -5,7 +5,7 @@
 #=================================================
 
 # dependencies used by the app
-pkg_dependencies="curl"
+pkg_dependencies=""
 
 #=================================================
 # PERSONAL HELPERS

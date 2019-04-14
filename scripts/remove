@@ -47,14 +47,6 @@ ynh_print_info "Stopping and removing the systemd service"
 ynh_remove_systemd_config
 
 #=================================================
-# REMOVE DEPENDENCIES
-#=================================================
-ynh_print_info "Removing dependencies"
-
-# Remove metapackage and its dependencies
-ynh_remove_app_dependencies
-
-#=================================================
 # REMOVE APP MAIN DIR
 #=================================================
 ynh_print_info "Removing app main directory"
