@@ -41,6 +41,13 @@ ynh_clean_setup () {
 ynh_abort_if_errors
 
 #=================================================
+# STOP SYNCTHING SERVICES
+#=================================================
+ynh_print_info "Stopping Syncthing services..."
+
+ynh_systemd_action --action=stop --service_name=$app --log_path=systemd
+
+#=================================================
 # STANDARD UPGRADE STEPS
 #=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
@@ -117,6 +124,13 @@ ynh_app_setting_set $app unprotected_uris "/"
 ynh_print_info "Reloading nginx web server..."
 
 systemctl reload nginx
+
+#=================================================
+# START SYNCTHING SERVICES
+#=================================================
+ynh_print_info "Starting Syncthing services..."
+
+ynh_systemd_action --action=start --service_name=$app --log_path=systemd --line_match="Access the GUI via the following URL"
 
 #=================================================
 # END OF SCRIPT
