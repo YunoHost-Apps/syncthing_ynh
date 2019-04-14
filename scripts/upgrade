@@ -69,7 +69,16 @@ ynh_system_user_create --username=$app --home_dir=$final_path
 #=================================================
 # SPECIFIC UPGRADE
 #=================================================
-# ...
+# CREATE SYNC DIRECTORY
+#=================================================
+ynh_print_info "Creating sync directory..."
+
+# Make directories and set rights
+mkdir -p "$sync_home"
+chown -R "$app": "$sync_home"
+
+#=================================================
+# STORE THE CONFIG FILE CHECKSUM
 #=================================================
 
 config_file="$final_path/.config/syncthing/config.xml"
