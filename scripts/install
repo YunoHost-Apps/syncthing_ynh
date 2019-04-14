@@ -13,6 +13,9 @@ source /usr/share/yunohost/helpers
 # MANAGE SCRIPT FAILURE
 #=================================================
 
+ynh_clean_setup () {
+	ynh_clean_check_starting
+}
 # Exit if an error occurs during the execution of the script
 ynh_abort_if_errors
 
@@ -112,6 +115,7 @@ ynh_add_systemd_config
 #=================================================
 # MODIFY A CONFIG FILE
 #=================================================
+ynh_print_info "Modifying a config file..."
 
 mkdir -p "$final_path/.config/syncthing"
 config_file="$final_path/.config/syncthing/config.xml"
@@ -162,8 +166,7 @@ systemctl reload nginx
 #=================================================
 ynh_print_info "Starting Syncthing services..."
 
-ynh_systemd_action --action=start --service_name=$app --log_path=systemd
-#--line_match="Started $app"
+ynh_systemd_action --action=start --service_name=$app --log_path=systemd --line_match="Access the GUI via the following URL"
 
 #=================================================
 # END OF SCRIPT
