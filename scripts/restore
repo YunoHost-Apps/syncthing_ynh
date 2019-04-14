@@ -30,7 +30,7 @@ app=$YNH_APP_INSTANCE_NAME
 domain=$(ynh_app_setting_get $app domain)
 path_url=$(ynh_app_setting_get $app path)
 final_path=$(ynh_app_setting_get $app final_path)
-db_name=$(ynh_app_setting_get $app db_name)
+sync_home=$(ynh_app_setting_get $app sync_home)
 
 #=================================================
 # CHECK IF THE APP CAN BE RESTORED
@@ -75,6 +75,15 @@ chown -R "$app": $final_path
 #=================================================
 # SPECIFIC RESTORATION
 #=================================================
+# RECREATE SYNC DIRECTORY
+#=================================================
+ynh_print_info "Recreating sync directory..."
+
+# Make directories and set rights
+mkdir -p "$sync_home"
+chown -R "$app": "$sync_home"
+
+#=================================================
 # RESTORE SYSTEMD
 #=================================================
 ynh_print_info "Restoring the systemd configuration..."
@@ -102,8 +111,7 @@ systemctl reload nginx
 #=================================================
 ynh_print_info "Starting Syncthing services..."
 
-ynh_systemd_action --action=start --service_name=$app --log_path=systemd
-#--line_match="Started $app"
+ynh_systemd_action --action=start --service_name=$app --log_path=systemd --line_match="Access the GUI via the following URL"
 
 #=================================================
 # END OF SCRIPT
