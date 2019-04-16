@@ -57,6 +57,8 @@ if [ -z $gui_port ]; then
 
 	mkdir -p $final_path
 	cp -R $OLD_SYNCHOME/.config $final_path/.config
+
+	ynh_remove_app_dependencies
 fi
 #=================================================
 # BACKUP BEFORE UPGRADE THEN ACTIVE TRAP
@@ -97,14 +99,6 @@ ynh_print_info "Upgrading nginx web server configuration..."
 
 # Create a dedicated nginx config
 ynh_add_nginx_config "gui_port"
-
-#=================================================
-# REMOVE DEPENDENCIES
-#=================================================
-ynh_print_info "Removing dependencies"
-
-# Remove metapackage and its dependencies
-ynh_remove_app_dependencies
 
 #=================================================
 # CREATE DEDICATED USER
