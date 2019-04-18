@@ -8,6 +8,7 @@
 		domain="domain.tld"	(DOMAIN)
 		path="/path"	(PATH)
 		admin="john"	(USER)
+		user="john"
 	; Checks
 		pkg_linter=1
 		setup_sub_dir=1
