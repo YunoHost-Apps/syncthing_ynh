@@ -40,7 +40,7 @@
                 "default": "/syncthing"
                 },
                 {
-                    "name": "user",
+                    "name": "admin",
                     "type": "user",
                     "ask": {
                         "en": "Choose the user for Syncthing (must be an existing yunohost user)",
