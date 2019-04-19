@@ -58,7 +58,18 @@ if [ -z $gui_port ]; then
 	mkdir -p $final_path
 	cp -R $OLD_SYNCHOME/.config $final_path/.config
 
+	systemctl stop syncthing@$SYNCUSER.service
+	yunohost service remove syncthing
+	systemctl disable syncthing@$SYNCUSER.service
+
+	ynh_secure_remove --file="/etc/apt/sources.list.d/syncthing.list"
+
+	ynh_system_user_delete --username="$SYNCUSER"
+
+	ynh_remove_logrotate
+
 	ynh_remove_app_dependencies
+
 fi
 #=================================================
 # BACKUP BEFORE UPGRADE THEN ACTIVE TRAP
