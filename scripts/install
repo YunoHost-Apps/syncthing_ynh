@@ -65,7 +65,7 @@ ynh_app_setting_set $app gui_port $gui_port
 
 sync_port=$(ynh_find_port 22000)
 # Open this port
-ynh_exec_warn_less yunohost firewall allow --no-upnp TCP $sync_port
+ynh_exec_warn_less yunohost firewall allow TCP $sync_port
 ynh_app_setting_set $app sync_port $sync_port
 
 #=================================================
@@ -123,6 +123,18 @@ cp "../conf/config.xml" "$config_file"
 
 ynh_replace_string "__GUI_PORT__" "$gui_port" "$config_file"
 ynh_replace_string "__SYNC_HOME__" "$sync_home" "$config_file"
+
+#=================================================
+# FIX LISTENING SERVICE
+#=================================================
+
+chown -R $app: $final_path
+
+ynh_systemd_action --action=start --service_name=$app --log_path=systemd --line_match="Access the GUI via the following URL"
+
+ynh_replace_string "<listenAddress>tcp://default</listenAddress>" "<listenAddress>default</listenAddress>" "$config_file"
+
+ynh_systemd_action --action=stop --service_name=$app --log_path=systemd
 
 #=================================================
 # STORE THE CONFIG FILE CHECKSUM
