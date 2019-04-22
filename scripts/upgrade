@@ -46,21 +46,23 @@ if [ -z $gui_port ]; then
 	final_path=/var/www/$app
 	ynh_app_setting_set $app final_path $final_path
 
-	gui_port=$(grep -oP "<address>127.0.0.1:\K[^<]*" $OLD_CONFIG)
+	gui_port=$OLD_GUIPORT
 	ynh_app_setting_set $app gui_port $gui_port
 
-	sync_home=$(grep -oP "<defaultFolderPath>\K[^<]*" $OLD_CONFIG)
-	ynh_app_setting_set $app sync_home $gui_port
+	sync_home="/home/yunohost.app/$app"
+	ynh_app_setting_set $app sync_home $sync_home
 
-	sync_port=$(grep -oP "<defaultFolderPath>\K[^<]*" $OLD_CONFIG)
-	ynh_app_setting_set $app sync_port $gui_port
+	sync_port=$OLD_SYNCPORT
+	ynh_app_setting_set $app sync_port $sync_port
 
 	mkdir -p $final_path
 	cp -R $OLD_SYNCHOME/.config $final_path/.config
 
-	systemctl stop syncthing@$SYNCUSER.service
-	yunohost service remove syncthing
-	systemctl disable syncthing@$SYNCUSER.service
+	ynh_replace_string "~" "$sync_home" "$final_path/.config/syncthing/config.xml"
+
+	systemctl stop syncthing@$OLD_SYNCUSER.service
+	yunohost service remove syncthing@$OLD_SYNCUSER.service
+	systemctl disable syncthing@$OLD_SYNCUSER.service
 
 	ynh_secure_remove --file="/etc/apt/sources.list.d/syncthing.list"
 
@@ -70,7 +72,8 @@ if [ -z $gui_port ]; then
 
 	ynh_remove_app_dependencies
 
-fi
+else
+
 #=================================================
 # BACKUP BEFORE UPGRADE THEN ACTIVE TRAP
 #=================================================
@@ -93,6 +96,7 @@ ynh_print_info "Stopping Syncthing services..."
 
 ynh_systemd_action --action=stop --service_name=$app --log_path=systemd
 
+fi
 #=================================================
 # STANDARD UPGRADE STEPS
 #=================================================
