@@ -27,15 +27,15 @@ How to configure this app: by an admin panel, a plain file with SSH, or any othe
 
 #### Supported architectures
 
-* x86-64b - [![Build Status](https://ci-apps.yunohost.org/ci/logs/syncthing%20%28Community%29.svg)](https://ci-apps.yunohost.org/ci/apps/syncthing/)
-* ARMv8-A - [![Build Status](https://ci-apps-arm.yunohost.org/ci/logs/syncthing%20%28Community%29.svg)](https://ci-apps-arm.yunohost.org/ci/apps/syncthing/)
-* Jessie x86-64b - [![Build Status](https://ci-stretch.nohost.me/ci/logs/syncthing%20%28Community%29.svg)](https://ci-stretch.nohost.me/ci/apps/syncthing/)
+* x86-64b - [![Build Status](https://ci-apps.yunohost.org/ci/logs/syncthing%20%28Apps%29.svg)](https://ci-apps.yunohost.org/ci/apps/syncthing/)
+* ARMv8-A - [![Build Status](https://ci-apps-arm.yunohost.org/ci/logs/syncthing%20%28Apps%29.svg)](https://ci-apps-arm.yunohost.org/ci/apps/syncthing/)
+* Jessie x86-64b - [![Build Status](https://ci-stretch.nohost.me/ci/logs/syncthing%20%28Apps%29.svg)](https://ci-stretch.nohost.me/ci/apps/syncthing/)
 
 ## Links
 
  * Report a bug: https://github.com/YunoHost-Apps/syncthing_ynh/issues
  * App website: https://syncthing.net/
- * Git App website: https://github.com/syncthing/syncthing
+ * Upstream app repository: https://github.com/syncthing/syncthing
  * YunoHost website: https://yunohost.org/
 
 ---

@@ -35,52 +35,52 @@ sync_home="/home/yunohost.app/$app"
 #=================================================
 # CHECK IF THE APP CAN BE INSTALLED WITH THESE ARGS
 #=================================================
-ynh_print_info "Validating installation parameters..."
+ynh_print_info --message="Validating installation parameters..."
 
 final_path=/var/www/$app
-test ! -e "$final_path" || ynh_die "This path already contains a folder"
+test ! -e "$final_path" || ynh_die --message="This path already contains a folder"
 
 # Register (book) web path
-ynh_webpath_register $app $domain $path_url
+ynh_webpath_register --app=$app --domain=$domain --path_url=$path_url
 
 #=================================================
 # STORE SETTINGS FROM MANIFEST
 #=================================================
-ynh_print_info "Storing installation settings..."
+ynh_print_info --message="Storing installation settings..."
 
-ynh_app_setting_set $app domain $domain
-ynh_app_setting_set $app path $path_url
-ynh_app_setting_set $app admin $admin
-ynh_app_setting_set $app sync_home $sync_home
+ynh_app_setting_set --app=$app --key=domain --value=$domain
+ynh_app_setting_set --app=$app --key=path --value=$path_url
+ynh_app_setting_set --app=$app --key=admin --value=$admin
+ynh_app_setting_set --app=$app --key=sync_home --value=$sync_home
 
 #=================================================
 # STANDARD MODIFICATIONS
 #=================================================
 # FIND AND OPEN A PORT
 #=================================================
-ynh_print_info "Configuring firewall..."
+ynh_print_info --message="Configuring firewall..."
 
-gui_port=$(ynh_find_port 8384)
-ynh_app_setting_set $app gui_port $gui_port
+gui_port=$(ynh_find_port --port=8384)
+ynh_app_setting_set --app=$app --key=gui_port --value=$gui_port
 
-sync_port=$(ynh_find_port 22000)
+sync_port=$(ynh_find_port --port=22000)
 # Open this port
 ynh_exec_warn_less yunohost firewall allow TCP $sync_port
-ynh_app_setting_set $app sync_port $sync_port
+ynh_app_setting_set --app=$app s--key=ync_port --value=$sync_port
 
 #=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
 #=================================================
-ynh_print_info "Setting up source files..."
+ynh_print_info --message="Setting up source files..."
 
-ynh_app_setting_set $app final_path $final_path
+ynh_app_setting_set --app=$app --key=final_path --value=$final_path
 # Download, check integrity, uncompress and patch the source from app.src
-ynh_setup_source "$final_path"
+ynh_setup_source --dest_dir="$final_path"
 
 #=================================================
 # NGINX CONFIGURATION
 #=================================================
-ynh_print_info "Configuring nginx web server..."
+ynh_print_info --message="Configuring nginx web server..."
 
 # Create a dedicated nginx config
 ynh_add_nginx_config "gui_port"
@@ -88,7 +88,7 @@ ynh_add_nginx_config "gui_port"
 #=================================================
 # CREATE DEDICATED USER
 #=================================================
-ynh_print_info "Configuring system user..."
+ynh_print_info --message="Configuring system user..."
 
 # Create a system user
 ynh_system_user_create --username=$app --home_dir=$final_path
@@ -98,7 +98,7 @@ ynh_system_user_create --username=$app --home_dir=$final_path
 #=================================================
 # CREATE SYNC DIRECTORY
 #=================================================
-ynh_print_info "Creating sync directory..."
+ynh_print_info --message="Creating sync directory..."
 
 # Make directories and set rights
 mkdir -p "$sync_home"
@@ -107,7 +107,7 @@ chown -R "$app": "$sync_home"
 #=================================================
 # SETUP SYSTEMD
 #=================================================
-ynh_print_info "Configuring a systemd service..."
+ynh_print_info --message="Configuring a systemd service..."
 
 # Create a dedicated systemd config
 ynh_add_systemd_config
@@ -115,14 +115,14 @@ ynh_add_systemd_config
 #=================================================
 # MODIFY A CONFIG FILE
 #=================================================
-ynh_print_info "Modifying a config file..."
+ynh_print_info --message="Modifying a config file..."
 
 mkdir -p "$final_path/.config/syncthing"
 config_file="$final_path/.config/syncthing/config.xml"
 cp "../conf/config.xml" "$config_file"
 
-ynh_replace_string "__GUI_PORT__" "$gui_port" "$config_file"
-ynh_replace_string "__SYNC_HOME__" "$sync_home" "$config_file"
+ynh_replace_string --match_string="__GUI_PORT__" --replace_string="$gui_port" --target_file="$config_file"
+ynh_replace_string --match_string="__SYNC_HOME__" --replace_string="$sync_home" --target_file="$config_file"
 
 #=================================================
 # FIX LISTENING SERVICE
@@ -130,18 +130,18 @@ ynh_replace_string "__SYNC_HOME__" "$sync_home" "$config_file"
 
 chown -R $app: $final_path
 
-ynh_systemd_action --action=start --service_name=$app --log_path=systemd --line_match="Access the GUI via the following URL"
+ynh_systemd_action --service_name=$app --action="start" --log_path=systemd --line_match="Access the GUI via the following URL"
 
-ynh_replace_string "<listenAddress>tcp://default</listenAddress>" "<listenAddress>default</listenAddress>" "$config_file"
+ynh_replace_string --match_string="<listenAddress>tcp://default</listenAddress>" --replace_string="<listenAddress>default</listenAddress>" --target_file="$config_file"
 
-ynh_systemd_action --action=stop --service_name=$app --log_path=systemd
+ynh_systemd_action --service_name=$app --action="stop" --log_path=systemd
 
 #=================================================
 # STORE THE CONFIG FILE CHECKSUM
 #=================================================
 
 # Calculate and store the config file checksum into the app settings
-ynh_store_file_checksum "$config_file"
+ynh_store_file_checksum --file="$config_file"
 
 #=================================================
 # GENERIC FINALIZATION
@@ -159,29 +159,29 @@ chown -R $app: $final_path
 yunohost service add $app --description "$app daemon for Syncthing"
 
 #=================================================
+# START SYSTEMD SERVICE
+#=================================================
+ynh_print_info --message="Starting a systemd service..."
+
+ynh_systemd_action --service_name=$app --action="start" --log_path=systemd --line_match="Access the GUI via the following URL"
+
+#=================================================
 # SETUP SSOWAT
 #=================================================
-ynh_print_info "Configuring SSOwat..."
+ynh_print_info --message="Configuring SSOwat..."
 
 # Make app public
-ynh_app_setting_set $app unprotected_uris "/"
+ynh_app_setting_set --app=$app --key=unprotected_uris --value="/"
 
 #=================================================
 # RELOAD NGINX
 #=================================================
-ynh_print_info "Reloading nginx web server..."
+ynh_print_info --message="Reloading nginx web server..."
 
-systemctl reload nginx
-
-#=================================================
-# START SYNCTHING SERVICES
-#=================================================
-ynh_print_info "Starting Syncthing services..."
-
-ynh_systemd_action --action=start --service_name=$app --log_path=systemd --line_match="Access the GUI via the following URL"
+ynh_systemd_action --service_name=nginx --action=reload
 
 #=================================================
 # END OF SCRIPT
 #=================================================
 
-ynh_print_info "Installation of $app completed"
+ynh_print_info --message="Installation of $app completed"

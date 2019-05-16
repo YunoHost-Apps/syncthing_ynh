@@ -12,23 +12,29 @@ source /usr/share/yunohost/helpers
 #=================================================
 # LOAD SETTINGS
 #=================================================
-ynh_print_info "Loading installation settings..."
+ynh_print_info --message="Loading installation settings..."
 
 app=$YNH_APP_INSTANCE_NAME
 
-domain=$(ynh_app_setting_get $app domain)
-path_url=$(ynh_app_setting_get $app path)
+domain=$(ynh_app_setting_get --app=$app --key=domain)
+path_url=$(ynh_app_setting_get --app=$app --key=path)
 
-final_path=$(ynh_app_setting_get $app final_path)
+final_path=$(ynh_app_setting_get --app=$app --key=final_path)
 
-sync_home=$(ynh_app_setting_get $app sync_home)
-sync_port=$(ynh_app_setting_get $app sync_port)
-gui_port=$(ynh_app_setting_get $app gui_port)
+sync_home=$(ynh_app_setting_get --app=$app --key=sync_home)
+sync_port=$(ynh_app_setting_get --app=$app --key=sync_port)
+gui_port=$(ynh_app_setting_get --app=$app --key=gui_port)
+
+#=================================================
+# CHECK VERSION
+#=================================================
+
+upgrade_type=$(ynh_check_app_version_changed)
 
 #=================================================
 # ENSURE DOWNWARD COMPATIBILITY
 #=================================================
-ynh_print_info "Ensuring downward compatibility..."
+ynh_print_info --message="Ensuring downward compatibility..."
 
 # If gui_port doesn't exist, create it
 if [ -z $gui_port ]; then
@@ -40,20 +46,20 @@ if [ -z $gui_port ]; then
 	OLD_CONFIG="$OLD_SYNCHOME/.config/syncthing/config.xml"
 
 	admin=$(ynh_app_setting_get $app allowed_users)
-	ynh_app_setting_set $app admin $admin
+	ynh_app_setting_set --app=$app --key=admin --value=$admin
 	ynh_app_setting_delete --app="$app" --key="allowed_users"
 
 	final_path=/var/www/$app
-	ynh_app_setting_set $app final_path $final_path
+	ynh_app_setting_set --app=$app --key=final_path --value=$final_path
 
 	gui_port=$OLD_GUIPORT
-	ynh_app_setting_set $app gui_port $gui_port
+	ynh_app_setting_set --app=$app --key=gui_port --value=$gui_port
 
 	sync_home="/home/yunohost.app/$app"
-	ynh_app_setting_set $app sync_home $sync_home
+	ynh_app_setting_set --app=$app --key=sync_home --value=$sync_home
 
 	sync_port=$OLD_SYNCPORT
-	ynh_app_setting_set $app sync_port $sync_port
+	ynh_app_setting_set --app=$app --key=sync_port --value=$sync_port
 
 	mkdir -p $final_path
 	cp -R $OLD_SYNCHOME/.config $final_path/.config
@@ -74,43 +80,48 @@ if [ -z $gui_port ]; then
 
 else
 
-#=================================================
-# BACKUP BEFORE UPGRADE THEN ACTIVE TRAP
-#=================================================
-ynh_print_info "Backing up the app before upgrading (may take a while)..."
+	#=================================================
+	# BACKUP BEFORE UPGRADE THEN ACTIVE TRAP
+	#=================================================
+	ynh_print_info --message="Backing up the app before upgrading (may take a while)..."
 
-# Backup the current version of the app
-ynh_backup_before_upgrade
-ynh_clean_setup () {
-	ynh_clean_check_starting
-	# restore it if the upgrade fails
-	ynh_restore_upgradebackup
-}
-# Exit if an error occurs during the execution of the script
-ynh_abort_if_errors
-
-#=================================================
-# STOP SYNCTHING SERVICES
-#=================================================
-ynh_print_info "Stopping Syncthing services..."
-
-ynh_systemd_action --action=stop --service_name=$app --log_path=systemd
+	# Backup the current version of the app
+	ynh_backup_before_upgrade
+	ynh_clean_setup () {
+		ynh_clean_check_starting
+		# restore it if the upgrade fails
+		ynh_restore_upgradebackup
+	}
+	# Exit if an error occurs during the execution of the script
+	ynh_abort_if_errors
+	
+	#=================================================
+	# STANDARD UPGRADE STEPS
+	#=================================================
+	# STOP SYSTEMD SERVICE
+	#=================================================
+	ynh_print_info --message="Stopping Syncthing services..."
+	
+	ynh_systemd_action --service_name=$app --action="stop" --log_path=systemd
 
 fi
-#=================================================
-# STANDARD UPGRADE STEPS
+
 #=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
 #=================================================
-ynh_print_info "Upgrading source files..."
 
-# Download, check integrity, uncompress and patch the source from app.src
-ynh_setup_source "$final_path"
+if [ "$upgrade_type" == "UPGRADE_APP" ]
+then
+	ynh_print_info --message="Upgrading source files..."
+
+	# Download, check integrity, uncompress and patch the source from app.src
+	ynh_setup_source --dest_dir="$final_path"
+fi
 
 #=================================================
 # NGINX CONFIGURATION
 #=================================================
-ynh_print_info "Upgrading nginx web server configuration..."
+ynh_print_info --message="Upgrading nginx web server configuration..."
 
 # Create a dedicated nginx config
 ynh_add_nginx_config "gui_port"
@@ -118,7 +129,7 @@ ynh_add_nginx_config "gui_port"
 #=================================================
 # CREATE DEDICATED USER
 #=================================================
-ynh_print_info "Making sure dedicated system user exists..."
+ynh_print_info --message="Making sure dedicated system user exists..."
 
 # Create a dedicated user (if not existing)
 ynh_system_user_create --username=$app --home_dir=$final_path
@@ -128,7 +139,7 @@ ynh_system_user_create --username=$app --home_dir=$final_path
 #=================================================
 # CREATE SYNC DIRECTORY
 #=================================================
-ynh_print_info "Creating sync directory..."
+ynh_print_info --message="Creating sync directory..."
 
 # Make directories and set rights
 mkdir -p "$sync_home"
@@ -140,14 +151,14 @@ chown -R "$app": "$sync_home"
 
 config_file="$final_path/.config/syncthing/config.xml"
 
-ynh_backup_if_checksum_is_different "$config_file"
+ynh_backup_if_checksum_is_different --file="$config_file"
 # Recalculate and store the checksum of the file for the next upgrade.
-ynh_store_file_checksum "$config_file"
+ynh_store_file_checksum --file="$config_file"
 
 #=================================================
 # SETUP SYSTEMD
 #=================================================
-ynh_print_info "Upgrading systemd configuration..."
+ynh_print_info --message="Upgrading systemd configuration..."
 
 # Create a dedicated systemd config
 ynh_add_systemd_config
@@ -164,26 +175,26 @@ chown -R $app: $final_path
 #=================================================
 # SETUP SSOWAT
 #=================================================
-ynh_print_info "Upgrading SSOwat configuration..."
+ynh_print_info --message="Upgrading SSOwat configuration..."
 
-ynh_app_setting_set $app unprotected_uris "/"
+ynh_app_setting_set --app=$app --key=unprotected_uris --value="/"
+
+#=================================================
+# START SYSTEMD SERVICE
+#=================================================
+ynh_print_info --message="Starting a systemd service..."
+
+ynh_systemd_action --service_name=$app --action="start" --log_path=systemd --line_match="Access the GUI via the following URL"
 
 #=================================================
 # RELOAD NGINX
 #=================================================
-ynh_print_info "Reloading nginx web server..."
+ynh_print_info --message="Reloading nginx web server..."
 
-systemctl reload nginx
-
-#=================================================
-# START SYNCTHING SERVICES
-#=================================================
-ynh_print_info "Starting Syncthing services..."
-
-ynh_systemd_action --action=start --service_name=$app --log_path=systemd --line_match="Access the GUI via the following URL"
+ynh_systemd_action --service_name=nginx --action=reload
 
 #=================================================
 # END OF SCRIPT
 #=================================================
 
-ynh_print_info "Upgrade of $app completed"
+ynh_print_info --message="Upgrade of $app completed"
