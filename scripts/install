@@ -66,7 +66,7 @@ ynh_app_setting_set --app=$app --key=gui_port --value=$gui_port
 sync_port=$(ynh_find_port --port=22000)
 # Open this port
 ynh_exec_warn_less yunohost firewall allow TCP $sync_port
-ynh_app_setting_set --app=$app s--key=ync_port --value=$sync_port
+ynh_app_setting_set --app=$app --key=sync_port --value=$sync_port
 
 #=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
