@@ -14,7 +14,7 @@
         "email": "txmrl@txmrl.net"
     },
     "requirements": {
-        "yunohost": ">= 3.4"
+        "yunohost": ">= 3.5"
     },
     "multi_instance": false,
     "services": [
