@@ -1,96 +1,187 @@
 #!/bin/bash
 
-# Configurable variables
-SYNCHOME="/home/yunohost.app/syncthing"
-SYNCUSER=debian-syncthing
-SYNCPORT=22000
-GUIPORT=8384
+#=================================================
+# GENERIC START
+#=================================================
+# IMPORT GENERIC HELPERS
+#=================================================
 
-# Retrieve arguments
-domain=$1
-path=$2
-user=$3
-channel=$4
+source _common.sh
+source /usr/share/yunohost/helpers
 
-# Check Debian version
-if [[ $(cat /etc/debian_version) < 8 ]]
-then
-    echo "You need debian Jessie (8.x) or more to install syncthing_ynh."
-    exit 1
-fi
+#=================================================
+# MANAGE SCRIPT FAILURE
+#=================================================
 
-# Check that admin user is an existing account
-sudo yunohost user list --json | grep -q "\"username\": \"$admin\"" \
-    || (echo "Error: the chosen admin user does not exist" && exit 1)
+ynh_clean_setup () {
+	ynh_clean_check_starting
+}
+# Exit if an error occurs during the execution of the script
+ynh_abort_if_errors
 
-# Check domain/path availability
-sudo yunohost app checkurl $domain$path -a syncthing
-if [[ ! $? -eq 0 ]]; then
-  echo $domain$path is not available. Please choose another url for Syncthing.
-  exit 1
-fi
+#=================================================
+# RETRIEVE ARGUMENTS FROM THE MANIFEST
+#=================================================
 
-# Remove trailing "/" for next commands
-path=${path%/}
+domain=$YNH_APP_ARG_DOMAIN
+path_url=$YNH_APP_ARG_PATH
+admin=$YNH_APP_ARG_ADMIN
 
-# Check port availability
-sudo yunohost app checkport $GUIPORT
-if [[ ! $? -eq 0 ]]; then
-  echo Port $GUIPORT for Syncthing UI is not available.
-  exit 1
-fi
-sudo yunohost app checkport $SYNCPORT
-if [[ ! $? -eq 0 ]]; then
-  echo Port $SYNCPORT is for Syncthing protocol is not available.
-  exit 1
-fi
+app=$YNH_APP_INSTANCE_NAME
 
-# Open port in firewall
-sudo yunohost firewall allow TCP $SYNCPORT > /dev/null 2>&1
+# Configure sync folder
+sync_home="/home/yunohost.app/$app"
 
-# Create $SYNCUSER user to run syncthing service
-sudo useradd -m  -d $SYNCHOME/ -s /bin/bash $SYNCUSER
+#=================================================
+# CHECK IF THE APP CAN BE INSTALLED WITH THESE ARGS
+#=================================================
+ynh_print_info --message="Validating installation parameters..."
+
+final_path=/var/www/$app
+test ! -e "$final_path" || ynh_die --message="This path already contains a folder"
+
+# Register (book) web path
+ynh_webpath_register --app=$app --domain=$domain --path_url=$path_url
+
+#=================================================
+# STORE SETTINGS FROM MANIFEST
+#=================================================
+ynh_print_info --message="Storing installation settings..."
+
+ynh_app_setting_set --app=$app --key=domain --value=$domain
+ynh_app_setting_set --app=$app --key=path --value=$path_url
+ynh_app_setting_set --app=$app --key=admin --value=$admin
+ynh_app_setting_set --app=$app --key=sync_home --value=$sync_home
+
+#=================================================
+# STANDARD MODIFICATIONS
+#=================================================
+# FIND AND OPEN A PORT
+#=================================================
+ynh_print_info --message="Configuring firewall..."
+
+gui_port=$(ynh_find_port --port=8384)
+ynh_app_setting_set --app=$app --key=gui_port --value=$gui_port
+
+sync_port=$(ynh_find_port --port=22000)
+# Open this port
+ynh_exec_warn_less yunohost firewall allow TCP $sync_port
+ynh_app_setting_set --app=$app --key=sync_port --value=$sync_port
+
+#=================================================
+# DOWNLOAD, CHECK AND UNPACK SOURCE
+#=================================================
+ynh_print_info --message="Setting up source files..."
+
+ynh_app_setting_set --app=$app --key=final_path --value=$final_path
+# Download, check integrity, uncompress and patch the source from app.src
+ynh_setup_source --dest_dir="$final_path"
+
+#=================================================
+# NGINX CONFIGURATION
+#=================================================
+ynh_print_info --message="Configuring nginx web server..."
+
+# Create a dedicated nginx config
+ynh_add_nginx_config "gui_port"
+
+#=================================================
+# CREATE DEDICATED USER
+#=================================================
+ynh_print_info --message="Configuring system user..."
+
+# Create a system user
+ynh_system_user_create --username=$app --home_dir=$final_path
+
+#=================================================
+# SPECIFIC SETUP
+#=================================================
+# CREATE SYNC DIRECTORY
+#=================================================
+ynh_print_info --message="Creating sync directory..."
 
 # Make directories and set rights
-sudo chown -R $SYNCUSER:$SYNCUSER $SYNCHOME/
-sudo find $SYNCHOME/ -type f | while read LINE; do sudo chmod 640 "$LINE" ; done
-sudo find $SYNCHOME/ -type d | while read LINE; do sudo chmod 750 "$LINE" ; done
+mkdir -p "$sync_home"
+chown -R "$app": "$sync_home"
 
-# Download and install syncthing binary
-sudo apt-get install curl
-## Add the release PGP keys:
-curl -s https://syncthing.net/release-key.txt | sudo apt-key add -
-## Add the choosed channel to your APT sources:
-echo "deb http://apt.syncthing.net/ syncthing $channel" | sudo tee /etc/apt/sources.list.d/syncthing.list
-## Update and install syncthing:
-sudo apt-get update -qq
-sudo apt-get install syncthing -y --force-yes
+#=================================================
+# SETUP SYSTEMD
+#=================================================
+ynh_print_info --message="Configuring a systemd service..."
 
-# Install and monitor service
-sudo sed -i '/^\[Service\]$/,/^\[/ s/^Restart=on-failure/Restart=always/' /lib/systemd/system/syncthing@.service
-sudo systemctl daemon-reload
-sudo systemctl enable syncthing@$SYNCUSER.service
-sudo yunohost service add syncthing@$SYNCUSER -l /var/log/syncthing.log
-sudo systemctl start syncthing@$SYNCUSER.service
+# Create a dedicated systemd config
+ynh_add_systemd_config
 
-# Configure logrotate if present
-if [ -d "/etc/logrotate.d" ]; then
-  sed -i "s@SYNCUSER@$SYNCUSER@g" ../conf/logrotate.conf
-  sudo cp ../conf/logrotate.conf /etc/logrotate.d/syncthing
-  sudo chmod 0644 /etc/logrotate.d/syncthing
-fi
+#=================================================
+# MODIFY A CONFIG FILE
+#=================================================
+ynh_print_info --message="Modifying a config file..."
 
-# Configure Nginx
-sed -i "s@PATHTOCHANGE@$path@g" ../conf/nginx.conf
-sed -i "s@PORTTOCHANGE@$GUIPORT@g" ../conf/nginx.conf
-sudo cp ../conf/nginx.conf /etc/nginx/conf.d/$domain.d/syncthing.conf
+mkdir -p "$final_path/.config/syncthing"
+config_file="$final_path/.config/syncthing/config.xml"
+cp "../conf/config.xml" "$config_file"
 
-# Remove acces to all users
-sudo yunohost app removeaccess syncthing
-sudo yunohost app addaccess syncthing -u $user
+ynh_replace_string --match_string="__GUI_PORT__" --replace_string="$gui_port" --target_file="$config_file"
+ynh_replace_string --match_string="__SYNC_HOME__" --replace_string="$sync_home" --target_file="$config_file"
 
-# Reload nginx and update ssowatch
-sudo systemctl reload nginx.service
-sudo yunohost app ssowatconf
+#=================================================
+# FIX LISTENING SERVICE
+#=================================================
 
-echo $?
+chown -R $app: $final_path
+
+ynh_systemd_action --service_name=$app --action="start" --log_path=systemd --line_match="Access the GUI via the following URL"
+
+ynh_replace_string --match_string="<listenAddress>tcp://default</listenAddress>" --replace_string="<listenAddress>default</listenAddress>" --target_file="$config_file"
+
+ynh_systemd_action --service_name=$app --action="stop" --log_path=systemd
+
+#=================================================
+# STORE THE CONFIG FILE CHECKSUM
+#=================================================
+
+# Calculate and store the config file checksum into the app settings
+ynh_store_file_checksum --file="$config_file"
+
+#=================================================
+# GENERIC FINALIZATION
+#=================================================
+# SECURE FILES AND DIRECTORIES
+#=================================================
+
+# Set permissions to app files
+chown -R $app: $final_path
+
+#=================================================
+# ADVERTISE SERVICE IN ADMIN PANEL
+#=================================================
+
+yunohost service add $app --description "$app daemon for Syncthing"
+
+#=================================================
+# START SYSTEMD SERVICE
+#=================================================
+ynh_print_info --message="Starting a systemd service..."
+
+ynh_systemd_action --service_name=$app --action="start" --log_path=systemd --line_match="Access the GUI via the following URL"
+
+#=================================================
+# SETUP SSOWAT
+#=================================================
+ynh_print_info --message="Configuring SSOwat..."
+
+# Make app public
+ynh_app_setting_set --app=$app --key=unprotected_uris --value="/"
+
+#=================================================
+# RELOAD NGINX
+#=================================================
+ynh_print_info --message="Reloading nginx web server..."
+
+ynh_systemd_action --service_name=nginx --action=reload
+
+#=================================================
+# END OF SCRIPT
+#=================================================
+
+ynh_print_info --message="Installation of $app completed"

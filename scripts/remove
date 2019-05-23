@@ -1,43 +1,83 @@
 #!/bin/bash
 
-# Configurable variables
-SYNCHOME="/home/yunohost.app/syncthing"
-SYNCUSER=debian-syncthing
-SYNCPORT=22000
-GUIPORT=8384
+#=================================================
+# GENERIC START
+#=================================================
+# IMPORT GENERIC HELPERS
+#=================================================
 
-# Stop and remove syncthing service
-sudo systemctl stop syncthing@$SYNCUSER.service
-sudo yunohost service remove syncthing
-sudo systemctl disable syncthing@$SYNCUSER.service
+source _common.sh
+source /usr/share/yunohost/helpers
 
-# Remove syncthing binairy
-sudo apt-get autoremove syncthing -y --purge
-sudo rm /etc/apt/sources.list.d/syncthing.list
-sudo apt-get update -qq
+#=================================================
+# LOAD SETTINGS
+#=================================================
+ynh_print_info --message="Loading installation settings..."
 
-# Backup syncthing SYNCHOME directory
-sudo mv $SYNCHOME $SYNCHOME.old
-# sudo rm -rf $SYNCHOME
+app=$YNH_APP_INSTANCE_NAME
 
-# Remove syncthing user
-sudo userdel $SYNCUSER
+domain=$(ynh_app_setting_get --app=$app --key=domain)
 
-# Close port in firewall
-sudo yunohost firewall disallow TCP $SYNCPORT
+final_path=$(ynh_app_setting_get --app=$app --key=final_path)
 
-# Remove syncthing logrotate configuration
-if [ -f /etc/logrotate.d/syncthing ]
+sync_port=$(ynh_app_setting_get --app=$app --key=sync_port)
+
+#=================================================
+# STANDARD REMOVE
+#=================================================
+# REMOVE SERVICE FROM ADMIN PANEL
+#=================================================
+
+# Remove a service from the admin panel, added by `yunohost service add`
+if yunohost service status $app >/dev/null 2>&1
 then
-    sudo rm /etc/logrotate.d/syncthing
+	ynh_print_info --message="Removing $app service..."
+	yunohost service remove $app
 fi
 
-# Remove syncthing nginx configuration
-domain=$(sudo yunohost app setting syncthing domain)
-sudo rm /etc/nginx/conf.d/$domain.d/syncthing.conf
+#=================================================
+# STOP AND REMOVE SERVICE
+#=================================================
+ynh_print_info --message="Stopping and removing the systemd service..."
 
-# Reload nginx and update ssowatch
-sudo systemctl reload nginx.service
-sudo yunohost app ssowatconf
+# Remove the dedicated systemd config
+ynh_remove_systemd_config
 
-echo $?
+#=================================================
+# REMOVE APP MAIN DIR
+#=================================================
+ynh_print_info --message="Removing app main directory..."
+
+# Remove the app directory securely
+ynh_secure_remove --file="$final_path"
+
+#=================================================
+# REMOVE NGINX CONFIGURATION
+#=================================================
+ynh_print_info --message="Removing nginx web server configuration..."
+
+# Remove the dedicated nginx config
+ynh_remove_nginx_config
+
+#=================================================
+# CLOSE A PORT
+#=================================================
+
+ynh_print_info --message="Closing port $sync_port"
+ynh_exec_warn_less yunohost firewall disallow TCP $sync_port
+
+#=================================================
+# GENERIC FINALIZATION
+#=================================================
+# REMOVE DEDICATED USER
+#=================================================
+ynh_print_info --message="Removing the dedicated system user..."
+
+# Delete a system user
+ynh_system_user_delete --username=$app
+
+#=================================================
+# END OF SCRIPT
+#=================================================
+
+ynh_print_info --message="Removal of $app completed"
