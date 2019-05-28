@@ -7,6 +7,7 @@
 #=================================================
 
 source _common.sh
+source detect_arch
 source /usr/share/yunohost/helpers
 
 #=================================================
@@ -115,7 +116,7 @@ then
 	ynh_print_info --message="Upgrading source files..."
 
 	# Download, check integrity, uncompress and patch the source from app.src
-	ynh_setup_source --dest_dir="$final_path"
+	ynh_setup_source --dest_dir="$final_path" --source_id=$architecture
 fi
 
 #=================================================
