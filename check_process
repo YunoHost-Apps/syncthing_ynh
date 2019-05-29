@@ -16,6 +16,7 @@
 		setup_private=0
 		setup_public=1
 		upgrade=1
+		upgrade=1	from_commit=571623f6ea0dc6310a8d6b991b03c4a84337ce92
 		backup_restore=1
 		multi_instance=0
 		incorrect_path=1
@@ -35,7 +36,5 @@
 	Level 9=0
 	Level 10=0
 ;;; Options
-Email=
-Notification=none
-
-
+Email=yalh@yahoo.com
+Notification=all
