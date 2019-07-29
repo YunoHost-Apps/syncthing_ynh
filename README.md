@@ -43,7 +43,6 @@ How to configure this app: by an admin panel, a plain file with SSH, or any othe
 Developers info
 ----------------
 
-**Only if you want to use a testing branch for coding, instead of merging directly into master.**
 Please do your pull request to the [testing branch](https://github.com/YunoHost-Apps/syncthing_ynh/tree/testing).
 
 To try the testing branch, please proceed like that.
