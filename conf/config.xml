@@ -1,6 +1,7 @@
 <configuration>
     <gui enabled="true" tls="false" debugging="false">
         <address>127.0.0.1:__GUI_PORT__</address>
+        <authMode>ldap</authMode>
     </gui>
     <ldap>
         <address>localhost:389</address>
