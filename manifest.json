@@ -6,7 +6,7 @@
         "en": "Syncthing replaces proprietary sync and cloud services with something open, trustworthy and decentralized.",
         "fr": "Syncthing remplace les services propriétaires de synchro et de cloud avec quelque chose d'ouvert, digne de confiance et décentralisée."
     },
-    "version": "1.3.3~ynh1",
+    "version": "1.3.4~ynh1",
     "url": "https://syncthing.net/",
     "license": "MPL-2.0",
     "maintainer": [
