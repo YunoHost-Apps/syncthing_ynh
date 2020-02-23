@@ -29,6 +29,7 @@ gui_port=$(ynh_app_setting_get --app=$app --key=gui_port)
 #=================================================
 # CHECK VERSION
 #=================================================
+ynh_print_info --message="Checking version..."
 
 upgrade_type=$(ynh_check_app_version_changed)
 
@@ -39,6 +40,7 @@ ynh_print_info --message="Ensuring downward compatibility..."
 
 # If gui_port doesn't exist, create it
 if [ -z $gui_port ]; then
+ 
 
 	OLD_SYNCHOME="/home/yunohost.app/syncthing"
 	OLD_SYNCUSER=debian-syncthing
@@ -149,6 +151,7 @@ chown -R "$app": "$sync_home"
 #=================================================
 # STORE THE CONFIG FILE CHECKSUM
 #=================================================
+ynh_print_info --message="Storing the config file checksum..."
 
 config_file="$final_path/.config/syncthing/config.xml"
 
@@ -169,6 +172,7 @@ ynh_add_systemd_config
 #=================================================
 # SECURE FILES AND DIRECTORIES
 #=================================================
+ynh_print_info --message="Securing files and directories..."
 
 # Set permissions on app files
 chown -R $app: $final_path
