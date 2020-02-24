@@ -13,6 +13,7 @@ source /usr/share/yunohost/helpers
 #=================================================
 # MANAGE SCRIPT FAILURE
 #=================================================
+ynh_print_info --message="Managing script failure..."
 
 ynh_clean_setup () {
 	ynh_clean_check_starting
@@ -23,6 +24,7 @@ ynh_abort_if_errors
 #=================================================
 # RETRIEVE ARGUMENTS FROM THE MANIFEST
 #=================================================
+ynh_print_info --message="Retrieving arguments from the manifest..."
 
 domain=$YNH_APP_ARG_DOMAIN
 path_url=$YNH_APP_ARG_PATH
@@ -61,13 +63,14 @@ ynh_app_setting_set --app=$app --key=sync_home --value=$sync_home
 #=================================================
 ynh_print_info --message="Configuring firewall..."
 
+# Find an available port
 gui_port=$(ynh_find_port --port=8384)
 ynh_app_setting_set --app=$app --key=gui_port --value=$gui_port
 
 sync_port=$(ynh_find_port --port=22000)
-# Open this port
-ynh_exec_warn_less yunohost firewall allow TCP $sync_port
 ynh_app_setting_set --app=$app --key=sync_port --value=$sync_port
+# Open the port
+ynh_exec_warn_less yunohost firewall allow TCP $sync_port
 
 #=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
@@ -128,6 +131,7 @@ ynh_replace_string --match_string="__SYNC_HOME__" --replace_string="$sync_home" 
 #=================================================
 # FIX LISTENING SERVICE
 #=================================================
+ynh_print_info --message="Fixing listening service..."
 
 chown -R $app: $final_path
 
@@ -140,6 +144,7 @@ ynh_systemd_action --service_name=$app --action="stop" --log_path=systemd
 #=================================================
 # STORE THE CONFIG FILE CHECKSUM
 #=================================================
+ynh_print_info --message="Storing the config file checksum..."
 
 # Calculate and store the config file checksum into the app settings
 ynh_store_file_checksum --file="$config_file"
@@ -149,13 +154,15 @@ ynh_store_file_checksum --file="$config_file"
 #=================================================
 # SECURE FILES AND DIRECTORIES
 #=================================================
+ynh_print_info --message="Securing files and directories..."
 
 # Set permissions to app files
 chown -R $app: $final_path
 
 #=================================================
-# ADVERTISE SERVICE IN ADMIN PANEL
+# INTEGRATE SERVICE IN YUNOHOST
 #=================================================
+ynh_print_info --message="Integrating service in YunoHost..."
 
 yunohost service add $app --description "$app daemon for Syncthing"
 
