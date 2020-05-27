@@ -168,6 +168,13 @@ ynh_print_info --message="Upgrading systemd configuration..."
 ynh_add_systemd_config
 
 #=================================================
+# INTEGRATE SERVICE IN YUNOHOST
+#=================================================
+ynh_print_info --message="Integrating service in YunoHost..."
+
+yunohost service add $app --description "$app daemon for Syncthing" --log_type "systemd"
+
+#=================================================
 # GENERIC FINALIZATION
 #=================================================
 # SECURE FILES AND DIRECTORIES
