@@ -1,15 +1,15 @@
 # Syncthing app for YunoHost
 
-[![Integration level](https://dash.yunohost.org/integration/syncthing.svg)](https://dash.yunohost.org/appci/app/syncthing)  
+[![Integration level](https://dash.yunohost.org/integration/syncthing.svg)](https://dash.yunohost.org/appci/app/syncthing) ![](https://ci-apps.yunohost.org/ci/badges/syncthing.status.svg) ![](https://ci-apps.yunohost.org/ci/badges/syncthing.maintain.svg)  
 [![Install Syncthing with YunoHost](https://install-app.yunohost.org/install-with-yunohost.png)](https://install-app.yunohost.org/?app=syncthing)
 
-> *This package allow you to install Syncthing quickly and simply on a YunoHost server.  
-If you don't have YunoHost, please see [here](https://yunohost.org/#/install) to know how to install and enjoy it.*
+> *This package allows you to install Syncthing quickly and simply on a YunoHost server.  
+If you don't have YunoHost, please consult [the guide](https://yunohost.org/#/install) to learn how to install it.*
 
 ## Overview
 Syncthing replaces proprietary sync and cloud services with something open, trustworthy and decentralized. Your data is your data alone and you deserve to choose where it is stored, if it is shared with some third party and how it's transmitted over the Internet.
 
-**Shipped version:** 1.5.0
+**Shipped version:** 1.6.1
 
 ## Screenshots
 
@@ -27,7 +27,7 @@ How to configure this app: by an admin panel, a plain file with SSH, or any othe
 
 #### Supported architectures
 
-* x86-64b - [![Build Status](https://ci-apps.yunohost.org/ci/logs/syncthing%20%28Apps%29.svg)](https://ci-apps.yunohost.org/ci/apps/syncthing/)
+* x86-64 - [![Build Status](https://ci-apps.yunohost.org/ci/logs/syncthing%20%28Apps%29.svg)](https://ci-apps.yunohost.org/ci/apps/syncthing/)
 * ARMv8-A - [![Build Status](https://ci-apps-arm.yunohost.org/ci/logs/syncthing%20%28Apps%29.svg)](https://ci-apps-arm.yunohost.org/ci/apps/syncthing/)
 
 ## Links
@@ -39,10 +39,10 @@ How to configure this app: by an admin panel, a plain file with SSH, or any othe
 
 ---
 
-Developers info
+Developer info
 ----------------
 
-Please do your pull request to the [testing branch](https://github.com/YunoHost-Apps/syncthing_ynh/tree/testing).
+Please send your pull request to the [testing branch](https://github.com/YunoHost-Apps/syncthing_ynh/tree/testing).
 
 To try the testing branch, please proceed like that.
 ```

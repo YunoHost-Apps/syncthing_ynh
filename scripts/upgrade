@@ -13,7 +13,7 @@ source /usr/share/yunohost/helpers
 #=================================================
 # LOAD SETTINGS
 #=================================================
-ynh_print_info --message="Loading installation settings..."
+ynh_script_progression --message="Loading installation settings..."
 
 app=$YNH_APP_INSTANCE_NAME
 
@@ -29,14 +29,14 @@ gui_port=$(ynh_app_setting_get --app=$app --key=gui_port)
 #=================================================
 # CHECK VERSION
 #=================================================
-ynh_print_info --message="Checking version..."
+ynh_script_progression --message="Checking version..."
 
 upgrade_type=$(ynh_check_app_version_changed)
 
 #=================================================
 # ENSURE DOWNWARD COMPATIBILITY
 #=================================================
-ynh_print_info --message="Ensuring downward compatibility..."
+ynh_script_progression --message="Ensuring downward compatibility..."
 
 # If gui_port doesn't exist, create it
 if [ -z $gui_port ]; then
@@ -86,7 +86,7 @@ else
 	#=================================================
 	# BACKUP BEFORE UPGRADE THEN ACTIVE TRAP
 	#=================================================
-	ynh_print_info --message="Backing up the app before upgrading (may take a while)..."
+	ynh_script_progression --message="Backing up the app before upgrading (may take a while)..."
 
 	# Backup the current version of the app
 	ynh_backup_before_upgrade
@@ -103,7 +103,7 @@ else
 	#=================================================
 	# STOP SYSTEMD SERVICE
 	#=================================================
-	ynh_print_info --message="Stopping Syncthing services..."
+	ynh_script_progression --message="Stopping a systemd service..."
 	
 	ynh_systemd_action --service_name=$app --action="stop" --log_path=systemd
 
@@ -115,7 +115,7 @@ fi
 
 if [ "$upgrade_type" == "UPGRADE_APP" ]
 then
-	ynh_print_info --message="Upgrading source files..."
+	ynh_script_progression --message="Upgrading source files..."
 
 	# Download, check integrity, uncompress and patch the source from app.src
 	ynh_setup_source --dest_dir="$final_path" --source_id=$architecture
@@ -124,7 +124,7 @@ fi
 #=================================================
 # NGINX CONFIGURATION
 #=================================================
-ynh_print_info --message="Upgrading nginx web server configuration..."
+ynh_script_progression --message="Upgrading nginx web server configuration..."
 
 # Create a dedicated nginx config
 ynh_add_nginx_config "gui_port"
@@ -132,7 +132,7 @@ ynh_add_nginx_config "gui_port"
 #=================================================
 # CREATE DEDICATED USER
 #=================================================
-ynh_print_info --message="Making sure dedicated system user exists..."
+ynh_script_progression --message="Making sure dedicated system user exists..."
 
 # Create a dedicated user (if not existing)
 ynh_system_user_create --username=$app --home_dir=$final_path
@@ -142,7 +142,7 @@ ynh_system_user_create --username=$app --home_dir=$final_path
 #=================================================
 # CREATE SYNC DIRECTORY
 #=================================================
-ynh_print_info --message="Creating sync directory..."
+ynh_script_progression --message="Creating sync directory..."
 
 # Make directories and set rights
 mkdir -p "$sync_home"
@@ -151,7 +151,7 @@ chown -R "$app": "$sync_home"
 #=================================================
 # STORE THE CONFIG FILE CHECKSUM
 #=================================================
-ynh_print_info --message="Storing the config file checksum..."
+ynh_script_progression --message="Storing the config file checksum..."
 
 config_file="$final_path/.config/syncthing/config.xml"
 
@@ -162,7 +162,7 @@ ynh_store_file_checksum --file="$config_file"
 #=================================================
 # SETUP SYSTEMD
 #=================================================
-ynh_print_info --message="Upgrading systemd configuration..."
+ynh_script_progression --message="Upgrading systemd configuration..."
 
 # Create a dedicated systemd config
 ynh_add_systemd_config
@@ -170,7 +170,7 @@ ynh_add_systemd_config
 #=================================================
 # INTEGRATE SERVICE IN YUNOHOST
 #=================================================
-ynh_print_info --message="Integrating service in YunoHost..."
+ynh_script_progression --message="Integrating service in YunoHost..."
 
 yunohost service add $app --description "$app daemon for Syncthing" --log_type "systemd"
 
@@ -179,7 +179,7 @@ yunohost service add $app --description "$app daemon for Syncthing" --log_type "
 #=================================================
 # SECURE FILES AND DIRECTORIES
 #=================================================
-ynh_print_info --message="Securing files and directories..."
+ynh_script_progression --message="Securing files and directories..."
 
 # Set permissions on app files
 chown -R $app: $final_path
@@ -187,21 +187,21 @@ chown -R $app: $final_path
 #=================================================
 # SETUP SSOWAT
 #=================================================
-ynh_print_info --message="Upgrading SSOwat configuration..."
+ynh_script_progression --message="Upgrading SSOwat configuration..."
 
 ynh_app_setting_set --app=$app --key=unprotected_uris --value="/"
 
 #=================================================
 # START SYSTEMD SERVICE
 #=================================================
-ynh_print_info --message="Starting a systemd service..."
+ynh_script_progression --message="Starting a systemd service..."
 
 ynh_systemd_action --service_name=$app --action="start" --log_path=systemd --line_match="Access the GUI via the following URL"
 
 #=================================================
 # RELOAD NGINX
 #=================================================
-ynh_print_info --message="Reloading nginx web server..."
+ynh_script_progression --message="Reloading nginx web server..."
 
 ynh_systemd_action --service_name=nginx --action=reload
 
@@ -209,4 +209,4 @@ ynh_systemd_action --service_name=nginx --action=reload
 # END OF SCRIPT
 #=================================================
 
-ynh_print_info --message="Upgrade of $app completed"
+ynh_script_progression --message="Upgrade of $app completed"
