@@ -8,7 +8,7 @@ about: Create a report to help us debug, it would be nice to fill the template a
 1. *Read this whole template first.*
 2. *Determine if you are on the right place:*
    - *If you were performing an action on the app from the webadmin or the CLI (install, update, backup, restore, change url...), you are on the right place!*
-   - *Otherwise, the issue may be due to syncthing itself. Refer to its documentation or repository for help.*
+   - *Otherwise, the issue may be due to Syncthing itself. Refer to its documentation or repository for help.*
    - *If you have a doubt, post here, we will figure it out together.*
 3. *Delete the italic comments as you write over them below, and remove this guide.*
 --- 
