@@ -1,4 +1,4 @@
-# Syncthing app for YunoHost
+# Syncthing for YunoHost
 
 [![Integration level](https://dash.yunohost.org/integration/syncthing.svg)](https://dash.yunohost.org/appci/app/syncthing) ![](https://ci-apps.yunohost.org/ci/badges/syncthing.status.svg) ![](https://ci-apps.yunohost.org/ci/badges/syncthing.maintain.svg)  
 [![Install Syncthing with YunoHost](https://install-app.yunohost.org/install-with-yunohost.png)](https://install-app.yunohost.org/?app=syncthing)
@@ -9,7 +9,7 @@ If you don't have YunoHost, please consult [the guide](https://yunohost.org/#/in
 ## Overview
 Syncthing replaces proprietary sync and cloud services with something open, trustworthy and decentralized. Your data is your data alone and you deserve to choose where it is stored, if it is shared with some third party and how it's transmitted over the Internet.
 
-**Shipped version:** 1.7.1
+**Shipped version:** 1.8.0
 
 ## Screenshots
 
