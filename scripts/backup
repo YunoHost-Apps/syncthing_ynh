@@ -29,6 +29,7 @@ app=$YNH_APP_INSTANCE_NAME
 
 final_path=$(ynh_app_setting_get --app=$app --key=final_path)
 domain=$(ynh_app_setting_get --app=$app --key=domain)
+sync_home=$(ynh_app_setting_get --app=$app --key=sync_home)
 
 #=================================================
 # DECLARE DATA AND CONF FILES TO BACKUP
@@ -54,6 +55,13 @@ ynh_backup --src_path="/etc/nginx/conf.d/$domain.d/$app.conf"
 #=================================================
 
 ynh_backup --src_path="/etc/systemd/system/$app.service"
+
+#=================================================
+# BACKUP THE DATA DIRECTORY
+#=================================================
+ynh_script_progression --message="Backing up data directory..."
+
+ynh_backup --src_path="$sync_home" --is_big
 
 #=================================================
 # END OF SCRIPT
