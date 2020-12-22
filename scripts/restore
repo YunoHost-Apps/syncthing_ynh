@@ -98,7 +98,7 @@ systemctl enable $app.service --quiet
 #=================================================
 ynh_script_progression --message="Integrating service in YunoHost..."
 
-yunohost service add $app --description "$app daemon for Syncthing" --log_type "systemd"
+yunohost service add $app --description "$app daemon for Syncthing"
 
 #=================================================
 # START SYSTEMD SERVICE
