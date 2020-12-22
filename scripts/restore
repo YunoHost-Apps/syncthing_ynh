@@ -31,6 +31,7 @@ domain=$(ynh_app_setting_get --app=$app --key=domain)
 path_url=$(ynh_app_setting_get --app=$app --key=path)
 final_path=$(ynh_app_setting_get --app=$app --key=final_path)
 sync_home=$(ynh_app_setting_get --app=$app --key=sync_home)
+sync_port=$(ynh_app_setting_get --app=$app --key=sync_port)
 
 #=================================================
 # CHECK IF THE APP CAN BE RESTORED
@@ -44,6 +45,14 @@ test ! -d $final_path \
 
 #=================================================
 # STANDARD RESTORATION STEPS
+#=================================================
+# OPEN A PORT
+#=================================================
+ynh_script_progression --message="Configuring firewall..."
+
+# Open the port
+ynh_exec_warn_less yunohost firewall allow TCP $sync_port
+
 #=================================================
 # RESTORE THE NGINX CONFIGURATION
 #=================================================
@@ -98,7 +107,7 @@ systemctl enable $app.service --quiet
 #=================================================
 ynh_script_progression --message="Integrating service in YunoHost..."
 
-yunohost service add $app --description "$app daemon for Syncthing"
+yunohost service add $app --description "$app daemon for Syncthing" --needs_exposed_ports $sync_port
 
 #=================================================
 # START SYSTEMD SERVICE
