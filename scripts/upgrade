@@ -71,7 +71,7 @@ if [ -z $gui_port ]; then
 
 	systemctl stop syncthing@$OLD_SYNCUSER.service
 	yunohost service remove syncthing@$OLD_SYNCUSER.service
-	systemctl disable syncthing@$OLD_SYNCUSER.service
+	systemctl disable syncthing@$OLD_SYNCUSER.service --quiet
 
 	ynh_secure_remove --file="/etc/apt/sources.list.d/syncthing.list"
 
