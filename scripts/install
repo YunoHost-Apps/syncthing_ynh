@@ -162,7 +162,7 @@ chown -R $app: $final_path
 #=================================================
 ynh_script_progression --message="Integrating service in YunoHost..."
 
-yunohost service add $app --description "$app daemon for Syncthing" --log_type "systemd"
+yunohost service add $app --description "$app daemon for Syncthing" --needs_exposed_ports $sync_port
 
 #=================================================
 # START SYSTEMD SERVICE

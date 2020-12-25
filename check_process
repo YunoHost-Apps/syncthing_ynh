@@ -30,6 +30,8 @@
 		upgrade=1	from_commit=73bac603324544f2ae3de05487f804a09c0a3673
 		# 1.8.0~ynh1
 		upgrade=1	from_commit=36c6b16e1ede95d51d3ddcbf8b00f6f2ee1a843f
+		# 1.10.0~ynh1
+		upgrade=1	from_commit=f8bfd49d14a7050f30452884c6d59c972c2843ef
 		backup_restore=1
 		multi_instance=0
 		# This test is no longer necessary since the version 2.7 (PR: https://github.com/YunoHost/yunohost/pull/304), you can still do it if your app could be installed with this version.
@@ -57,3 +59,5 @@ Notification=all
 		name=1.6.1~ynh1
 	; commit=36c6b16e1ede95d51d3ddcbf8b00f6f2ee1a843f
 		name=1.8.0~ynh1
+	; commit=f8bfd49d14a7050f30452884c6d59c972c2843ef
+		name=1.10.0~ynh1
