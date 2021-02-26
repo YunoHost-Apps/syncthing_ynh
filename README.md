@@ -1,7 +1,7 @@
 # Syncthing for YunoHost
 
 [![Integration level](https://dash.yunohost.org/integration/syncthing.svg)](https://dash.yunohost.org/appci/app/syncthing) ![](https://ci-apps.yunohost.org/ci/badges/syncthing.status.svg) ![](https://ci-apps.yunohost.org/ci/badges/syncthing.maintain.svg)  
-[![Install Syncthing with YunoHost](https://install-app.yunohost.org/install-with-yunohost.png)](https://install-app.yunohost.org/?app=syncthing)
+[![Install Syncthing with YunoHost](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=syncthing)
 
 > *This package allows you to install Syncthing quickly and simply on a YunoHost server.  
 If you don't have YunoHost, please consult [the guide](https://yunohost.org/#/install) to learn how to install it.*
@@ -14,10 +14,6 @@ Syncthing replaces proprietary sync and cloud services with something open, trus
 ## Screenshots
 
 ![](https://docs.syncthing.net/_images/gs1.png)
-
-## Configuration
-
-How to configure this app: by an admin panel, a plain file with SSH, or any other way.
 
 ## Documentation
 
@@ -39,8 +35,7 @@ How to configure this app: by an admin panel, a plain file with SSH, or any othe
 
 ---
 
-Developer info
-----------------
+## Developer info
 
 Please send your pull request to the [testing branch](https://github.com/YunoHost-Apps/syncthing_ynh/tree/testing).
 
