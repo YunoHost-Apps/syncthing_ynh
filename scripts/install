@@ -123,10 +123,7 @@ ynh_script_progression --message="Modifying a config file..."
 
 mkdir -p "$final_path/.config/syncthing"
 config_file="$final_path/.config/syncthing/config.xml"
-cp "../conf/config.xml" "$config_file"
-
-ynh_replace_string --match_string="__GUI_PORT__" --replace_string="$gui_port" --target_file="$config_file"
-ynh_replace_string --match_string="__SYNC_HOME__" --replace_string="$sync_home" --target_file="$config_file"
+ynh_add_config --template="../conf/config.xml" --destination="$config_file"
 
 #=================================================
 # FIX LISTENING SERVICE
