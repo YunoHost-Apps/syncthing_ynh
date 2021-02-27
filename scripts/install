@@ -59,7 +59,7 @@ ynh_app_setting_set --app=$app --key=sync_home --value=$sync_home
 #=================================================
 # FIND AND OPEN A PORT
 #=================================================
-ynh_script_progression --message="Configuring firewall..."
+ynh_script_progression --message="Finding an available port..."
 
 # Find an available port
 gui_port=$(ynh_find_port --port=8384)
@@ -67,7 +67,9 @@ ynh_app_setting_set --app=$app --key=gui_port --value=$gui_port
 
 sync_port=$(ynh_find_port --port=22000)
 ynh_app_setting_set --app=$app --key=sync_port --value=$sync_port
+
 # Open the port
+ynh_script_progression --message="Configuring firewall..."
 ynh_exec_warn_less yunohost firewall allow TCP $sync_port
 
 #=================================================
@@ -121,10 +123,7 @@ ynh_script_progression --message="Modifying a config file..."
 
 mkdir -p "$final_path/.config/syncthing"
 config_file="$final_path/.config/syncthing/config.xml"
-cp "../conf/config.xml" "$config_file"
-
-ynh_replace_string --match_string="__GUI_PORT__" --replace_string="$gui_port" --target_file="$config_file"
-ynh_replace_string --match_string="__SYNC_HOME__" --replace_string="$sync_home" --target_file="$config_file"
+ynh_add_config --template="../conf/config.xml" --destination="$config_file"
 
 #=================================================
 # FIX LISTENING SERVICE
@@ -174,10 +173,11 @@ ynh_systemd_action --service_name=$app --action="start" --log_path=systemd --lin
 #=================================================
 # SETUP SSOWAT
 #=================================================
-ynh_script_progression --message="Configuring SSOwat..."
+ynh_script_progression --message="Configuring permissions..."
 
-# Make app public
-ynh_app_setting_set --app=$app --key=unprotected_uris --value="/"
+# Everyone can access the app.
+# The "main" permission is automatically created before the install script.
+ynh_permission_update --permission="main" --add="visitors"
 
 #=================================================
 # RELOAD NGINX
