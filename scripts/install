@@ -8,6 +8,7 @@
 
 source _common.sh
 source detect_arch
+source ynh_install_go
 source /usr/share/yunohost/helpers
 
 #=================================================
@@ -73,13 +74,26 @@ ynh_script_progression --message="Configuring firewall..."
 ynh_exec_warn_less yunohost firewall allow TCP $sync_port
 
 #=================================================
+# INSTALL DEPENDENCIES
+#=================================================
+ynh_script_progression --message="Installing dependencies..."
+
+ynh_install_app_dependencies $pkg_dependencies
+ynh_install_go --go_version="1.15"
+
+#=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
 #=================================================
 ynh_script_progression --message="Setting up source files..."
 
 ynh_app_setting_set --app=$app --key=final_path --value=$final_path
 # Download, check integrity, uncompress and patch the source from app.src
-ynh_setup_source --dest_dir="$final_path" --source_id=$architecture
+# ynh_setup_source --dest_dir="$final_path" --source_id=$architecture
+mkdir "$final_path"
+git clone "https://github.com/syncthing/syncthing.git" "$final_path/dev"
+pushd "$final_path/dev"
+	git checkout -b v1.13.1
+popd
 
 #=================================================
 # NGINX CONFIGURATION
@@ -99,6 +113,19 @@ ynh_system_user_create --username=$app --home_dir=$final_path
 
 #=================================================
 # SPECIFIC SETUP
+#=================================================
+# ...
+#=================================================
+
+pushd "$final_path/dev"
+	ynh_use_go
+	ynh_go run build.go
+popd
+
+read -p "key"
+mv "$final_path/dev/bin/syncthing" "$final_path/syncthing"
+ynh_secure_remove --file="$final_path/dev"
+
 #=================================================
 # CREATE SYNC DIRECTORY
 #=================================================

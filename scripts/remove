@@ -7,6 +7,7 @@
 #=================================================
 
 source _common.sh
+source ynh_install_go
 source /usr/share/yunohost/helpers
 
 #=================================================
@@ -41,6 +42,15 @@ ynh_script_progression --message="Stopping and removing the systemd service..."
 
 # Remove the dedicated systemd config
 ynh_remove_systemd_config
+
+#=================================================
+# REMOVE DEPENDENCIES
+#=================================================
+ynh_script_progression --message="Removing dependencies..."
+
+# Remove metapackage and its dependencies
+ynh_remove_go
+ynh_remove_app_dependencies
 
 #=================================================
 # REMOVE APP MAIN DIR
