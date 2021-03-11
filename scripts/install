@@ -122,7 +122,6 @@ pushd "$final_path/dev"
 	ynh_go run build.go
 popd
 
-read -p "key"
 mv "$final_path/dev/bin/syncthing" "$final_path/syncthing"
 ynh_secure_remove --file="$final_path/dev"
 
