@@ -79,7 +79,7 @@ ynh_exec_warn_less yunohost firewall allow TCP $sync_port
 ynh_script_progression --message="Installing dependencies..."
 
 ynh_install_app_dependencies $pkg_dependencies
-ynh_install_go --go_version="1.15"
+ynh_install_go --go_version=$GO_VERSION
 
 #=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
@@ -114,8 +114,9 @@ ynh_system_user_create --username=$app --home_dir=$final_path
 #=================================================
 # SPECIFIC SETUP
 #=================================================
-# ...
+# BUILDING SYNCTHING
 #=================================================
+ynh_script_progression --message="Building Syncthing..."
 
 pushd "$final_path/dev"
 	ynh_use_go
@@ -124,6 +125,7 @@ popd
 
 mv "$final_path/dev/bin/syncthing" "$final_path/syncthing"
 ynh_secure_remove --file="$final_path/dev"
+ynh_remove_go
 
 #=================================================
 # CREATE SYNC DIRECTORY

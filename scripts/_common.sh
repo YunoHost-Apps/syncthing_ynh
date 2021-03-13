@@ -7,6 +7,8 @@
 # dependencies used by the app
 pkg_dependencies="git"
 
+GO_VERSION="1.15"
+
 #=================================================
 # PERSONAL HELPERS
 #=================================================
