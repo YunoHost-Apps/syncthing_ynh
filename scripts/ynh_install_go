@@ -3,7 +3,7 @@
 ynh_go_try_bash_extension() {
   if [ -x src/configure ]; then
     src/configure && make -C src || {
-      echo "Optional bash extension failed to build, but things will still work normally."
+      ynh_print_info --message="Optional bash extension failed to build, but things will still work normally."
     }
   fi
 }
@@ -81,9 +81,6 @@ ynh_use_go () {
 #
 # ynh_install_go will install the version of Go provided as argument by using goenv.
 #
-# goenv (Go Version Management) stores the target Go version in a .go_version file created in the target folder (using goenv local <version>)
-# It then uses that information for every Go user that uses goenv provided Go command
-#
 # This helper creates a /etc/profile.d/goenv.sh that configures PATH environment for goenv
 # for every LOGIN user, hence your user must have a defined shell (as opposed to /usr/sbin/nologin)
 #
@@ -113,7 +110,7 @@ ynh_install_go () {
     # Move an existing Go binary, to avoid to block goenv
     test -x /usr/bin/go && mv /usr/bin/go /usr/bin/go_goenv
 
-    # Instal or update goenv
+    # Install or update goenv
     goenv="$(command -v goenv $goenv_install_dir/bin/goenv | head -1)"
     if [ -n "$goenv" ]; then
         ynh_print_info --message="goenv already seems installed in \`$goenv'."
