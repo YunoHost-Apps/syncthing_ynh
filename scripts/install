@@ -120,7 +120,7 @@ ynh_script_progression --message="Building Syncthing..."
 
 pushd "$final_path/dev"
 	ynh_use_go
-	ynh_go run build.go
+	ynh_go run build.go > /dev/null 2>&1
 popd
 
 mv "$final_path/dev/bin/syncthing" "$final_path/syncthing"
