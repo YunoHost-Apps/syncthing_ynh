@@ -115,7 +115,7 @@ ynh_install_go () {
     if [ -n "$goenv" ]; then
         ynh_print_info --message="goenv already seems installed in \`$goenv'."
         pushd "${goenv%/*/*}"
-            if git remote -v 2>/dev/null | grep -q goenv; then
+            if git remote -v 2>/dev/null | grep "https://github.com/syndbg/goenv.git"; then
                 echo "Trying to update with git..."
                 git pull -q --tags origin master
                 cd ..
@@ -138,7 +138,7 @@ ynh_install_go () {
     if [ -n "$goenv_latest" ]; then
         ynh_print_info --message="\`goenv latest' command already available in \`$goenv_latest'."
         pushd "${goenv_latest%/*/*}"
-            if git remote -v 2>/dev/null | grep -q xxenv-latest; then
+            if git remote -v 2>/dev/null | grep "https://github.com/momo-lab/xxenv-latest.git"; then
                 ynh_print_info --message="Trying to update xxenv-latest with git..."
                 git pull -q origin master
             fi
