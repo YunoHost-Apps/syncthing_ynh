@@ -90,6 +90,9 @@ chown -R "$app": $final_path
 #=================================================
 ynh_script_progression --message="Recreating sync directory..."
 
+# Use --not_mandatory for the data directory, because if the backup has been made with BACKUP_CORE_ONLY, there's no data into the backup.
+ynh_restore_file --origin_path="$sync_home" --not_mandatory
+
 # Make directories and set rights
 mkdir -p "$sync_home"
 chown -R "$app": "$sync_home"
