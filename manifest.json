@@ -6,7 +6,7 @@
         "en": "Continuous file synchronization program.",
         "fr": "Programme de synchronisation de fichiers en continu."
     },
-    "version": "1.14.0~ynh1",
+    "version": "1.14.0~ynh2",
     "url": "https://syncthing.net/",
     "license": "MPL-2.0",
     "maintainer": [
