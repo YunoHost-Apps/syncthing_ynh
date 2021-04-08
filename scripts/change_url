@@ -33,6 +33,7 @@ final_path=$(ynh_app_setting_get --app=$app --key=final_path)
 #db_name=$(ynh_app_setting_get --app=$app --key=db_name)
 #db_user=$db_name
 #db_pwd=$(ynh_app_setting_get --app=$app --key=db_pwd)
+gui_port=$(ynh_app_setting_get --app=$app --key=gui_port)
 
 #=================================================
 # BACKUP BEFORE UPGRADE THEN ACTIVE TRAP
@@ -92,7 +93,7 @@ then
 	domain="$old_domain"
 	path_url="$new_path"
 	# Create a dedicated nginx config
-	ynh_add_nginx_config
+	ynh_add_nginx_config "gui_port"
 fi
 
 # Change the domain for nginx
