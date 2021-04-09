@@ -131,8 +131,8 @@ mkdir -p "$final_path/.config/syncthing"
 config_file="$final_path/.config/syncthing/config.xml"
 ynh_add_config --template="../conf/config.xml" --destination="$config_file"
 
-chmod 400 "$final_path/some_config_file"
-chown $app:$app "$final_path/some_config_file"
+chmod 400 "$config_file"
+chown $app:$app "$config_file"
 
 #=================================================
 # FIX LISTENING SERVICE
