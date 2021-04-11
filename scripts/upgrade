@@ -143,7 +143,7 @@ fi
 
 chmod 750 "$final_path"
 chmod -R o-rwx "$final_path"
-chown -R root:$app "$final_path"
+chown -R $app:$app "$final_path"
 
 #=================================================
 # NGINX CONFIGURATION
@@ -164,15 +164,7 @@ ynh_script_progression --message="Creating sync directory..."
 mkdir -p "$sync_home"
 chmod 750 "$sync_home"
 chmod -R o-rwx "$sync_home"
-chown -R root:$app "$sync_home"
-
-#=================================================
-# SETUP SYSTEMD
-#=================================================
-ynh_script_progression --message="Upgrading systemd configuration..."
-
-# Create a dedicated systemd config
-ynh_add_systemd_config
+chown -R $app:$app "$sync_home"
 
 #=================================================
 # UPDATE A CONFIG FILE
@@ -184,6 +176,17 @@ config_file="$final_path/.config/syncthing/config.xml"
 ynh_backup_if_checksum_is_different --file="$config_file"
 # Recalculate and store the checksum of the file for the next upgrade.
 ynh_store_file_checksum --file="$config_file"
+
+chmod 400 "$config_file"
+chown $app:$app "$config_file"
+
+#=================================================
+# SETUP SYSTEMD
+#=================================================
+ynh_script_progression --message="Upgrading systemd configuration..."
+
+# Create a dedicated systemd config
+ynh_add_systemd_config
 
 #=================================================
 # GENERIC FINALIZATION

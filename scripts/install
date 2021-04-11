@@ -91,7 +91,7 @@ ynh_setup_source --dest_dir="$final_path" --source_id=$architecture
 
 chmod 750 "$final_path"
 chmod -R o-rwx "$final_path"
-chown -R root:$app "$final_path"
+chown -R $app:$app "$final_path"
 
 #=================================================
 # NGINX CONFIGURATION
@@ -112,15 +112,7 @@ ynh_script_progression --message="Creating sync directory..."
 mkdir -p "$sync_home"
 chmod 750 "$sync_home"
 chmod -R o-rwx "$sync_home"
-chown -R root:$app "$sync_home"
-
-#=================================================
-# SETUP SYSTEMD
-#=================================================
-ynh_script_progression --message="Configuring a systemd service..."
-
-# Create a dedicated systemd config
-ynh_add_systemd_config
+chown -R $app:$app "$sync_home"
 
 #=================================================
 # ADD A CONFIGURATION
@@ -133,6 +125,14 @@ ynh_add_config --template="../conf/config.xml" --destination="$config_file"
 
 chmod 400 "$config_file"
 chown $app:$app "$config_file"
+
+#=================================================
+# SETUP SYSTEMD
+#=================================================
+ynh_script_progression --message="Configuring a systemd service..."
+
+# Create a dedicated systemd config
+ynh_add_systemd_config
 
 #=================================================
 # FIX LISTENING SERVICE
