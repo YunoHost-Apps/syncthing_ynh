@@ -23,8 +23,8 @@ Syncthing replaces proprietary sync and cloud services with something open, trus
 
 #### Supported architectures
 
-* x86-64 - [![Build Status](https://ci-apps.yunohost.org/ci/logs/syncthing%20%28Apps%29.svg)](https://ci-apps.yunohost.org/ci/apps/syncthing/)
-* ARMv8-A - [![Build Status](https://ci-apps-arm.yunohost.org/ci/logs/syncthing%20%28Apps%29.svg)](https://ci-apps-arm.yunohost.org/ci/apps/syncthing/)
+* x86-64 - [![Build Status](https://ci-apps.yunohost.org/ci/logs/syncthing.svg)](https://ci-apps.yunohost.org/ci/apps/syncthing/)
+* ARMv8-A - [![Build Status](https://ci-apps-arm.yunohost.org/ci/logs/syncthing.svg)](https://ci-apps-arm.yunohost.org/ci/apps/syncthing/)
 
 ## Links
 

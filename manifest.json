@@ -6,7 +6,7 @@
         "en": "Continuous file synchronization program.",
         "fr": "Programme de synchronisation de fichiers en continu."
     },
-    "version": "1.15.1~ynh1",
+    "version": "1.15.1~ynh2",
     "url": "https://syncthing.net/",
     "license": "MPL-2.0",
     "maintainer": [
@@ -23,38 +23,26 @@
     },
     "multi_instance": false,
     "services": [
-    "nginx"
+        "nginx"
     ],
     "arguments": {
-        "install": [
+        "install" : [
             {
                 "name": "domain",
                 "type": "domain",
-                "ask": {
-                    "en": "Choose a domain for Syncthing",
-                    "fr": "Choisissez un nom de domaine pour Syncthing"
-                },
                 "example": "example.com"
             },
             {
                 "name": "path",
                 "type": "path",
-                "ask": {
-                    "en": "Choose a path for Syncthing",
-                    "fr": "Choisissez un chemin pour Syncthing"
-                },
                 "example": "/syncthing",
                 "default": "/syncthing"
-                },
-                {
-                    "name": "admin",
-                    "type": "user",
-                    "ask": {
-                    "en": "Choose an admin user",
-                    "fr": "Choisissez l'administrateur"
-                },
-                    "example": "johndoe"
-                }
+            },
+            {
+                "name": "admin",
+                "type": "user",
+                "example": "johndoe"
+            }
         ]
     }
 }
