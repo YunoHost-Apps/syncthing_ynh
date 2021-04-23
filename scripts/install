@@ -7,7 +7,7 @@
 #=================================================
 
 source _common.sh
-source detect_arch
+source ynh_detect_arch__2
 source /usr/share/yunohost/helpers
 
 #=================================================
@@ -73,6 +73,14 @@ ynh_script_progression --message="Configuring firewall..."
 ynh_exec_warn_less yunohost firewall allow TCP $sync_port
 
 #=================================================
+# CREATE DEDICATED USER
+#=================================================
+ynh_script_progression --message="Configuring system user..."
+
+# Create a system user
+ynh_system_user_create --username=$app --home_dir="$final_path"
+
+#=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
 #=================================================
 ynh_script_progression --message="Setting up source files..."
@@ -81,21 +89,17 @@ ynh_app_setting_set --app=$app --key=final_path --value=$final_path
 # Download, check integrity, uncompress and patch the source from app.src
 ynh_setup_source --dest_dir="$final_path" --source_id=$architecture
 
+chmod 750 "$final_path"
+chmod -R o-rwx "$final_path"
+chown -R $app:$app "$final_path"
+
 #=================================================
 # NGINX CONFIGURATION
 #=================================================
-ynh_script_progression --message="Configuring nginx web server..."
+ynh_script_progression --message="Configuring NGINX web server..."
 
-# Create a dedicated nginx config
+# Create a dedicated NGINX config
 ynh_add_nginx_config "gui_port"
-
-#=================================================
-# CREATE DEDICATED USER
-#=================================================
-ynh_script_progression --message="Configuring system user..."
-
-# Create a system user
-ynh_system_user_create --username=$app --home_dir=$final_path
 
 #=================================================
 # SPECIFIC SETUP
@@ -106,7 +110,21 @@ ynh_script_progression --message="Creating sync directory..."
 
 # Make directories and set rights
 mkdir -p "$sync_home"
-chown -R "$app": "$sync_home"
+chmod 750 "$sync_home"
+chmod -R o-rwx "$sync_home"
+chown -R $app:$app "$sync_home"
+
+#=================================================
+# ADD A CONFIGURATION
+#=================================================
+ynh_script_progression --message="Adding a config file..."
+
+mkdir -p "$final_path/.config/syncthing"
+config_file="$final_path/.config/syncthing/config.xml"
+ynh_add_config --template="../conf/config.xml" --destination="$config_file"
+
+chmod 400 "$config_file"
+chown $app:$app "$config_file"
 
 #=================================================
 # SETUP SYSTEMD
@@ -115,15 +133,6 @@ ynh_script_progression --message="Configuring a systemd service..."
 
 # Create a dedicated systemd config
 ynh_add_systemd_config
-
-#=================================================
-# MODIFY A CONFIG FILE
-#=================================================
-ynh_script_progression --message="Modifying a config file..."
-
-mkdir -p "$final_path/.config/syncthing"
-config_file="$final_path/.config/syncthing/config.xml"
-ynh_add_config --template="../conf/config.xml" --destination="$config_file"
 
 #=================================================
 # FIX LISTENING SERVICE
@@ -149,19 +158,11 @@ ynh_store_file_checksum --file="$config_file"
 #=================================================
 # GENERIC FINALIZATION
 #=================================================
-# SECURE FILES AND DIRECTORIES
-#=================================================
-ynh_script_progression --message="Securing files and directories..."
-
-# Set permissions to app files
-chown -R $app: $final_path
-
-#=================================================
 # INTEGRATE SERVICE IN YUNOHOST
 #=================================================
 ynh_script_progression --message="Integrating service in YunoHost..."
 
-yunohost service add $app --description "$app daemon for Syncthing" --needs_exposed_ports $sync_port
+yunohost service add $app --description="$app daemon for Syncthing" --needs_exposed_ports=$sync_port
 
 #=================================================
 # START SYSTEMD SERVICE
@@ -182,7 +183,7 @@ ynh_permission_update --permission="main" --add="visitors"
 #=================================================
 # RELOAD NGINX
 #=================================================
-ynh_script_progression --message="Reloading nginx web server..."
+ynh_script_progression --message="Reloading NGINX web server..."
 
 ynh_systemd_action --service_name=nginx --action=reload
 
