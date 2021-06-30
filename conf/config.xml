@@ -10,7 +10,8 @@
         <insecureSkipVerify>false</insecureSkipVerify>
     </ldap>
     <options>
-        <listenAddress>default</listenAddress>
+        <listenAddress>tcp://0.0.0.0:__SYNC_PORT__</listenAddress>
+        <listenAddress>quic://0.0.0.0:__SYNC_PORT__</listenAddress>
         <globalAnnounceServer>default</globalAnnounceServer>
         <globalAnnounceEnabled>true</globalAnnounceEnabled>
         <localAnnounceEnabled>true</localAnnounceEnabled>
