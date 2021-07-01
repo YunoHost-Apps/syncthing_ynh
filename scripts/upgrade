@@ -162,7 +162,7 @@ ynh_script_progression --message="Updating a config file..."
 
 config_file="$final_path/.config/syncthing/config.xml"
 
-ynh_add_config --template="../conf/config.xml" --destination="$config_file"
+#ynh_add_config --template="../conf/config.xml" --destination="$config_file"
 
 chmod 400 "$config_file"
 chown $app:$app "$config_file"
