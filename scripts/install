@@ -142,7 +142,7 @@ chown -R $app: $final_path
 
 ynh_systemd_action --service_name=$app --action="start" --log_path=systemd --line_match="Access the GUI via the following URL"
 
-ynh_replace_string --match_string="<listenAddress>tcp://default</listenAddress>" --replace_string="<listenAddress>default</listenAddress>" --target_file="$config_file"
+ynh_replace_string --match_string="<listenAddress>tcp://quic:%2F%2F0.0.0.0:$sync_port</listenAddress>" --replace_string="<listenAddress>quic//0.0.0.0:$sync_port</listenAddress>" --target_file="$config_file"
 
 ynh_systemd_action --service_name=$app --action="stop" --log_path=systemd
 
