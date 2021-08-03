@@ -20,29 +20,31 @@
 		# 1.4.2
 		upgrade=1	from_commit=a351c2b6431a3ac092f3581a9778a402ec81f963
 		# 1.5.0~ynh1
-		upgrade=1	from_commit=91793d91bca31838cbb97782a633d3732e178b8a
+		#upgrade=1	from_commit=91793d91bca31838cbb97782a633d3732e178b8a
 		# 1.6.1~ynh1
-		upgrade=1	from_commit=73bac603324544f2ae3de05487f804a09c0a3673
+		#upgrade=1	from_commit=73bac603324544f2ae3de05487f804a09c0a3673
 		# 1.8.0~ynh1
-		upgrade=1	from_commit=36c6b16e1ede95d51d3ddcbf8b00f6f2ee1a843f
+		#upgrade=1	from_commit=36c6b16e1ede95d51d3ddcbf8b00f6f2ee1a843f
 		# 1.10.0~ynh1
-		upgrade=1	from_commit=f8bfd49d14a7050f30452884c6d59c972c2843ef
+		#upgrade=1	from_commit=f8bfd49d14a7050f30452884c6d59c972c2843ef
 		# 1.12.0~ynh1
-		upgrade=1	from_commit=89687d0fb06f4743328b1198c7861d7d9d624641
+		#upgrade=1	from_commit=89687d0fb06f4743328b1198c7861d7d9d624641
 		# 1.13.1~ynh1
-		upgrade=1	from_commit=50e824fe22fb9ba82c8a7606afb03fa3f9998463
+		#upgrade=1	from_commit=50e824fe22fb9ba82c8a7606afb03fa3f9998463
 		# 1.14.0~ynh1
-		upgrade=1	from_commit=ae0a88df0bf4a3d684f95e21245ee1e0de4d54f4
+		#upgrade=1	from_commit=ae0a88df0bf4a3d684f95e21245ee1e0de4d54f4
 		# 1.14.0~ynh2
-		upgrade=1	from_commit=201eab3c30f6a72de8c704190e66e11baf517a8a
+		#upgrade=1	from_commit=201eab3c30f6a72de8c704190e66e11baf517a8a
 		# 1.15.1~ynh1
-		upgrade=1	from_commit=f373714a18c855c936c86b389d1ef0cf46da447b
+		#upgrade=1	from_commit=f373714a18c855c936c86b389d1ef0cf46da447b
 		# 1.15.1~ynh2
-		upgrade=1	from_commit=2a0a768ba1e8c93c2cd1b3ef97ac558c86ddc72c
+		#upgrade=1	from_commit=2a0a768ba1e8c93c2cd1b3ef97ac558c86ddc72c
 		# 1.16.1~ynh1
-		upgrade=1	from_commit=a1a1134571e6f9d274b6772358bedfb4b775fe5a
+		#upgrade=1	from_commit=a1a1134571e6f9d274b6772358bedfb4b775fe5a
 		# 1.17.0~ynh1
 		upgrade=1	from_commit=3d2f2de9824f4e76c506bb587e4167255ff5f900
+		# 1.18.0~ynh1
+		upgrade=1	from_commit=ba40babc2a4dce4557fc57ab0dd19dc49a70f637
 		backup_restore=1
 		multi_instance=1
 		port_already_use=0
@@ -83,3 +85,5 @@ Notification=all
 		name=1.16.1~ynh1
 	; commit=3d2f2de9824f4e76c506bb587e4167255ff5f900
 		name=1.17.0~ynh1
+	; commit=ba40babc2a4dce4557fc57ab0dd19dc49a70f637
+		name=1.18.0~ynh1
