@@ -13,7 +13,7 @@ Si vous n'avez pas YunoHost, regardez [ici](https://yunohost.org/#/install) pour
 
 Programme de synchronisation de fichiers en continu.
 
-**Version incluse :** 1.18.1~ynh1
+**Version incluse :** 1.18.2~ynh1
 
 
 
