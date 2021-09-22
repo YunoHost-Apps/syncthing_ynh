@@ -45,6 +45,8 @@
 		upgrade=1	from_commit=3d2f2de9824f4e76c506bb587e4167255ff5f900
 		# 1.18.0~ynh1
 		upgrade=1	from_commit=ba40babc2a4dce4557fc57ab0dd19dc49a70f637
+		# 1.18.1~ynh1
+		upgrade=1	from_commit=3e69fac2078f96ba5a4cb73966345f44a95147bf
 		backup_restore=1
 		multi_instance=1
 		port_already_use=0
@@ -87,3 +89,5 @@ Notification=all
 		name=1.17.0~ynh1
 	; commit=ba40babc2a4dce4557fc57ab0dd19dc49a70f637
 		name=1.18.0~ynh1
+	; commit=3e69fac2078f96ba5a4cb73966345f44a95147bf
+		name=1.18.1~ynh1
