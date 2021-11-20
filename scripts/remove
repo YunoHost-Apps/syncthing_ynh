@@ -18,6 +18,7 @@ app=$YNH_APP_INSTANCE_NAME
 
 domain=$(ynh_app_setting_get --app=$app --key=domain)
 final_path=$(ynh_app_setting_get --app=$app --key=final_path)
+sync_home=$(ynh_app_setting_get --app=$app --key=sync_home)
 
 sync_port=$(ynh_app_setting_get --app=$app --key=sync_port)
 
@@ -49,6 +50,17 @@ ynh_script_progression --message="Removing app main directory..."
 
 # Remove the app directory securely
 ynh_secure_remove --file="$final_path"
+
+#=================================================
+# REMOVE DATA DIR
+#=================================================
+
+# Remove the app data directory with the command `yunohost app remove syncthing --purge`
+if [ "${YNH_APP_PURGE:-0}" -eq 1 ]
+then
+  ynh_script_progression --message="Removing $app data directory..." --weight=2
+  ynh_secure_remove --file="$sync_home"
+fi
 
 #=================================================
 # REMOVE NGINX CONFIGURATION

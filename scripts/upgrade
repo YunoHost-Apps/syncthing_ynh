@@ -20,6 +20,7 @@ app=$YNH_APP_INSTANCE_NAME
 domain=$(ynh_app_setting_get --app=$app --key=domain)
 path_url=$(ynh_app_setting_get --app=$app --key=path)
 final_path=$(ynh_app_setting_get --app=$app --key=final_path)
+architecture=$YNH_ARCH
 
 sync_home=$(ynh_app_setting_get --app=$app --key=sync_home)
 sync_port=$(ynh_app_setting_get --app=$app --key=sync_port)
@@ -100,7 +101,6 @@ if [ -z $gui_port ]; then
 	ynh_remove_logrotate
 
 	ynh_remove_app_dependencies
-
 fi
 
 # Cleaning legacy permissions
