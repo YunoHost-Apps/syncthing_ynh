@@ -64,7 +64,7 @@ echo "Handling asset at $asset_url"
 # Leave $src empty to ignore the asset
 case $asset_url in
   *"linux-arm-"*)
-    src="arm"
+    src="armhf"
     ;;
   *"linux-arm64-"*)
     src="arm64"
@@ -73,7 +73,7 @@ case $asset_url in
     src="i386"
     ;;
   *"linux-amd64-"*)
-    src="x86-64"
+    src="amd64"
     ;;
   *)
     src=""

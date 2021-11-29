@@ -12,13 +12,13 @@
 		setup_public=1
 		upgrade=1
 		# 1.1.1
-		upgrade=1	from_commit=571623f6ea0dc6310a8d6b991b03c4a84337ce92
+		#upgrade=1	from_commit=571623f6ea0dc6310a8d6b991b03c4a84337ce92
 		# 1.3.3
-		upgrade=1	from_commit=2b2b346b2d154653ff2affb5679a7cd8d60892fa
+		#upgrade=1	from_commit=2b2b346b2d154653ff2affb5679a7cd8d60892fa
 		# 1.4.0
-		upgrade=1	from_commit=cfd8f2894d381f0b1149b1061dff695c0941fcc3
+		#upgrade=1	from_commit=cfd8f2894d381f0b1149b1061dff695c0941fcc3
 		# 1.4.2
-		upgrade=1	from_commit=a351c2b6431a3ac092f3581a9778a402ec81f963
+		#upgrade=1	from_commit=a351c2b6431a3ac092f3581a9778a402ec81f963
 		# 1.5.0~ynh1
 		#upgrade=1	from_commit=91793d91bca31838cbb97782a633d3732e178b8a
 		# 1.6.1~ynh1
@@ -42,11 +42,11 @@
 		# 1.16.1~ynh1
 		#upgrade=1	from_commit=a1a1134571e6f9d274b6772358bedfb4b775fe5a
 		# 1.17.0~ynh1
-		upgrade=1	from_commit=3d2f2de9824f4e76c506bb587e4167255ff5f900
+		#upgrade=1	from_commit=3d2f2de9824f4e76c506bb587e4167255ff5f900
 		# 1.18.0~ynh1
-		upgrade=1	from_commit=ba40babc2a4dce4557fc57ab0dd19dc49a70f637
+		#upgrade=1	from_commit=ba40babc2a4dce4557fc57ab0dd19dc49a70f637
 		# 1.18.1~ynh1
-		upgrade=1	from_commit=3e69fac2078f96ba5a4cb73966345f44a95147bf
+		#upgrade=1	from_commit=3e69fac2078f96ba5a4cb73966345f44a95147bf
 		# 1.18.2~ynh1
 		upgrade=1	from_commit=f0cfbbfd9acf04d7df4d2b7c6c6f80da4db04f24
 		backup_restore=1

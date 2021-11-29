@@ -6,7 +6,7 @@
         "en": "Continuous file synchronization program.",
         "fr": "Programme de synchronisation de fichiers en continu."
     },
-    "version": "1.18.4~ynh1",
+    "version": "1.18.4~ynh2",
     "url": "https://syncthing.net/",
     "upstream": {
         "license": "MPL-2.0",
@@ -25,7 +25,7 @@
         }
     ],
     "requirements": {
-        "yunohost": ">= 4.1.3"
+        "yunohost": ">= 4.3.0"
     },
     "multi_instance": true,
     "services": [
@@ -35,8 +35,7 @@
         "install": [
             {
                 "name": "domain",
-                "type": "domain",
-                "example": "example.com"
+                "type": "domain"
             },
             {
                 "name": "path",
@@ -46,8 +45,7 @@
             },
             {
                 "name": "admin",
-                "type": "user",
-                "example": "johndoe"
+                "type": "user"
             }
         ]
     }
