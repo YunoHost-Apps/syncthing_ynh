@@ -3,10 +3,10 @@
     "id": "syncthing",
     "packaging_format": 1,
     "description": {
-        "en": "Continuous file synchronization program.",
-        "fr": "Programme de synchronisation de fichiers en continu."
+        "en": "Continuous file synchronization program",
+        "fr": "Programme de synchronisation de fichiers en continu"
     },
-    "version": "1.18.4~ynh2",
+    "version": "1.18.5~ynh1",
     "url": "https://syncthing.net/",
     "upstream": {
         "license": "MPL-2.0",
