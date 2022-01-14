@@ -102,7 +102,7 @@ if [ -z $gui_port ]; then
 	ynh_remove_app_dependencies
 fi
 
-# If gui_port doesn't exist, create it
+# If datadir doesn't exist, create it
 if [ -z $datadir ]; then
 	datadir=$(ynh_app_setting_get --app=$app --key=sync_home)
 	ynh_app_setting_set --app=$app --key=datadir --value=$datadir
