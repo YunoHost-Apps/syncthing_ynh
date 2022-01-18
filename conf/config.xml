@@ -43,7 +43,7 @@
         <overwriteRemoteDeviceNamesOnConnect>true</overwriteRemoteDeviceNamesOnConnect>
         <tempIndexMinBlocks>10</tempIndexMinBlocks>
         <trafficClass>0</trafficClass>
-        <defaultFolderPath>__SYNC_HOME__</defaultFolderPath>
+        <defaultFolderPath>__DATADIR__</defaultFolderPath>
         <setLowPriority>true</setLowPriority>
         <maxConcurrentScans>0</maxConcurrentScans>
     </options>
