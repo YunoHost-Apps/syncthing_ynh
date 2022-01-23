@@ -58,15 +58,15 @@ ynh_app_setting_set --app=$app --key=admin --value=$admin
 ynh_script_progression --message="Finding an available port..."
 
 # Find an available port
+port=$(ynh_find_port --port=22000)
+ynh_app_setting_set --app=$app --key=port --value=$port
+
 gui_port=$(ynh_find_port --port=8384)
 ynh_app_setting_set --app=$app --key=gui_port --value=$gui_port
 
-sync_port=$(ynh_find_port --port=22000)
-ynh_app_setting_set --app=$app --key=sync_port --value=$sync_port
-
 # Open the port
 ynh_script_progression --message="Configuring firewall..."
-ynh_exec_warn_less yunohost firewall allow TCP $sync_port
+ynh_exec_warn_less yunohost firewall allow TCP $port
 
 #=================================================
 # CREATE DEDICATED USER
@@ -100,23 +100,23 @@ ynh_add_nginx_config
 #=================================================
 # SPECIFIC SETUP
 #=================================================
-# CREATE SYNC DIRECTORY
+# CREATE DATA DIRECTORY
 #=================================================
-ynh_script_progression --message="Creating sync directory..."
+ynh_script_progression --message="Creating a data directory..."
 
-sync_home=/home/yunohost.app/$app
-ynh_app_setting_set --app=$app --key=sync_home --value=$sync_home
+datadir=/home/yunohost.app/$app
+ynh_app_setting_set --app=$app --key=datadir --value=$datadir
 
-mkdir -p $sync_home
+mkdir -p $datadir
 
-chmod 750 "$sync_home"
-chmod -R o-rwx "$sync_home"
-chown -R $app:$app "$sync_home"
+chmod 750 "$datadir"
+chmod -R o-rwx "$datadir"
+chown -R $app:$app "$datadir"
 
 #=================================================
 # ADD A CONFIGURATION
 #=================================================
-ynh_script_progression --message="Adding a config file..."
+ynh_script_progression --message="Adding a configuration file..."
 
 mkdir -p "$final_path/.config/syncthing"
 config_file="$final_path/.config/syncthing/config.xml"
@@ -142,7 +142,7 @@ chown -R $app: $final_path
 
 ynh_systemd_action --service_name=$app --action="start" --log_path=systemd --line_match="Access the GUI via the following URL"
 
-ynh_replace_string --match_string="<listenAddress>tcp://quic:%2F%2F0.0.0.0:$sync_port</listenAddress>" --replace_string="<listenAddress>quic//0.0.0.0:$sync_port</listenAddress>" --target_file="$config_file"
+ynh_replace_string --match_string="<listenAddress>tcp://quic:%2F%2F0.0.0.0:$port</listenAddress>" --replace_string="<listenAddress>quic//0.0.0.0:$port</listenAddress>" --target_file="$config_file"
 
 ynh_systemd_action --service_name=$app --action="stop" --log_path=systemd
 
@@ -155,7 +155,7 @@ ynh_store_file_checksum --file="$config_file"
 #=================================================
 ynh_script_progression --message="Integrating service in YunoHost..."
 
-yunohost service add $app --description="$app daemon for Syncthing" --needs_exposed_ports=$sync_port
+yunohost service add $app --description="$app daemon for Syncthing" --needs_exposed_ports=$port
 
 #=================================================
 # START SYSTEMD SERVICE

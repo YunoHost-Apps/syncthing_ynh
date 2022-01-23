@@ -10,12 +10,15 @@ Restart=on-failure
 SuccessExitStatus=3 4
 RestartForceExitStatus=3 4
 
-# Hardening
+# Sandboxing options to harden security
+# Depending on specificities of your service/app, you may need to tweak these 
+# .. but this should be a good baseline
+# Details for these options: https://www.freedesktop.org/software/systemd/man/systemd.exec.html
+NoNewPrivileges=true
+PrivateTmp=yes
 ProtectSystem=full
-PrivateTmp=true
 SystemCallArchitectures=native
 MemoryDenyWriteExecute=true
-NoNewPrivileges=true
 
 [Install]
 WantedBy=multi-user.target
