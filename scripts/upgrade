@@ -21,8 +21,8 @@ path_url=$(ynh_app_setting_get --app=$app --key=path)
 final_path=$(ynh_app_setting_get --app=$app --key=final_path)
 architecture=$YNH_ARCH
 
-sync_home=$(ynh_app_setting_get --app=$app --key=sync_home)
-sync_port=$(ynh_app_setting_get --app=$app --key=sync_port)
+datadir=$(ynh_app_setting_get --app=$app --key=datadir)
+port=$(ynh_app_setting_get --app=$app --key=port)
 gui_port=$(ynh_app_setting_get --app=$app --key=gui_port)
 
 #=================================================
@@ -78,16 +78,16 @@ if [ -z $gui_port ]; then
 	gui_port=$OLD_GUIPORT
 	ynh_app_setting_set --app=$app --key=gui_port --value=$gui_port
 
-	sync_home="/home/yunohost.app/$app"
-	ynh_app_setting_set --app=$app --key=sync_home --value=$sync_home
+	datadir="/home/yunohost.app/$app"
+	ynh_app_setting_set --app=$app --key=datadir --value=$datadir
 
-	sync_port=$OLD_SYNCPORT
-	ynh_app_setting_set --app=$app --key=sync_port --value=$sync_port
+	port=$OLD_SYNCPORT
+	ynh_app_setting_set --app=$app --key=port --value=$port
 
 	mkdir -p $final_path
 	cp -R $OLD_SYNCHOME/.config $final_path/.config
 
-	ynh_replace_string --match_string="~" --replace_string="$sync_home" --target_file="$final_path/.config/syncthing/config.xml"
+	ynh_replace_string --match_string="~" --replace_string="$datadir" --target_file="$final_path/.config/syncthing/config.xml"
 
 	systemctl stop syncthing@$OLD_SYNCUSER.service
 	yunohost service remove syncthing@$OLD_SYNCUSER.service
@@ -100,6 +100,20 @@ if [ -z $gui_port ]; then
 	ynh_remove_logrotate
 
 	ynh_remove_app_dependencies
+fi
+
+# If port doesn't exist, create it
+if [ -z $port ]; then
+	port=$(ynh_app_setting_get --app=$app --key=sync_port)
+	ynh_app_setting_set --app=$app --key=port --value=$port
+	ynh_app_setting_delete --app=$app --key=sync_port
+fi
+
+# If datadir doesn't exist, create it
+if [ -z $datadir ]; then
+	datadir=$(ynh_app_setting_get --app=$app --key=sync_home)
+	ynh_app_setting_set --app=$app --key=datadir --value=$datadir
+	ynh_app_setting_delete --app="$app" --key="sync_home"
 fi
 
 # Cleaning legacy permissions
@@ -144,20 +158,20 @@ ynh_add_nginx_config
 #=================================================
 # SPECIFIC UPGRADE
 #=================================================
-# CREATE SYNC DIRECTORY
+# CREATE DATA DIRECTORY
 #=================================================
-ynh_script_progression --message="Creating sync directory..."
+ynh_script_progression --message="Creating a data directory..."
 
 # Make directories and set rights
-mkdir -p "$sync_home"
-chmod 750 "$sync_home"
-chmod -R o-rwx "$sync_home"
-chown -R $app:$app "$sync_home"
+mkdir -p "$datadir"
+chmod 750 "$datadir"
+chmod -R o-rwx "$datadir"
+chown -R $app:$app "$datadir"
 
 #=================================================
 # UPDATE A CONFIG FILE
 #=================================================
-ynh_script_progression --message="Updating a config file..."
+ynh_script_progression --message="Updating a configuration file..."
 
 config_file="$final_path/.config/syncthing/config.xml"
 
@@ -185,7 +199,7 @@ ynh_add_systemd_config
 #=================================================
 ynh_script_progression --message="Integrating service in YunoHost..."
 
-yunohost service add $app --description="$app daemon for Syncthing" --needs_exposed_ports=$sync_port
+yunohost service add $app --description="$app daemon for Syncthing" --needs_exposed_ports=$port
 
 #=================================================
 # START SYSTEMD SERVICE
