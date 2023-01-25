@@ -5,30 +5,30 @@ It shall NOT be edited by hand.
 
 # Syncthing pour YunoHost
 
-[![Niveau d'intégration](https://dash.yunohost.org/integration/syncthing.svg)](https://dash.yunohost.org/appci/app/syncthing) ![Statut du fonctionnement](https://ci-apps.yunohost.org/ci/badges/syncthing.status.svg) ![Statut de maintenance](https://ci-apps.yunohost.org/ci/badges/syncthing.maintain.svg)  
+[![Niveau d’intégration](https://dash.yunohost.org/integration/syncthing.svg)](https://dash.yunohost.org/appci/app/syncthing) ![Statut du fonctionnement](https://ci-apps.yunohost.org/ci/badges/syncthing.status.svg) ![Statut de maintenance](https://ci-apps.yunohost.org/ci/badges/syncthing.maintain.svg)
 [![Installer Syncthing avec YunoHost](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=syncthing)
 
 *[Read this readme in english.](./README.md)*
 
-> *Ce package vous permet d'installer Syncthing rapidement et simplement sur un serveur YunoHost.
-Si vous n'avez pas YunoHost, regardez [ici](https://yunohost.org/#/install) pour savoir comment l'installer et en profiter.*
+> *Ce package vous permet d’installer Syncthing rapidement et simplement sur un serveur YunoHost.
+Si vous n’avez pas YunoHost, regardez [ici](https://yunohost.org/#/install) pour savoir comment l’installer et en profiter.*
 
-## Vue d'ensemble
+## Vue d’ensemble
 
 Syncthing is a continuous file synchronization program. It synchronizes files between two or more computers in real time, safely protected from prying eyes. Your data is your data alone and you deserve to choose where it is stored, whether it is shared with some third party, and how it's transmitted over the internet.
 
 
 **Version incluse :** 1.22.1~ynh1
 
-## Captures d'écran
+## Captures d’écran
 
-![Capture d'écran de Syncthing](./doc/screenshots/screenshot1.png)
+![Capture d’écran de Syncthing](./doc/screenshots/screenshot1.png)
 
 ## Documentations et ressources
 
-* Site officiel de l'app : <https://syncthing.net>
+* Site officiel de l’app : <https://syncthing.net>
 * Documentation officielle utilisateur : <https://docs.syncthing.net>
-* Dépôt de code officiel de l'app : <https://github.com/syncthing/syncthing>
+* Dépôt de code officiel de l’app : <https://github.com/syncthing/syncthing>
 * Documentation YunoHost pour cette app : <https://yunohost.org/app_syncthing>
 * Signaler un bug : <https://github.com/YunoHost-Apps/syncthing_ynh/issues>
 
@@ -44,4 +44,4 @@ ou
 sudo yunohost app upgrade syncthing -u https://github.com/YunoHost-Apps/syncthing_ynh/tree/testing --debug
 ```
 
-**Plus d'infos sur le packaging d'applications :** <https://yunohost.org/packaging_apps>
+**Plus d’infos sur le packaging d’applications :** <https://yunohost.org/packaging_apps>
