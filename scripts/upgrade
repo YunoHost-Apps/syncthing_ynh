@@ -10,41 +10,10 @@ source _common.sh
 source /usr/share/yunohost/helpers
 
 #=================================================
-# LOAD SETTINGS
-#=================================================
-#REMOVEME? ynh_script_progression --message="Loading installation settings..."
-
-#REMOVEME? app=$YNH_APP_INSTANCE_NAME
-
-#REMOVEME? domain=$(ynh_app_setting_get --app=$app --key=domain)
-#REMOVEME? path=$(ynh_app_setting_get --app=$app --key=path)
-#REMOVEME? #REMOVEME? install_dir=$(ynh_app_setting_get --app=$app --key=install_dir)
-architecture=$YNH_ARCH
-
-#REMOVEME? data_dir=$(ynh_app_setting_get --app=$app --key=data_dir)
-#REMOVEME? port=$(ynh_app_setting_get --app=$app --key=port)
-#REMOVEME? gui_port=$(ynh_app_setting_get --app=$app --key=gui_port)
-
-#=================================================
 # CHECK VERSION
 #=================================================
-ynh_script_progression --message="Checking version..."
 
 upgrade_type=$(ynh_check_app_version_changed)
-
-#=================================================
-# BACKUP BEFORE UPGRADE THEN ACTIVE TRAP
-#=================================================
-#REMOVEME? ynh_script_progression --message="Backing up the app before upgrading (may take a while)..."
-
-# Backup the current version of the app
-#REMOVEME? ynh_backup_before_upgrade
-#REMOVEME? ynh_clean_setup () {
-	# Restore it if the upgrade fails
-#REMOVEME? 	ynh_restore_upgradebackup
-}
-# Exit if an error occurs during the execution of the script
-#REMOVEME? ynh_abort_if_errors
 
 #=================================================
 # STANDARD UPGRADE STEPS
@@ -56,82 +25,6 @@ ynh_script_progression --message="Stopping a systemd service..."
 ynh_systemd_action --service_name=$app --action="stop" --log_path=systemd
 
 #=================================================
-# ENSURE DOWNWARD COMPATIBILITY
-#=================================================
-ynh_script_progression --message="Ensuring downward compatibility..."
-
-# If gui_port doesn't exist, create it
-if [ -z $gui_port ]; then
-	OLD_SYNCHOME="/home/yunohost.app/syncthing"
-	OLD_SYNCUSER=debian-syncthing
-	OLD_SYNCPORT=22000
-	OLD_GUIPORT=8384
-	OLD_CONFIG="$OLD_SYNCHOME/.config/syncthing/config.xml"
-
-#REMOVEME? 	admin=$(ynh_app_setting_get $app allowed_users)
-#REMOVEME? 	ynh_app_setting_set --app=$app --key=admin --value=$admin
-	ynh_app_setting_delete --app="$app" --key="allowed_users"
-#REMOVEME? 
-	install_dir=/var/www/$app
-#REMOVEME? 	ynh_app_setting_set --app=$app --key=install_dir --value=$install_dir
-
-	gui_port=$OLD_GUIPORT
-#REMOVEME? 	ynh_app_setting_set --app=$app --key=gui_port --value=$gui_port
-
-	data_dir="/home/yunohost.app/$app"
-#REMOVEME? 	ynh_app_setting_set --app=$app --key=data_dir --value=$data_dir
-
-	port=$OLD_SYNCPORT
-#REMOVEME? 	ynh_app_setting_set --app=$app --key=port --value=$port
-
-	mkdir -p $install_dir
-	cp -R $OLD_SYNCHOME/.config $install_dir/.config
-
-	ynh_replace_string --match_string="~" --replace_string="$data_dir" --target_file="$install_dir/.config/syncthing/config.xml"
-
-	systemctl stop syncthing@$OLD_SYNCUSER.service
-	yunohost service remove syncthing@$OLD_SYNCUSER.service
-	systemctl disable syncthing@$OLD_SYNCUSER.service --quiet
-
-	ynh_secure_remove --file="/etc/apt/sources.list.d/syncthing.list"
-
-#REMOVEME? 	ynh_system_user_delete --username="$SYNCUSER"
-
-	ynh_remove_logrotate
-
-#REMOVEME? 	ynh_remove_app_dependencies
-fi
-
-# If port doesn't exist, create it
-if [ -z $port ]; then
-#REMOVEME? 	port=$(ynh_app_setting_get --app=$app --key=sync_port)
-#REMOVEME? 	ynh_app_setting_set --app=$app --key=port --value=$port
-	ynh_app_setting_delete --app=$app --key=sync_port
-fi
-
-# If data_dir doesn't exist, create it
-if [ -z $data_dir ]; then
-#REMOVEME? 	data_dir=$(ynh_app_setting_get --app=$app --key=sync_home)
-#REMOVEME? 	ynh_app_setting_set --app=$app --key=data_dir --value=$data_dir
-	ynh_app_setting_delete --app="$app" --key="sync_home"
-fi
-
-# Cleaning legacy permissions
-#REMOVEME? if ynh_legacy_permissions_exists; then
-#REMOVEME? 	ynh_legacy_permissions_delete_all
-
-	ynh_app_setting_delete --app=$app --key=is_public
-fi
-
-#=================================================
-# CREATE DEDICATED USER
-#=================================================
-#REMOVEME? ynh_script_progression --message="Making sure dedicated system user exists..."
-
-# Create a dedicated user (if not existing)
-#REMOVEME? ynh_system_user_create --username=$app --home_dir=$install_dir
-
-#=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
 #=================================================
 
@@ -140,7 +33,7 @@ then
 	ynh_script_progression --message="Upgrading source files..."
 
 	# Download, check integrity, uncompress and patch the source from app.src
-	ynh_setup_source --dest_dir="$install_dir" --source_id=$architecture
+	ynh_setup_source --dest_dir="$install_dir" --source_id=$YNH_ARCH
 fi
 
 chmod 750 "$install_dir"
@@ -207,13 +100,6 @@ yunohost service add $app --description="$app daemon for Syncthing" --needs_expo
 ynh_script_progression --message="Starting a systemd service..."
 
 ynh_systemd_action --service_name=$app --action="start" --log_path=systemd --line_match="Access the GUI via the following URL"
-
-#=================================================
-# RELOAD NGINX
-#=================================================
-#REMOVEME? ynh_script_progression --message="Reloading NGINX web server..."
-
-#REMOVEME? ynh_systemd_action --service_name=nginx --action=reload
 
 #=================================================
 # END OF SCRIPT
