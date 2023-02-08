@@ -36,8 +36,6 @@ then
 	ynh_setup_source --dest_dir="$install_dir" --source_id=$YNH_ARCH
 fi
 
-chmod 750 "$install_dir"
-chmod -R o-rwx "$install_dir"
 chown -R $app:$app "$install_dir"
 
 #=================================================
