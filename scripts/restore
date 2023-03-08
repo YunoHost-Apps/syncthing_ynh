@@ -33,10 +33,6 @@ ynh_script_progression --message="Restoring the data directory..."
 
 ynh_restore_file --origin_path="$data_dir" --not_mandatory
 
-mkdir -p $data_dir
-
-chmod 750 "$data_dir"
-chmod -R o-rwx "$data_dir"
 chown -R $app:$app "$data_dir"
 
 #=================================================
