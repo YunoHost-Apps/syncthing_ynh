@@ -39,25 +39,17 @@ fi
 chown -R $app:$app "$install_dir"
 
 #=================================================
-# NGINX CONFIGURATION
+# REAPPLY SYSTEM CONFIGURATIONS
 #=================================================
-ynh_script_progression --message="Upgrading NGINX web server configuration..."
+ynh_script_progression --message="Upgrading system configurations related to $app..." --weight=1
 
 # Create a dedicated NGINX config
 ynh_add_nginx_config
 
-#=================================================
-# SPECIFIC UPGRADE
-#=================================================
-# CREATE DATA DIRECTORY
-#=================================================
-ynh_script_progression --message="Creating a data directory..."
+# Create a dedicated systemd config
+ynh_add_systemd_config
 
-# Make directories and set rights
-mkdir -p "$data_dir"
-chmod 750 "$data_dir"
-chmod -R o-rwx "$data_dir"
-chown -R $app:$app "$data_dir"
+yunohost service add $app --description="$app daemon for Syncthing" --needs_exposed_ports=$port
 
 #=================================================
 # UPDATE A CONFIG FILE
@@ -74,23 +66,6 @@ ynh_store_file_checksum --file="$config_file"
 
 chmod 400 "$config_file"
 chown $app:$app "$config_file"
-
-#=================================================
-# SETUP SYSTEMD
-#=================================================
-ynh_script_progression --message="Upgrading systemd configuration..."
-
-# Create a dedicated systemd config
-ynh_add_systemd_config
-
-#=================================================
-# GENERIC FINALIZATION
-#=================================================
-# INTEGRATE SERVICE IN YUNOHOST
-#=================================================
-ynh_script_progression --message="Integrating service in YunoHost..."
-
-yunohost service add $app --description="$app daemon for Syncthing" --needs_exposed_ports=$port
 
 #=================================================
 # START SYSTEMD SERVICE
