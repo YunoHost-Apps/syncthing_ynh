@@ -11,13 +11,6 @@ source ../settings/scripts/_common.sh
 source /usr/share/yunohost/helpers
 
 #=================================================
-# RESTORE THE NGINX CONFIGURATION
-#=================================================
-ynh_script_progression --message="Restoring the NGINX web server configuration..."
-
-ynh_restore_file --origin_path="/etc/nginx/conf.d/$domain.d/$app.conf"
-
-#=================================================
 # RESTORE THE APP MAIN DIR
 #=================================================
 ynh_script_progression --message="Restoring the app main directory..."
@@ -36,35 +29,27 @@ ynh_restore_file --origin_path="$data_dir" --not_mandatory
 chown -R $app:$app "$data_dir"
 
 #=================================================
-# SPECIFIC RESTORATION
+# RESTORE SYSTEM CONFIGURATIONS
 #=================================================
-# RESTORE SYSTEMD
+# RESTORE THE PHP-FPM CONFIGURATION
 #=================================================
-ynh_script_progression --message="Restoring the systemd configuration..."
+ynh_script_progression --message="Restoring system configurations related to $app..." --weight=1
+
+ynh_restore_file --origin_path="/etc/nginx/conf.d/$domain.d/$app.conf"
 
 ynh_restore_file --origin_path="/etc/systemd/system/$app.service"
 systemctl enable $app.service --quiet
 
-#=================================================
-# INTEGRATE SERVICE IN YUNOHOST
-#=================================================
-ynh_script_progression --message="Integrating service in YunoHost..."
-
 yunohost service add $app --description="$app daemon for Syncthing" --needs_exposed_ports=$port
-
-#=================================================
-# START SYSTEMD SERVICE
-#=================================================
-ynh_script_progression --message="Starting a systemd service..."
-
-ynh_systemd_action --service_name=$app --action="start" --log_path=systemd --line_match="Access the GUI via the following URL"
 
 #=================================================
 # GENERIC FINALIZATION
 #=================================================
-# RELOAD NGINX
+# RELOAD NGINX AND PHP-FPM OR THE APP SERVICE
 #=================================================
-ynh_script_progression --message="Reloading NGINX web server..."
+ynh_script_progression --message="Reloading NGINX web server and $app's service..." --weight=1
+
+ynh_systemd_action --service_name=$app --action="start" --log_path=systemd --line_match="Access the GUI via the following URL"
 
 ynh_systemd_action --service_name=nginx --action=reload
 
