@@ -1,6 +1,6 @@
 <configuration>
     <gui enabled="true" tls="false" debugging="false">
-        <address>127.0.0.1:__GUI_PORT__</address>
+        <address>127.0.0.1:__PORT_GUI__</address>
         <authMode>ldap</authMode>
     </gui>
     <ldap>
