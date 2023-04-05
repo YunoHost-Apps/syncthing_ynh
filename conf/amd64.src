@@ -1,5 +1,5 @@
-SOURCE_URL=https://github.com/syncthing/syncthing/releases/download/v1.23.2/syncthing-linux-amd64-v1.23.2.tar.gz
-SOURCE_SUM=752d4df7c38789e0aff0f82194878ccbb7c8f2e18c1599aa817e3ecc517597e2
+SOURCE_URL=https://github.com/syncthing/syncthing/releases/download/v1.23.3/syncthing-linux-amd64-v1.23.3.tar.gz
+SOURCE_SUM=8f9d858381475bbdea81c12632ef499d63e3fa213d1e5446f9fad6f44c0f860e
 SOURCE_SUM_PRG=sha256sum
 SOURCE_FORMAT=tar.gz
 SOURCE_IN_SUBDIR=true
