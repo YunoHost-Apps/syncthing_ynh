@@ -33,7 +33,7 @@ then
 	ynh_script_progression --message="Upgrading source files..."
 
 	# Download, check integrity, uncompress and patch the source from app.src
-	ynh_setup_source --dest_dir="$install_dir"
+	ynh_setup_source --dest_dir="$install_dir" --keep=".config/syncthing/config.xml"
 fi
 
 chmod -R o-rwx "$install_dir"
@@ -50,18 +50,18 @@ ynh_add_nginx_config
 #=================================================
 # UPDATE A CONFIG FILE
 #=================================================
-ynh_script_progression --message="Updating a configuration file..."
+#ynh_script_progression --message="Updating a configuration file..."
 
-config_file="$install_dir/.config/syncthing/config.xml"
+#config_file="$install_dir/.config/syncthing/config.xml"
 
-ynh_backup_if_checksum_is_different --file="$config_file"
+#ynh_backup_if_checksum_is_different --file="$config_file"
 # Recalculate and store the checksum of the file for the next upgrade.
-ynh_store_file_checksum --file="$config_file"
+#ynh_store_file_checksum --file="$config_file"
 
 #ynh_add_config --template="../conf/config.xml" --destination="$config_file"
 
-chmod 400 "$config_file"
-chown $app:$app "$config_file"
+#chmod 400 "$config_file"
+#chown $app:$app "$config_file"
 
 #=================================================
 # SETUP SYSTEMD
@@ -78,7 +78,7 @@ ynh_add_systemd_config
 #=================================================
 ynh_script_progression --message="Integrating service in YunoHost..."
 
-yunohost service add $app --description="$app daemon for Syncthing" --needs_exposed_ports=$port
+yunohost service add $app --description="Continuous File Synchronization" --needs_exposed_ports=$port
 
 #=================================================
 # START SYSTEMD SERVICE

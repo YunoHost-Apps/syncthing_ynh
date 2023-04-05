@@ -70,7 +70,7 @@ ynh_store_file_checksum --file="$config_file"
 #=================================================
 ynh_script_progression --message="Integrating service in YunoHost..."
 
-yunohost service add $app --description="$app daemon for Syncthing" --needs_exposed_ports=$port
+yunohost service add $app --description="Continuous File Synchronization" --needs_exposed_ports=$port
 
 #=================================================
 # START SYSTEMD SERVICE
