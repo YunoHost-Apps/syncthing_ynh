@@ -1,6 +1,5 @@
 [Unit]
-Description=Syncthing - Open Source Continuous File Synchronization for %I
-Documentation=man:syncthing(1)
+Description=Syncthing: Continuous File Synchronization
 After=network.target
 
 [Service]

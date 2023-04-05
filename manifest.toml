@@ -42,12 +42,16 @@ ram.runtime = "50M"
         arm64.sha256 = "91bc4211df65689aed4739aabd3d409791d55b01ced31e10fac385ed15647942"
         amd64.url = "https://github.com/syncthing/syncthing/releases/download/v1.23.2/syncthing-linux-amd64-v1.23.2.tar.gz"
         amd64.sha256 = "752d4df7c38789e0aff0f82194878ccbb7c8f2e18c1599aa817e3ecc517597e2"
-        armel.url = "https://github.com/syncthing/syncthing/releases/download/v1.23.2/syncthing-linux-arm-v1.23.2.tar.gz"
-        armel.sha256 = "5309cfe6575d8fb86bd623937e3bbe66cb5c22be12722c57da8c3d32765cd931"
         armhf.url = "https://github.com/syncthing/syncthing/releases/download/v1.23.2/syncthing-linux-arm-v1.23.2.tar.gz"
         armhf.sha256 = "5309cfe6575d8fb86bd623937e3bbe66cb5c22be12722c57da8c3d32765cd931"
         i386.url = "https://github.com/syncthing/syncthing/releases/download/v1.23.2/syncthing-linux-386-v1.23.2.tar.gz"
         i386.sha256 = "7ba020603ead83afc6f43e0dbf59e33832414bdd055c608abc05d33d73f66757"
+
+        autoupdate.strategy = "latest_github_release"
+        autoupdate.asset.arm64 = "syncthing-linux-arm64-*.tar.gz"
+        autoupdate.asset.amd64 = "syncthing-linux-amd64-*.tar.gz"
+        autoupdate.asset.i386 = "syncthing-linux-386-*.tar.gz"
+        autoupdate.asset.armhf = "syncthing-linux-arm-*.tar.gz"
 
     [resources.ports]
     main.default = 22000
