@@ -175,9 +175,9 @@ ynh_script_progression --message="Updating a configuration file..."
 
 config_file="$final_path/.config/syncthing/config.xml"
 
-ynh_backup_if_checksum_is_different --file="$config_file"
+#ynh_backup_if_checksum_is_different --file="$config_file"
 # Recalculate and store the checksum of the file for the next upgrade.
-ynh_store_file_checksum --file="$config_file"
+#ynh_store_file_checksum --file="$config_file"
 
 #ynh_add_config --template="../conf/config.xml" --destination="$config_file"
 
