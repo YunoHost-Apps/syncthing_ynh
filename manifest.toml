@@ -16,7 +16,7 @@ userdoc = "https://docs.syncthing.net"
 code = "https://github.com/syncthing/syncthing"
 
 [integration]
-yunohost = ">= 11.1.16"
+yunohost = ">= 11.1.19"
 architectures = "all"
 multi_instance = true
 ldap = true
