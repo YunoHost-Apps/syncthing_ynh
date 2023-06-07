@@ -21,7 +21,6 @@ Syncthing is a continuous file synchronization program. It synchronizes files be
 
 **Shipped version:** 1.23.2~ynh1
 
-
 ## Screenshots
 
 ![Screenshot of Syncthing](./doc/screenshots/screenshot1.png)
