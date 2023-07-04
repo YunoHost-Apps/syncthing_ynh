@@ -1,5 +1,5 @@
-SOURCE_URL=https://github.com/syncthing/syncthing/releases/download/v1.23.5/syncthing-linux-386-v1.23.5.tar.gz
-SOURCE_SUM=e41920912f2f3f9d06a99feeec2bce9fb24ee43667d700ad81f19a2415bf5f82
+SOURCE_URL=https://github.com/syncthing/syncthing/releases/download/v1.23.6/syncthing-linux-386-v1.23.6.tar.gz
+SOURCE_SUM=9db26daa7564d60a28419ebd21899d55887ebab00bdf9517b4e7d8bca2db2888
 SOURCE_SUM_PRG=sha256sum
 SOURCE_FORMAT=tar.gz
 SOURCE_IN_SUBDIR=true
