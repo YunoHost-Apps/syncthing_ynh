@@ -28,6 +28,11 @@ ynh_script_progression --message="Configuring NGINX web server..."
 # Create a dedicated NGINX config
 ynh_add_nginx_config
 
+# Create a dedicated systemd config
+ynh_add_systemd_config
+
+yunohost service add $app --description="Continuous File Synchronization" --needs_exposed_ports=$port
+
 #=================================================
 # ADD A CONFIGURATION
 #=================================================
@@ -39,14 +44,6 @@ ynh_add_config --template="../conf/config.xml" --destination="$config_file"
 
 chmod 400 "$config_file"
 chown $app:$app "$config_file"
-
-#=================================================
-# SETUP SYSTEMD
-#=================================================
-ynh_script_progression --message="Configuring a systemd service..."
-
-# Create a dedicated systemd config
-ynh_add_systemd_config
 
 #=================================================
 # FIX LISTENING SERVICE
@@ -62,15 +59,6 @@ ynh_replace_string --match_string="<listenAddress>tcp://quic:%2F%2F0.0.0.0:$port
 ynh_systemd_action --service_name=$app --action="stop" --log_path=systemd
 
 ynh_store_file_checksum --file="$config_file"
-
-#=================================================
-# GENERIC FINALIZATION
-#=================================================
-# INTEGRATE SERVICE IN YUNOHOST
-#=================================================
-ynh_script_progression --message="Integrating service in YunoHost..."
-
-yunohost service add $app --description="Continuous File Synchronization" --needs_exposed_ports=$port
 
 #=================================================
 # START SYSTEMD SERVICE

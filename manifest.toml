@@ -5,7 +5,7 @@ name = "Syncthing"
 description.en = "Continuous file synchronization program"
 description.fr = "Programme de synchronisation de fichiers en continu"
 
-version = "1.23.2~ynh1"
+version = "1.24.0~ynh1"
 
 maintainers = ["txmrl", "yalh76"]
 
@@ -22,7 +22,7 @@ multi_instance = true
 ldap = true
 sso = true
 disk = "50M"
-ram.build = "50M"
+ram.build = "200M"
 ram.runtime = "50M"
 
 [install]
@@ -33,19 +33,23 @@ ram.runtime = "50M"
     type = "path"
     default = "/syncthing"
 
+    [install.init_main_permission]
+    type = "group"
+    default = "visitors"
+
     [install.admin]
     type = "user"
 
 [resources]
         [resources.sources.main]
-        arm64.url = "https://github.com/syncthing/syncthing/releases/download/v1.23.2/syncthing-linux-arm64-v1.23.2.tar.gz"
-        arm64.sha256 = "91bc4211df65689aed4739aabd3d409791d55b01ced31e10fac385ed15647942"
-        amd64.url = "https://github.com/syncthing/syncthing/releases/download/v1.23.2/syncthing-linux-amd64-v1.23.2.tar.gz"
-        amd64.sha256 = "752d4df7c38789e0aff0f82194878ccbb7c8f2e18c1599aa817e3ecc517597e2"
-        armhf.url = "https://github.com/syncthing/syncthing/releases/download/v1.23.2/syncthing-linux-arm-v1.23.2.tar.gz"
-        armhf.sha256 = "5309cfe6575d8fb86bd623937e3bbe66cb5c22be12722c57da8c3d32765cd931"
-        i386.url = "https://github.com/syncthing/syncthing/releases/download/v1.23.2/syncthing-linux-386-v1.23.2.tar.gz"
-        i386.sha256 = "7ba020603ead83afc6f43e0dbf59e33832414bdd055c608abc05d33d73f66757"
+        arm64.url = "https://github.com/syncthing/syncthing/releases/download/v1.24.0/syncthing-linux-arm64-v1.24.0.tar.gz"
+        arm64.sha256 = "e1e3de74b72794c1708e965a625dca04706745676148e0fa77fee2bbddfa49dd"
+        amd64.url = "https://github.com/syncthing/syncthing/releases/download/v1.24.0/syncthing-linux-amd64-v1.24.0.tar.gz"
+        amd64.sha256 = "b6e514d61f9be7d516483762e91e10c1644427e35d88c79edb64cbc6256e1036"
+        armhf.url = "https://github.com/syncthing/syncthing/releases/download/v1.24.0/syncthing-linux-arm-v1.24.0.tar.gz"
+        armhf.sha256 = "43060bdd6e0d3028749a505dfec2389730f30c7881ebbb76932d8a6f70558d68"
+        i386.url = "https://github.com/syncthing/syncthing/releases/download/v1.24.0/syncthing-linux-386-v1.24.0.tar.gz"
+        i386.sha256 = "2a7a76bf499188226f0a74b35bb2a6e217dad025348c00dc79a7246cbd13ce28"
 
         autoupdate.strategy = "latest_github_release"
         autoupdate.asset.arm64 = "syncthing-linux-arm64-*.tar.gz"
