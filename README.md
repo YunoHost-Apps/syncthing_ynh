@@ -19,7 +19,7 @@ If you don't have YunoHost, please consult [the guide](https://yunohost.org/#/in
 Syncthing is a continuous file synchronization program. It synchronizes files between two or more computers in real time, safely protected from prying eyes. Your data is your data alone and you deserve to choose where it is stored, whether it is shared with some third party, and how it's transmitted over the internet.
 
 
-**Shipped version:** 1.24.0~ynh1
+**Shipped version:** 1.25.0~ynh1
 
 ## Screenshots
 
@@ -30,7 +30,6 @@ Syncthing is a continuous file synchronization program. It synchronizes files be
 * Official app website: <https://syncthing.net>
 * Official user documentation: <https://docs.syncthing.net>
 * Upstream app code repository: <https://github.com/syncthing/syncthing>
-* YunoHost documentation for this app: <https://yunohost.org/app_syncthing>
 * Report a bug: <https://github.com/YunoHost-Apps/syncthing_ynh/issues>
 
 ## Developer info
