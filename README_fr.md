@@ -30,6 +30,7 @@ Syncthing is a continuous file synchronization program. It synchronizes files be
 * Site officiel de l’app : <https://syncthing.net>
 * Documentation officielle utilisateur : <https://docs.syncthing.net>
 * Dépôt de code officiel de l’app : <https://github.com/syncthing/syncthing>
+* YunoHost Store: <https://apps.yunohost.org/app/syncthing>
 * Signaler un bug : <https://github.com/YunoHost-Apps/syncthing_ynh/issues>
 
 ## Informations pour les développeurs
