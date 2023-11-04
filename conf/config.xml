@@ -1,6 +1,6 @@
 <configuration>
     <gui enabled="true" tls="false" debugging="false">
-        <address>127.0.0.1:__GUI_PORT__</address>
+        <address>127.0.0.1:__PORT_GUI__</address>
         <authMode>ldap</authMode>
     </gui>
     <ldap>
@@ -43,7 +43,7 @@
         <overwriteRemoteDeviceNamesOnConnect>true</overwriteRemoteDeviceNamesOnConnect>
         <tempIndexMinBlocks>10</tempIndexMinBlocks>
         <trafficClass>0</trafficClass>
-        <defaultFolderPath>__DATADIR__</defaultFolderPath>
+        <defaultFolderPath>__DATA_DIR__</defaultFolderPath>
         <setLowPriority>true</setLowPriority>
         <maxConcurrentScans>0</maxConcurrentScans>
     </options>

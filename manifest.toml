@@ -1,0 +1,72 @@
+packaging_format = 2
+
+id = "syncthing"
+name = "Syncthing"
+description.en = "Continuous file synchronization program"
+description.fr = "Programme de synchronisation de fichiers en continu"
+
+version = "1.24.0~ynh1"
+
+maintainers = ["txmrl", "yalh76"]
+
+[upstream]
+license = "MPL-2.0"
+website = "https://syncthing.net"
+userdoc = "https://docs.syncthing.net"
+code = "https://github.com/syncthing/syncthing"
+
+[integration]
+yunohost = ">= 11.2"
+architectures = "all"
+multi_instance = true
+ldap = true
+sso = true
+disk = "50M"
+ram.build = "1200M"
+ram.runtime = "50M"
+
+[install]
+    [install.domain]
+    type = "domain"
+
+    [install.path]
+    type = "path"
+    default = "/syncthing"
+
+    [install.init_main_permission]
+    type = "group"
+    default = "visitors"
+
+    [install.admin]
+    type = "user"
+
+[resources]
+        [resources.sources.main]
+        arm64.url = "https://github.com/syncthing/syncthing/releases/download/v1.24.0/syncthing-linux-arm64-v1.24.0.tar.gz"
+        arm64.sha256 = "e1e3de74b72794c1708e965a625dca04706745676148e0fa77fee2bbddfa49dd"
+        amd64.url = "https://github.com/syncthing/syncthing/releases/download/v1.24.0/syncthing-linux-amd64-v1.24.0.tar.gz"
+        amd64.sha256 = "b6e514d61f9be7d516483762e91e10c1644427e35d88c79edb64cbc6256e1036"
+        armhf.url = "https://github.com/syncthing/syncthing/releases/download/v1.24.0/syncthing-linux-arm-v1.24.0.tar.gz"
+        armhf.sha256 = "43060bdd6e0d3028749a505dfec2389730f30c7881ebbb76932d8a6f70558d68"
+        i386.url = "https://github.com/syncthing/syncthing/releases/download/v1.24.0/syncthing-linux-386-v1.24.0.tar.gz"
+        i386.sha256 = "2a7a76bf499188226f0a74b35bb2a6e217dad025348c00dc79a7246cbd13ce28"
+
+        autoupdate.strategy = "latest_github_release"
+        autoupdate.asset.arm64 = "syncthing-linux-arm64-*.tar.gz"
+        autoupdate.asset.amd64 = "syncthing-linux-amd64-*.tar.gz"
+        autoupdate.asset.i386 = "syncthing-linux-386-*.tar.gz"
+        autoupdate.asset.armhf = "syncthing-linux-arm-*.tar.gz"
+
+    [resources.ports]
+    main.default = 22000
+    main.exposed = "TCP"
+    gui.default = 8384
+
+    [resources.system_user]
+
+    [resources.install_dir]
+
+    [resources.data_dir]
+
+    [resources.permissions]
+    main.url = "/"
