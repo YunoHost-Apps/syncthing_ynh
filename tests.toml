@@ -1,0 +1,15 @@
+test_format = 1.0
+
+[default]
+
+    # ------------
+    # Tests to run
+    # ------------
+
+    exclude = ["install.private"]
+
+    # -------------------------------
+    # Commits to test upgrade from
+    # -------------------------------
+
+    test_upgrade_from.75e55a85.name = "Upgrade from 1.18.6"
