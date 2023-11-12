@@ -56,9 +56,9 @@ chown -R $app:$app "$install_dir"
 #chown $app:$app "$config_file"
 
 #=================================================
-# SETUP SYSTEMD
+# REAPPLY SYSTEM CONFIGURATIONS
 #=================================================
-ynh_script_progression --message="Upgrading systemd configuration..."
+ynh_script_progression --message="Upgrading system configurations related to $app..." --weight=1
 
 # Create a dedicated NGINX config
 ynh_add_nginx_config
