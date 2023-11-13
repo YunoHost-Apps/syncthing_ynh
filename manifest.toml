@@ -55,10 +55,10 @@ ram.runtime = "50M"
         i386.sha256 = "e578ed996ef783f7b44871e7252ebea930452cd00cf154431009678016dc292b"
 
         autoupdate.strategy = "latest_github_release"
-        autoupdate.asset.arm64 = "syncthing-linux-arm64-*.tar.gz"
-        autoupdate.asset.amd64 = "syncthing-linux-amd64-*.tar.gz"
-        autoupdate.asset.i386 = "syncthing-linux-386-*.tar.gz"
-        autoupdate.asset.armhf = "syncthing-linux-arm-*.tar.gz"
+        autoupdate.asset.arm64 = "syncthing-linux-arm64-.*.tar.gz"
+        autoupdate.asset.amd64 = "syncthing-linux-amd64-.*.tar.gz"
+        autoupdate.asset.i386 = "syncthing-linux-386-.*.tar.gz"
+        autoupdate.asset.armhf = "syncthing-linux-arm-.*.tar.gz"
 
     [resources.ports]
     main.default = 22000
