@@ -3,7 +3,7 @@
 请勿手动编辑。
 -->
 
-# YunoHost 的 Syncthing
+# YunoHost 上的 Syncthing
 
 [![集成程度](https://dash.yunohost.org/integration/syncthing.svg)](https://dash.yunohost.org/appci/app/syncthing) ![工作状态](https://ci-apps.yunohost.org/ci/badges/syncthing.status.svg) ![维护状态](https://ci-apps.yunohost.org/ci/badges/syncthing.maintain.svg)
 
@@ -19,7 +19,7 @@
 Syncthing is a continuous file synchronization program. It synchronizes files between two or more computers in real time, safely protected from prying eyes. Your data is your data alone and you deserve to choose where it is stored, whether it is shared with some third party, and how it's transmitted over the internet.
 
 
-**分发版本：** 1.27.6~ynh1
+**分发版本：** 1.27.7~ynh1
 
 ## 截图
 
