@@ -19,7 +19,7 @@ Ini TIDAK boleh diedit dengan tangan.
 Syncthing is a continuous file synchronization program. It synchronizes files between two or more computers in real time, safely protected from prying eyes. Your data is your data alone and you deserve to choose where it is stored, whether it is shared with some third party, and how it's transmitted over the internet.
 
 
-**Versi terkirim:** 1.27.9~ynh1
+**Versi terkirim:** 1.27.10~ynh1
 
 ## Tangkapan Layar
 
@@ -29,7 +29,7 @@ Syncthing is a continuous file synchronization program. It synchronizes files be
 
 - Website aplikasi resmi: <https://syncthing.net>
 - Dokumentasi pengguna resmi: <https://docs.syncthing.net>
-- Repositori kode aplikasi hulu: <https://github.com/syncthing/syncthing>
+- Depot kode aplikasi hulu: <https://github.com/syncthing/syncthing>
 - Gudang YunoHost: <https://apps.yunohost.org/app/syncthing>
 - Laporkan bug: <https://github.com/YunoHost-Apps/syncthing_ynh/issues>
 
