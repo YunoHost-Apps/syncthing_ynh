@@ -5,7 +5,7 @@ name = "Syncthing"
 description.en = "Continuous file synchronization program"
 description.fr = "Programme de synchronisation de fichiers en continu"
 
-version = "1.27.10~ynh1"
+version = "1.28.0~ynh1"
 
 maintainers = ["txmrl", "yalh76"]
 
@@ -26,7 +26,7 @@ ldap = true
 sso = true
 
 disk = "50M"
-ram.build = "1200M"
+ram.build = "50M"
 ram.runtime = "50M"
 
 [install]
@@ -46,14 +46,14 @@ ram.runtime = "50M"
 
 [resources]
         [resources.sources.main]
-        arm64.url = "https://github.com/syncthing/syncthing/releases/download/v1.27.10/syncthing-linux-arm64-v1.27.10.tar.gz"
-        arm64.sha256 = "dc4a6dff2a94bde4b477c3c28fa300fba2a5e267893cd7758d4961dfeff6e31a"
-        amd64.url = "https://github.com/syncthing/syncthing/releases/download/v1.27.10/syncthing-linux-amd64-v1.27.10.tar.gz"
-        amd64.sha256 = "c04ffbdedcd1d18ccb4a34a341a6a2b2461082f7a6f43537eb0bba860975fd60"
-        armhf.url = "https://github.com/syncthing/syncthing/releases/download/v1.27.10/syncthing-linux-arm-v1.27.10.tar.gz"
-        armhf.sha256 = "eb32041e381986e791f5748b2052b21799f39ffb2c85b7fab03edf45e2c68400"
-        i386.url = "https://github.com/syncthing/syncthing/releases/download/v1.27.10/syncthing-linux-386-v1.27.10.tar.gz"
-        i386.sha256 = "bd6293f9c7b407f991a3e597e690229f09c22a9d5d033a956cf3e3412a132dc6"
+        arm64.url = "https://github.com/syncthing/syncthing/releases/download/v1.28.0/syncthing-linux-arm64-v1.28.0.tar.gz"
+        arm64.sha256 = "db94c89bcd8fad8c6ecf2dde36c56635fcaecf1c8824d7e4206473dc718e9e26"
+        amd64.url = "https://github.com/syncthing/syncthing/releases/download/v1.28.0/syncthing-linux-amd64-v1.28.0.tar.gz"
+        amd64.sha256 = "9bc818c8e85c5dd3add93d53bf3a6e340aac67d26ebcdb7460c14a4870f51fb6"
+        armhf.url = "https://github.com/syncthing/syncthing/releases/download/v1.28.0/syncthing-linux-arm-v1.28.0.tar.gz"
+        armhf.sha256 = "68fb80f289edeb39a027139a5dfce48cb9be495a892c0a7d309b7a65b20ea954"
+        i386.url = "https://github.com/syncthing/syncthing/releases/download/v1.28.0/syncthing-linux-386-v1.28.0.tar.gz"
+        i386.sha256 = "2fc1e0e78208634a2700cac03edefadfc7494df3e3cd29b0a042134e55c90ca1"
 
         autoupdate.strategy = "latest_github_release"
         autoupdate.asset.arm64 = "syncthing-linux-arm64-.*.tar.gz"
