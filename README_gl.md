@@ -5,7 +5,9 @@ NON debe editarse manualmente.
 
 # Syncthing para YunoHost
 
-[![Nivel de integración](https://dash.yunohost.org/integration/syncthing.svg)](https://ci-apps.yunohost.org/ci/apps/syncthing/) ![Estado de funcionamento](https://ci-apps.yunohost.org/ci/badges/syncthing.status.svg) ![Estado de mantemento](https://ci-apps.yunohost.org/ci/badges/syncthing.maintain.svg)
+[![Nivel de integración](https://apps.yunohost.org/badge/integration/syncthing)](https://ci-apps.yunohost.org/ci/apps/syncthing/)
+![Estado de funcionamento](https://apps.yunohost.org/badge/state/syncthing)
+![Estado de mantemento](https://apps.yunohost.org/badge/maintained/syncthing)
 
 [![Instalar Syncthing con YunoHost](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=syncthing)
 

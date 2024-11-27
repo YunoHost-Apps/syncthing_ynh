@@ -5,7 +5,9 @@
 
 # Syncthing для YunoHost
 
-[![Уровень интеграции](https://dash.yunohost.org/integration/syncthing.svg)](https://ci-apps.yunohost.org/ci/apps/syncthing/) ![Состояние работы](https://ci-apps.yunohost.org/ci/badges/syncthing.status.svg) ![Состояние сопровождения](https://ci-apps.yunohost.org/ci/badges/syncthing.maintain.svg)
+[![Уровень интеграции](https://apps.yunohost.org/badge/integration/syncthing)](https://ci-apps.yunohost.org/ci/apps/syncthing/)
+![Состояние работы](https://apps.yunohost.org/badge/state/syncthing)
+![Состояние сопровождения](https://apps.yunohost.org/badge/maintained/syncthing)
 
 [![Установите Syncthing с YunoHost](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=syncthing)
 

@@ -5,7 +5,9 @@ Hij mag NIET handmatig aangepast worden.
 
 # Syncthing voor Yunohost
 
-[![Integratieniveau](https://dash.yunohost.org/integration/syncthing.svg)](https://ci-apps.yunohost.org/ci/apps/syncthing/) ![Mate van functioneren](https://ci-apps.yunohost.org/ci/badges/syncthing.status.svg) ![Onderhoudsstatus](https://ci-apps.yunohost.org/ci/badges/syncthing.maintain.svg)
+[![Integratieniveau](https://apps.yunohost.org/badge/integration/syncthing)](https://ci-apps.yunohost.org/ci/apps/syncthing/)
+![Mate van functioneren](https://apps.yunohost.org/badge/state/syncthing)
+![Onderhoudsstatus](https://apps.yunohost.org/badge/maintained/syncthing)
 
 [![Syncthing met Yunohost installeren](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=syncthing)
 

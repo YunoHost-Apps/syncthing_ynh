@@ -5,7 +5,9 @@ EZ editatu eskuz.
 
 # Syncthing YunoHost-erako
 
-[![Integrazio maila](https://dash.yunohost.org/integration/syncthing.svg)](https://ci-apps.yunohost.org/ci/apps/syncthing/) ![Funtzionamendu egoera](https://ci-apps.yunohost.org/ci/badges/syncthing.status.svg) ![Mantentze egoera](https://ci-apps.yunohost.org/ci/badges/syncthing.maintain.svg)
+[![Integrazio maila](https://apps.yunohost.org/badge/integration/syncthing)](https://ci-apps.yunohost.org/ci/apps/syncthing/)
+![Funtzionamendu egoera](https://apps.yunohost.org/badge/state/syncthing)
+![Mantentze egoera](https://apps.yunohost.org/badge/maintained/syncthing)
 
 [![Instalatu Syncthing YunoHost-ekin](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=syncthing)
 
