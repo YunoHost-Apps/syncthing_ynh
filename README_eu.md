@@ -5,7 +5,9 @@ EZ editatu eskuz.
 
 # Syncthing YunoHost-erako
 
-[![Integrazio maila](https://dash.yunohost.org/integration/syncthing.svg)](https://ci-apps.yunohost.org/ci/apps/syncthing/) ![Funtzionamendu egoera](https://ci-apps.yunohost.org/ci/badges/syncthing.status.svg) ![Mantentze egoera](https://ci-apps.yunohost.org/ci/badges/syncthing.maintain.svg)
+[![Integrazio maila](https://apps.yunohost.org/badge/integration/syncthing)](https://ci-apps.yunohost.org/ci/apps/syncthing/)
+![Funtzionamendu egoera](https://apps.yunohost.org/badge/state/syncthing)
+![Mantentze egoera](https://apps.yunohost.org/badge/maintained/syncthing)
 
 [![Instalatu Syncthing YunoHost-ekin](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=syncthing)
 
@@ -19,7 +21,7 @@ EZ editatu eskuz.
 Syncthing is a continuous file synchronization program. It synchronizes files between two or more computers in real time, safely protected from prying eyes. Your data is your data alone and you deserve to choose where it is stored, whether it is shared with some third party, and how it's transmitted over the internet.
 
 
-**Paketatutako bertsioa:** 1.27.12~ynh1
+**Paketatutako bertsioa:** 1.28.0~ynh1
 
 ## Pantaila-argazkiak
 

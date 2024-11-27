@@ -5,7 +5,9 @@ No se debe editar a mano.
 
 # Syncthing para Yunohost
 
-[![Nivel de integración](https://dash.yunohost.org/integration/syncthing.svg)](https://ci-apps.yunohost.org/ci/apps/syncthing/) ![Estado funcional](https://ci-apps.yunohost.org/ci/badges/syncthing.status.svg) ![Estado En Mantención](https://ci-apps.yunohost.org/ci/badges/syncthing.maintain.svg)
+[![Nivel de integración](https://apps.yunohost.org/badge/integration/syncthing)](https://ci-apps.yunohost.org/ci/apps/syncthing/)
+![Estado funcional](https://apps.yunohost.org/badge/state/syncthing)
+![Estado En Mantención](https://apps.yunohost.org/badge/maintained/syncthing)
 
 [![Instalar Syncthing con Yunhost](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=syncthing)
 
@@ -19,7 +21,7 @@ No se debe editar a mano.
 Syncthing is a continuous file synchronization program. It synchronizes files between two or more computers in real time, safely protected from prying eyes. Your data is your data alone and you deserve to choose where it is stored, whether it is shared with some third party, and how it's transmitted over the internet.
 
 
-**Versión actual:** 1.27.12~ynh1
+**Versión actual:** 1.28.0~ynh1
 
 ## Capturas
 
@@ -35,7 +37,7 @@ Syncthing is a continuous file synchronization program. It synchronizes files be
 
 ## Información para desarrolladores
 
-Por favor enviar sus correcciones a la [`branch testing`](https://github.com/YunoHost-Apps/syncthing_ynh/tree/testing
+Por favor enviar sus correcciones a la [rama `testing`](https://github.com/YunoHost-Apps/syncthing_ynh/tree/testing).
 
 Para probar la rama `testing`, sigue asÍ:
 

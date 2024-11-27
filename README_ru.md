@@ -5,7 +5,9 @@
 
 # Syncthing для YunoHost
 
-[![Уровень интеграции](https://dash.yunohost.org/integration/syncthing.svg)](https://ci-apps.yunohost.org/ci/apps/syncthing/) ![Состояние работы](https://ci-apps.yunohost.org/ci/badges/syncthing.status.svg) ![Состояние сопровождения](https://ci-apps.yunohost.org/ci/badges/syncthing.maintain.svg)
+[![Уровень интеграции](https://apps.yunohost.org/badge/integration/syncthing)](https://ci-apps.yunohost.org/ci/apps/syncthing/)
+![Состояние работы](https://apps.yunohost.org/badge/state/syncthing)
+![Состояние сопровождения](https://apps.yunohost.org/badge/maintained/syncthing)
 
 [![Установите Syncthing с YunoHost](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=syncthing)
 
@@ -19,7 +21,7 @@
 Syncthing is a continuous file synchronization program. It synchronizes files between two or more computers in real time, safely protected from prying eyes. Your data is your data alone and you deserve to choose where it is stored, whether it is shared with some third party, and how it's transmitted over the internet.
 
 
-**Поставляемая версия:** 1.27.12~ynh1
+**Поставляемая версия:** 1.28.0~ynh1
 
 ## Снимки экрана
 
