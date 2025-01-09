@@ -20,7 +20,7 @@ Il NE doit PAS être modifié à la main.
 
 Syncthing est un programme de synchronisation continue de fichiers. Il synchronise les fichiers entre deux ou plusieurs ordinateurs en temps réel, en toute sécurité à l'abri des regards indiscrets. Vos données sont vos seules données et vous méritez de choisir où elles sont stockées, si elles sont partagées avec un tiers et comment elles sont transmises sur Internet.
 
-**Version incluse :** 1.29.0~ynh1
+**Version incluse :** 1.29.1~ynh1
 
 ## Captures d’écran
 
