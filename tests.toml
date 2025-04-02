@@ -1,3 +1,5 @@
+#:schema https://raw.githubusercontent.com/YunoHost/apps/master/schemas/tests.v1.schema.json
+
 test_format = 1.0
 
 [default]
@@ -9,7 +11,11 @@ test_format = 1.0
     exclude = ["install.private"]
 
     # -------------------------------
+    # Default args to use for install
+    # -------------------------------
+
+    # -------------------------------
     # Commits to test upgrade from
     # -------------------------------
 
-    test_upgrade_from.75e55a85.name = "Upgrade from 1.18.6"
+    test_upgrade_from.75e55a85c81efbd26a2b2120916becb6940367ba.name = "Upgrade from 1.18.6~ynh1"
