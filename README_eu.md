@@ -21,7 +21,7 @@ EZ editatu eskuz.
 Syncthing is a continuous file synchronization program. It synchronizes files between two or more computers in real time, safely protected from prying eyes. Your data is your data alone and you deserve to choose where it is stored, whether it is shared with some third party, and how it's transmitted over the internet.
 
 
-**Paketatutako bertsioa:** 1.29.3~ynh1
+**Paketatutako bertsioa:** 1.29.4~ynh1
 
 ## Pantaila-argazkiak
 
@@ -39,7 +39,7 @@ Syncthing is a continuous file synchronization program. It synchronizes files be
 
 Bidali `pull request`a [`testing` abarrera](https://github.com/YunoHost-Apps/syncthing_ynh/tree/testing).
 
-`testing` abarra probatzeko, ondorengoa egin:
+`testing` abarra probatzeko, honakoa egin:
 
 ```bash
 sudo yunohost app install https://github.com/YunoHost-Apps/syncthing_ynh/tree/testing --debug
