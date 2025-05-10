@@ -3,7 +3,7 @@ Este archivo README esta generado automaticamente<https://github.com/YunoHost/ap
 No se debe editar a mano.
 -->
 
-# Syncthing para Yunohost
+# Syncthing para YunoHost
 
 [![Nivel de integración](https://apps.yunohost.org/badge/integration/syncthing)](https://ci-apps.yunohost.org/ci/apps/syncthing/)
 ![Estado funcional](https://apps.yunohost.org/badge/state/syncthing)
@@ -21,7 +21,7 @@ No se debe editar a mano.
 Syncthing is a continuous file synchronization program. It synchronizes files between two or more computers in real time, safely protected from prying eyes. Your data is your data alone and you deserve to choose where it is stored, whether it is shared with some third party, and how it's transmitted over the internet.
 
 
-**Versión actual:** 1.28.0~ynh1
+**Versión actual:** 1.29.4~ynh1
 
 ## Capturas
 
