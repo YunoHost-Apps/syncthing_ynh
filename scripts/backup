@@ -19,16 +19,10 @@ ynh_backup "$install_dir"
 ynh_backup "$data_dir"
 
 #=================================================
-# BACKUP THE NGINX CONFIGURATION
+# BACKUP SYSTEM CONFIGURATION
 #=================================================
 
 ynh_backup "/etc/nginx/conf.d/$domain.d/$app.conf"
-
-#=================================================
-# SPECIFIC BACKUP
-#=================================================
-# BACKUP SYSTEMD
-#=================================================
 
 ynh_backup "/etc/systemd/system/$app.service"
 

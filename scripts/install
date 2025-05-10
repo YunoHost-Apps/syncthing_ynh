@@ -30,9 +30,6 @@ mkdir -p "$install_dir/.config/syncthing"
 
 ynh_config_add --template="config.xml" --destination="$install_dir/.config/syncthing/config.xml"
 
-chmod 400 "$install_dir/.config/syncthing/config.xml"
-chown $app:$app "$install_dir/.config/syncthing/config.xml"
-
 #=================================================
 # FIX LISTENING SERVICE
 #=================================================
