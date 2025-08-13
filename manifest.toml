@@ -7,7 +7,7 @@ name = "Syncthing"
 description.en = "Continuous file synchronization program"
 description.fr = "Programme de synchronisation de fichiers en continu"
 
-version = "1.30.0~ynh1"
+version = "2.0.0~ynh1"
 
 maintainers = ["txmrl", "yalh76"]
 
@@ -47,14 +47,14 @@ ram.runtime = "50M"
 
 [resources]
     [resources.sources.main]
-    arm64.url = "https://github.com/syncthing/syncthing/releases/download/v1.30.0/syncthing-linux-arm64-v1.30.0.tar.gz"
-    arm64.sha256 = "4655e260e94fa5e0110084040751bd0274acdeb74653933f909036e788a911a1"
-    amd64.url = "https://github.com/syncthing/syncthing/releases/download/v1.30.0/syncthing-linux-amd64-v1.30.0.tar.gz"
-    amd64.sha256 = "a2edc833d6dd71a76b7c481dbcc81f8be37da9eb83993c512bf53eb096ba7a73"
-    armhf.url = "https://github.com/syncthing/syncthing/releases/download/v1.30.0/syncthing-linux-arm-v1.30.0.tar.gz"
-    armhf.sha256 = "70beb4c43a752d3b11a780bf2ca2d1a3b50f9f74e0b6a9cd35b7f204fea375e1"
-    i386.url = "https://github.com/syncthing/syncthing/releases/download/v1.30.0/syncthing-linux-386-v1.30.0.tar.gz"
-    i386.sha256 = "b2a2aa177f189c3a9c9a9c0d6dbac60053a7af8122be124b3e8dfbf0c028f268"
+    arm64.url = "https://github.com/syncthing/syncthing/releases/download/v2.0.0/syncthing-linux-arm64-v2.0.0.tar.gz"
+    arm64.sha256 = "039d001f2e178ff1495d6495e1ee16582ff1fcc27c016fed5272d19be8fe626d"
+    amd64.url = "https://github.com/syncthing/syncthing/releases/download/v2.0.0/syncthing-linux-amd64-v2.0.0.tar.gz"
+    amd64.sha256 = "a30a4e92724607cb3f4efd9569a21c520eab16e8a3e7de4ce0fef49487f24640"
+    armhf.url = "https://github.com/syncthing/syncthing/releases/download/v2.0.0/syncthing-linux-arm-v2.0.0.tar.gz"
+    armhf.sha256 = "09c7acec8a179377f3a052f6c1b31acf6f4504194d0bf9cb2688df92f4624364"
+    i386.url = "https://github.com/syncthing/syncthing/releases/download/v2.0.0/syncthing-linux-386-v2.0.0.tar.gz"
+    i386.sha256 = "1a1a8c5b7ddcb5ac7664c8fae6700fec5a20febb352520e769ac030364660ca6"
 
     autoupdate.strategy = "latest_github_release"
     autoupdate.asset.arm64 = "syncthing-linux-arm64-.*.tar.gz"
