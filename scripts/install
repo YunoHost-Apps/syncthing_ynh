@@ -36,12 +36,13 @@ mkdir -p "$install_dir/.config/syncthing"
 config_file="$install_dir/.config/syncthing/config.xml"
 ynh_config_add --template="config.xml" --destination="$config_file"
 
+chown -R $app: $install_dir
+
 #=================================================
 # FIX LISTENING SERVICE
 #=================================================
 ynh_script_progression "Fixing listening service..."
 
-chown -R $app: $install_dir
 ynh_systemctl --service=$app --action="start" --log_path=systemd --wait_until="Access the GUI via the following URL"
 
 ynh_replace --match="<listenAddress>tcp://quic:%2F%2F0.0.0.0:$port</listenAddress>" --replace="<listenAddress>quic//0.0.0.0:$port</listenAddress>" --file="$config_file"
