@@ -27,6 +27,7 @@ chown -R $app:$app "$install_dir"
 #=================================================
 ynh_script_progression "Updating configuration..."
 
+mkdir -p "$install_dir/.config/syncthing"
 config_file="$install_dir/.config/syncthing/config.xml"
 
 ynh_config_add --template="config.xml" --destination="$config_file"
