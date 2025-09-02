@@ -47,6 +47,19 @@ ynh_config_add_systemd
 yunohost service add $app --description="Continuous File Synchronization" --needs_exposed_ports=$port
 
 #=================================================
+# FIX LISTENING SERVICE
+#=================================================
+ynh_script_progression "Fixing listening service..."
+
+ynh_systemctl --service=$app --action="start" --log_path=systemd --wait_until="Access the GUI via the following URL"
+
+ynh_replace --match="<listenAddress>tcp://quic:%2F%2F0.0.0.0:$port</listenAddress>" --replace="<listenAddress>quic//0.0.0.0:$port</listenAddress>" --file="$config_file"
+
+ynh_systemctl --service=$app --action="stop" --log_path=systemd
+
+ynh_store_file_checksum "$config_file"
+
+#=================================================
 # START SYSTEMD SERVICE
 #=================================================
 ynh_script_progression "Starting $app's systemd service..."
