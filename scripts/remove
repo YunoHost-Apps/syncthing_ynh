@@ -1,12 +1,9 @@
 #!/bin/bash
 
-source _common.sh
 source /usr/share/yunohost/helpers
 
 #=================================================
 # REMOVE SYSTEM CONFIGURATIONS
-#=================================================
-# REMOVE SYSTEMD SERVICE
 #=================================================
 ynh_script_progression "Removing system configurations related to $app..."
 

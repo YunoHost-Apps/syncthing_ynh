@@ -1,6 +1,5 @@
 #!/bin/bash
 
-source _common.sh
 source /usr/share/yunohost/helpers
 
 #=================================================
@@ -19,9 +18,6 @@ ynh_script_progression "Upgrading source files..."
 # Download, check integrity, uncompress and patch the source from app.src
 ynh_setup_source --dest_dir="$install_dir" --full_replace
 
-chmod -R o-rwx "$install_dir"
-chown -R $app:$app "$install_dir"
-
 #=================================================
 # UPDATE A CONFIG FILE
 #=================================================
@@ -29,6 +25,7 @@ ynh_script_progression "Updating configuration..."
 
 mkdir -p "$install_dir/.config/syncthing"
 config_file="$install_dir/.config/syncthing/config.xml"
+
 ynh_config_add --template="config.xml" --destination="$config_file"
 
 chown -R $app: $install_dir
