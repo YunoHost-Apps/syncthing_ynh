@@ -1,74 +1,61 @@
 #!/bin/bash
 
-#=================================================
-# GENERIC START
-#=================================================
-# IMPORT GENERIC HELPERS
-#=================================================
-
-source _common.sh
 source /usr/share/yunohost/helpers
 
 #=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
 #=================================================
-ynh_script_progression --message="Setting up source files..."
+ynh_script_progression "Setting up source files..."
 
 # Download, check integrity, uncompress and patch the source from app.src
 ynh_setup_source --dest_dir="$install_dir"
 
-chmod -R o-rwx "$install_dir"
-chown -R $app:$app "$install_dir"
-
 #=================================================
 # SYSTEM CONFIGURATION
 #=================================================
-ynh_script_progression --message="Adding system configurations related to $app..." --weight=1
+ynh_script_progression "Adding system configurations related to $app..."
 
 # Create a dedicated NGINX config
-ynh_add_nginx_config
+ynh_config_add_nginx
 
 # Create a dedicated systemd config
-ynh_add_systemd_config
+ynh_config_add_systemd
 
 yunohost service add $app --description="Continuous File Synchronization" --needs_exposed_ports=$port
 
 #=================================================
 # ADD A CONFIGURATION
 #=================================================
-ynh_script_progression --message="Adding a configuration file..."
+ynh_script_progression "Adding $app's configuration..."
 
 mkdir -p "$install_dir/.config/syncthing"
 config_file="$install_dir/.config/syncthing/config.xml"
-ynh_add_config --template="../conf/config.xml" --destination="$config_file"
+ynh_config_add --template="config.xml" --destination="$config_file"
 
-chmod 400 "$config_file"
-chown $app:$app "$config_file"
+chown -R $app: $install_dir
 
 #=================================================
 # FIX LISTENING SERVICE
 #=================================================
-ynh_script_progression --message="Fixing listening service..."
+ynh_script_progression "Fixing listening service..."
 
-chown -R $app: $install_dir
+ynh_systemctl --service=$app --action="start" --log_path=systemd --wait_until="Access the GUI via the following URL"
 
-ynh_systemd_action --service_name=$app --action="start" --log_path=systemd --line_match="Access the GUI via the following URL"
+ynh_replace --match="<listenAddress>tcp://quic:%2F%2F0.0.0.0:$port</listenAddress>" --replace="<listenAddress>quic//0.0.0.0:$port</listenAddress>" --file="$config_file"
 
-ynh_replace_string --match_string="<listenAddress>tcp://quic:%2F%2F0.0.0.0:$port</listenAddress>" --replace_string="<listenAddress>quic//0.0.0.0:$port</listenAddress>" --target_file="$config_file"
+ynh_systemctl --service=$app --action="stop" --log_path=systemd
 
-ynh_systemd_action --service_name=$app --action="stop" --log_path=systemd
-
-ynh_store_file_checksum --file="$config_file"
+ynh_store_file_checksum "$config_file"
 
 #=================================================
 # START SYSTEMD SERVICE
 #=================================================
-ynh_script_progression --message="Starting a systemd service..."
+ynh_script_progression "Starting $app's systemd service..."
 
-ynh_systemd_action --service_name=$app --action="start" --log_path=systemd --line_match="Access the GUI via the following URL"
+ynh_systemctl --service=$app --action="start" --log_path=systemd --wait_until="Access the GUI via the following URL"
 
 #=================================================
 # END OF SCRIPT
 #=================================================
 
-ynh_script_progression --message="Installation of $app completed"
+ynh_script_progression "Installation of $app completed"
