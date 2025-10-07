@@ -7,7 +7,7 @@ name = "Syncthing"
 description.en = "Continuous file synchronization program"
 description.fr = "Programme de synchronisation de fichiers en continu"
 
-version = "2.0.10~ynh1"
+version = "2.0.10~ynh2"
 
 maintainers = ["txmrl", "yalh76"]
 
