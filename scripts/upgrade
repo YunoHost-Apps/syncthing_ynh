@@ -16,19 +16,7 @@ ynh_systemctl --service=$app --action="stop" --log_path=systemd
 ynh_script_progression "Upgrading source files..."
 
 # Download, check integrity, uncompress and patch the source from app.src
-ynh_setup_source --dest_dir="$install_dir" --full_replace --keep=".config/syncthing/config.xml"
-
-#=================================================
-# UPDATE A CONFIG FILE
-#=================================================
-ynh_script_progression "Updating configuration..."
-
-mkdir -p "$install_dir/.config/syncthing"
-config_file="$install_dir/.config/syncthing/config.xml"
-
-ynh_config_add --template="config.xml" --destination="$config_file"
-
-chown -R $app: $install_dir
+ynh_setup_source --dest_dir="$install_dir" --full_replace --keep=".config/$app/config.xml"
 
 #=================================================
 # REAPPLY SYSTEM CONFIGURATIONS
