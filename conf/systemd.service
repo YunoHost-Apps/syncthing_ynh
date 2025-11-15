@@ -4,7 +4,7 @@ After=network.target
 
 [Service]
 User=__APP__
-ExecStart=__INSTALL_DIR__/syncthing --no-browser --no-restart --logflags=0
+ExecStart=__INSTALL_DIR__/syncthing --no-browser --no-restart --logflags=0 --no-upgrade
 Restart=on-failure
 SuccessExitStatus=3 4
 RestartForceExitStatus=3 4
