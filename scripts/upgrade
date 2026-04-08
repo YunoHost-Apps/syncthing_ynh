@@ -18,6 +18,12 @@ ynh_script_progression "Upgrading source files..."
 # Download, check integrity, uncompress and patch the source from app.src
 ynh_setup_source --dest_dir="$install_dir" --keep=".config/$app/config.xml"
 
+if ynh_app_upgrading_from_version_before 2.0.16~ynh2
+then
+  ynh_replace --match="<authMode>ldap</authMode>" --replace="<authMode>ldap</authMode>\n          <insecureSkipHostcheck>true</insecureSkipHostcheck>" --file="$install_dir/.config/$app/config.xml"
+fi
+
+
 #=================================================
 # REAPPLY SYSTEM CONFIGURATIONS
 #=================================================
