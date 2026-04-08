@@ -2,6 +2,7 @@
     <gui enabled="true" tls="false" debugging="false">
         <address>127.0.0.1:__PORT_GUI__</address>
         <authMode>ldap</authMode>
+        <insecureSkipHostcheck>true</insecureSkipHostcheck>
     </gui>
     <ldap>
         <address>localhost:389</address>
